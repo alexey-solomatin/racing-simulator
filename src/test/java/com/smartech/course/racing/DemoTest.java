@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -46,9 +47,10 @@ public class DemoTest {
 	}
 
 	/**
-	 * Test method for {@link com.smartech.course.racing.Demo#main(java.lang.String[])}.
+	 * Test method for {@link com.smartech.course.racing.demo.Demo#main(java.lang.String[])}.
 	 */
 	@Test
+	@Ignore
 	public void testMain() {
 		fail("Not yet implemented");
 	}
