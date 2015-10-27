@@ -15,6 +15,8 @@ public class DemoAttempt4 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		// TODO: eliminate using static methods
+		// TODO: optimize checking for existing the console
 		if (!existsConsole())
 			System.exit(1);
 		String username = retrieveUsername();

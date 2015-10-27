@@ -15,6 +15,8 @@ public class DemoAttempt5 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		// TODO: extract the greeter functionality from the demo class
+		// TODO: enable logging
 		new DemoAttempt5().run();		
 	}
 	

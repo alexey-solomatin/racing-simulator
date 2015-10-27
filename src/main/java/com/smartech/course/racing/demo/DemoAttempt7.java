@@ -5,33 +5,34 @@ package com.smartech.course.racing.demo;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.smartech.course.racing.demo.greeting.simple.Greeter;
+import com.smartech.course.racing.demo.greeting.simple.PoliteRacingSimulatorGreeter;
 import com.smartech.course.racing.demo.greeting.simple.RacingSimulatorGreeter;
 
 /**
  * @author Alexey Solomatin
  *
  */
-public class DemoAttempt6 {	
+public class DemoAttempt7 {
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO: remove greetUser()
-		// TODO: enhance entering a user name, do not throw an exception from that method
-		// TODO: use StringUtils for string checks
-		// TODO: implement and use polite racing simulator greeter
-		new DemoAttempt6().run();		
+		// TODO: implement restricted access greeter
+		// TODO: implement entering user's birthday
+		new DemoAttempt7().run();		
 	}
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 	private Greeter greeter;
 	
-	public DemoAttempt6() {
-		greeter = new RacingSimulatorGreeter();
+	public DemoAttempt7() {
+		greeter = new PoliteRacingSimulatorGreeter();
 	}
 	
 	/**
@@ -58,30 +59,25 @@ public class DemoAttempt6 {
 			throw new Exception("There is no console.");
 	}
 	
-	// TODO: do not allow to enter empty username!
-	private String retrieveUsername() throws Exception {
+	private String retrieveUsername() {
 		// getting user name
-		String username = System.console().readLine("Please enter your name: ");
-		// checking that it's not empty
-		if (username == null || username.isEmpty())
-			throw new Exception("I'm sorry but you've not represented yourself. Bye!..");
+		String username = null;
+		while (StringUtils.isBlank(username)) {
+			username = System.console().readLine("Please enter your name: ");
+			if (StringUtils.isBlank(username))
+				System.console().printf("Ooops! Looks like you've entered the incorrect name.\nPlease try again.\n");					
+		}		
 		return username;
-	}
-	
-	// should not be used now because there are greeters
-	@Deprecated
-	private void greetUser(String username) {
-		// greeting the user 
-		System.console().printf("Hello %s! This is Racing Simulator!\n", username);
-	}
+	}	
 	
 	private void prepareForExit() {
 		// delaying the program execution
 		try {
-			System.console().printf("Press <Enter> to exit...");
+			System.console().printf("\nPress <Enter> to exit...");
 			System.console().reader().read();			
 		} catch (IOException e) {
 			log.error("Error during preparing for exit.", e);
 		}
 	}
+
 }

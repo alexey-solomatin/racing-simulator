@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.smartech.course.racing.demo.greeting;
+package com.smartech.course.racing.demo.greeting.simple;
 
 /**
  * Greeter interface

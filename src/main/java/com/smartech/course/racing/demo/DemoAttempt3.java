@@ -17,6 +17,7 @@ public class DemoAttempt3 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		// TODO: optimize accessing the console
 		console = retrieveConsole();
 		String username = retrieveUsername();
 		greetUser(username);		

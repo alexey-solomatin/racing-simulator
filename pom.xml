@@ -50,7 +50,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
                 			<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.smartech.course.racing.demo.DemoAttempt6</mainClass>
+							<mainClass>com.smartech.course.racing.demo.DemoAttempt8</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -78,6 +78,11 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.7.12</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
 		</dependency>
 	</dependencies>
 </project>

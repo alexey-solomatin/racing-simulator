@@ -16,6 +16,8 @@ public class DemoAttempt2 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		// TODO: refactor the code by using static methods
+		
 		// checking if there's a console
 		Console console = System.console();
 		if (console == null) {

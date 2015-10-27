@@ -16,6 +16,9 @@ public class DemoAttempt1 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		// TODO: add checks for returned values
+		// TODO: switch to using Console everywhere
+		
 		// getting a console
 		Console console = System.console();
 		
