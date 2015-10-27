@@ -9,7 +9,7 @@ import java.io.IOException;
  * @author Alexey Solomatin
  *
  */
-public class DemoAttempt4 {
+public class Demo04 {
 
 	/**
 	 * @param args

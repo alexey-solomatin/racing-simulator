@@ -9,7 +9,7 @@ import java.io.IOException;
  * @author Alexey Solomatin
  *
  */
-public class DemoAttempt5 {
+public class Demo05 {
 
 	/**
 	 * @param args
@@ -17,7 +17,7 @@ public class DemoAttempt5 {
 	public static void main(String[] args) {
 		// TODO: extract the greeter functionality from the demo class
 		// TODO: enable logging
-		new DemoAttempt5().run();		
+		new Demo05().run();		
 	}
 	
 	/**

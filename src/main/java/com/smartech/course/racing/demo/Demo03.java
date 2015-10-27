@@ -10,7 +10,7 @@ import java.io.IOException;
  * @author Alexey Solomatin
  *
  */
-public class DemoAttempt3 {
+public class Demo03 {
 	private static Console console;
 
 	/**
