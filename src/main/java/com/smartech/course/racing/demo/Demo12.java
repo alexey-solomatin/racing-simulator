@@ -3,13 +3,11 @@
  */
 package com.smartech.course.racing.demo;
 
-import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smartech.course.racing.demo.greeting.PoliteRacingSimulatorUserGreeter;
 import com.smartech.course.racing.demo.greeting.PoliteUserGreeterWrapper;
+import com.smartech.course.racing.demo.greeting.RacingSimulatorDistinguishingUserGreeter;
 import com.smartech.course.racing.demo.greeting.RacingSimulatorUserGreeter;
 import com.smartech.course.racing.demo.greeting.RestrictedAccessUserGreeter;
 import com.smartech.course.racing.demo.greeting.UserGreeter;
@@ -21,14 +19,14 @@ import com.smartech.course.racing.demo.util.Utils;
  * @author Alexey Solomatin
  *
  */
-public class Demo11 {
+public class Demo12 {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO: customize greeting with knowing of a user type
-		new Demo11().run();		
+		// TODO: add ability to specify a user type in a builder
+		new Demo12().run();		
 	}
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
@@ -37,8 +35,8 @@ public class Demo11 {
 	
 	private static final int RESTRICTED_ACCESS_YEARS = 18;
 	
-	public Demo11() {
-		greeter = new PoliteUserGreeterWrapper(new RacingSimulatorUserGreeter());
+	public Demo12() {
+		greeter = new PoliteUserGreeterWrapper(new RacingSimulatorDistinguishingUserGreeter());
 		restrictedAccessGreeter = new PoliteUserGreeterWrapper(new RestrictedAccessUserGreeter());
 	}
 	

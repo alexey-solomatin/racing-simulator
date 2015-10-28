@@ -14,9 +14,8 @@ import org.apache.commons.lang3.StringUtils;
  * @author Alexey Solomatin
  *
  */
-public class ConsoleUserBuilder implements UserBuilder {
-	private String name;
-	private LocalDate birthday; 
+public class ConsoleUserBuilder extends AbstractUserBuilder {
+	
 
 	/* (non-Javadoc)
 	 * @see com.smartech.course.racing.demo.user.UserBuilder#name()
@@ -56,12 +55,10 @@ public class ConsoleUserBuilder implements UserBuilder {
 		return this;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.smartech.course.racing.demo.user.UserBuilder#build()
-	 */
 	@Override
-	public User build() {
-		return new User(name, birthday);
+	public UserBuilder type() {
+		type = UserType.GUEST;
+		return this;
 	}
 
 }

@@ -11,19 +11,25 @@ package com.smartech.course.racing.demo.user;
 public interface UserBuilder {
 	/**
 	 * Constructs user name
-	 * @return the user name
+	 * @return the user builder
 	 */
 	UserBuilder name();
 	
 	/**
 	 * Constructs user birthday
-	 * @return the user birthday
+	 * @return the user builder
 	 */
 	UserBuilder birthday();
+	
+	/**
+	 * Constructs user type
+	 * @return the user builder
+	 */
+	UserBuilder type();
 	
 	/**
 	 * Builds the user from the specified data
 	 * @return the user
 	 */
-	User build();
+	User build() throws IllegalArgumentException;
 }
