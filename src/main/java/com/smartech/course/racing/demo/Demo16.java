@@ -27,7 +27,7 @@ public class Demo16 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO: use a list to store users
+		// TODO: implement some unit tests
 		new Demo16().run();		
 	}
 	
