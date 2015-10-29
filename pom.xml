@@ -51,7 +51,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
                 			<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.smartech.course.racing.demo.Demo16</mainClass>
+							<mainClass>com.smartech.course.racing.demo.Demo01</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

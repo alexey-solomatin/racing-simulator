@@ -16,6 +16,10 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class ConsoleUserBuilder extends AbstractUserBuilder {
 	
+	public ConsoleUserBuilder() {
+		super();
+		type = UserType.GUEST;
+	}
 
 	/* (non-Javadoc)
 	 * @see com.smartech.course.racing.demo.user.UserBuilder#name()
