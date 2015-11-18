@@ -8,8 +8,49 @@ package com.smartech.course.racing.exception;
  * @author Alexey Solomatin
  *
  */
-public abstract class RacingException extends Exception {
+public class RacingException extends Exception {
+
+	/**
+	 * 
+	 */
+	public RacingException() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param message
+	 */
 	public RacingException(String message) {
 		super(message);
+		// TODO Auto-generated constructor stub
 	}
+
+	/**
+	 * @param cause
+	 */
+	public RacingException(Throwable cause) {
+		super(cause);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param message
+	 * @param cause
+	 */
+	public RacingException(String message, Throwable cause) {
+		super(message, cause);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param message
+	 * @param cause
+	 * @param enableSuppression
+	 * @param writableStackTrace
+	 */
+	public RacingException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+		super(message, cause, enableSuppression, writableStackTrace);
+		// TODO Auto-generated constructor stub
+	}
+
 }

@@ -8,10 +8,10 @@ import java.util.Collection;
 import java.util.List;
 
 import com.smartech.course.racing.exception.MovingException;
-import com.smartech.course.racing.vehicle.BusRacer;
-import com.smartech.course.racing.vehicle.CarRacer;
-import com.smartech.course.racing.vehicle.Racer;
-import com.smartech.course.racing.vehicle.TruckRacer;
+import com.smartech.course.racing.vehicle.Bus;
+import com.smartech.course.racing.vehicle.Car;
+import com.smartech.course.racing.vehicle.Vehicle;
+import com.smartech.course.racing.vehicle.Truck;
 
 /**
  * Racing Simulator application
@@ -24,8 +24,7 @@ public class RacingSimulator {
 	 * Entry point to the application
 	 * @param args command line arguments
 	 */
-	public static void main(String[] args) {
-		System.out.println("Hello! This is Racing Simulator!");
+	public static void main(String[] args) {		
 		/*
 		 * TODO:
 		 * 1) Show the information about the application.
@@ -35,32 +34,32 @@ public class RacingSimulator {
 		 * 5) Print results to the screen.
 		 */
 		try {
-			Collection<Racer> racers = createRacers();
+			Collection<Vehicle> racers = createRacers();
 			Racing racing = createRacing(racers);
+			racers.stream().forEach(racing::register);
 			racing.run();
-		} catch (MovingException e) {
-			// TODO Auto-generated catch block
+		} catch (MovingException e) {			
 			e.printStackTrace();
 		}
 		
 	}
 	
-	private static Collection<Racer> createRacers() {
-		List<Racer> racers = new ArrayList<>();
+	private static Collection<Vehicle> createRacers() {
+		List<Vehicle> racers = new ArrayList<>();
 		
-		CarRacer carRacer = new CarRacer();
+		Car carRacer = new Car("Car", 200, 10, 30);
 		racers.add(carRacer);
 		
-		BusRacer busRacer = new BusRacer();
+		Bus busRacer = new Bus("Bus", 200, 6, 30, 40);
 		racers.add(busRacer);
 		
-		TruckRacer truckRacer = new TruckRacer();
+		Truck truckRacer = new Truck("Track", 200, 7, 30, 100);
 		racers.add(truckRacer);
 		
 		return racers;
 	}
 	
-	private static Racing createRacing(Collection<Racer> racers) {
+	private static Racing createRacing(Collection<Vehicle> racers) {
 		Racing racing = new Racing();
 		return racing;
 	}

@@ -11,5 +11,5 @@ import com.smartech.course.racing.exception.MovingException;
  *
  */
 public interface Movable {	
-	void move(double time) throws MovingException;
+	void move(double time) throws MovingException;	
 }

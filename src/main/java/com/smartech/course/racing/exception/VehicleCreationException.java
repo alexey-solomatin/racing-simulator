@@ -7,19 +7,19 @@ package com.smartech.course.racing.exception;
  * @author Alexey Solomatin
  *
  */
-public final class MovingException extends RacingException {
+public final class VehicleCreationException extends RacingException {
 
 	/**
 	 * 
 	 */
-	public MovingException() {
+	public VehicleCreationException() {
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @param message
 	 */
-	public MovingException(String message) {
+	public VehicleCreationException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
@@ -27,7 +27,7 @@ public final class MovingException extends RacingException {
 	/**
 	 * @param cause
 	 */
-	public MovingException(Throwable cause) {
+	public VehicleCreationException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
@@ -36,7 +36,7 @@ public final class MovingException extends RacingException {
 	 * @param message
 	 * @param cause
 	 */
-	public MovingException(String message, Throwable cause) {
+	public VehicleCreationException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
@@ -47,7 +47,8 @@ public final class MovingException extends RacingException {
 	 * @param enableSuppression
 	 * @param writableStackTrace
 	 */
-	public MovingException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public VehicleCreationException(String message, Throwable cause, boolean enableSuppression,
+			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
 	}
