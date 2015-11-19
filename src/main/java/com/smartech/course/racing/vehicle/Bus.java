@@ -14,11 +14,11 @@ public class Bus extends Transport {
 	/**
 	 * @param name
 	 * @param weight
-	 * @param acceleration
 	 * @param maxSpeed
+	 * @param acceleration
 	 */
-	public Bus(String name, double weight, double acceleration, double maxSpeed, long maxNumberOfPassengers) {
-		super(name, weight, acceleration, maxSpeed);		
+	public Bus(String name, double weight, double maxSpeed, double acceleration, long maxNumberOfPassengers) {
+		super(name, weight, maxSpeed, acceleration);		
 	}
 
 	@Override

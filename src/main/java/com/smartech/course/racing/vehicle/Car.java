@@ -16,11 +16,11 @@ public class Car extends Vehicle {
 	/**
 	 * @param name
 	 * @param weight
-	 * @param force
 	 * @param maxSpeed
+	 * @param acceleration
 	 */
-	public Car(String name, double weight, double force, double maxSpeed) {
-		super(name, weight, force, maxSpeed);
+	public Car(String name, double weight, double maxSpeed, double acceleration) {
+		super(name, weight, maxSpeed, acceleration);
 	}
 
 	public void addTrailer(CarTrailer trailer) {

@@ -14,11 +14,11 @@ public class Truck extends Transport {
 	/**
 	 * @param name
 	 * @param weight
-	 * @param force
 	 * @param maxSpeed
+	 * @param acceleration
 	 */
-	public Truck(String name, double weight, double force, double maxSpeed, double maxPayload) {
-		super(name, weight, force, maxSpeed);
+	public Truck(String name, double weight, double maxSpeed, double acceleration, double maxPayload) {
+		super(name, weight, maxSpeed, acceleration);
 		this.maxPayload = maxPayload;
 	}
 

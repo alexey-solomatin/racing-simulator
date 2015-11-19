@@ -12,11 +12,11 @@ public abstract class Transport extends Vehicle {
 	/**
 	 * @param name
 	 * @param weight
+	 * @param maxSpeed 
 	 * @param acceleration
-	 * @param maxSpeed
 	 */
-	public Transport(String name, double weight, double acceleration, double maxSpeed) {
-		super(name, weight, acceleration, maxSpeed);
+	public Transport(String name, double weight, double maxSpeed, double acceleration) {
+		super(name, weight, maxSpeed, acceleration);
 		// TODO Auto-generated constructor stub
 	}
 	

@@ -21,7 +21,7 @@ import com.smartech.course.racing.vehicle.Vehicle;
 public class Racing {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
-	private double raceLength;
+	private double distance;
 	private Collection<Vehicle> racers;
 	private double timeStep = 1; // in seconds
 	

@@ -18,23 +18,16 @@ import com.smartech.course.racing.exception.MovingException;
  * @author Alexey Solomatin
  *
  */
-public class Vehicle implements Movable {
-	private Logger log = LoggerFactory.getLogger(getClass());
-	
-	protected String name;
-	protected double weight;
-	protected double maxSpeed;
+public class Vehicle extends DynamicObject implements Movable {	
 	protected double acceleration;
 	
 	protected double position;
 	protected double time;	
 	protected double speed;
 	
-	public Vehicle(String name, double weight, double acceleration, double maxSpeed) {
+	public Vehicle(String name, double weight, double maxSpeed, double acceleration) {
 		// TODO: add checking parameters
-		this.name = name;
-		this.weight = weight;
-		this.maxSpeed = maxSpeed;
+		super(name, weight, maxSpeed);		
 		this.acceleration = acceleration;
 		this.speed = 0;
 		this.time = 0;
@@ -84,6 +77,64 @@ public class Vehicle implements Movable {
 	private void moveWithoutAcceleration(double stepTime) {		
 		position += this.speed * stepTime;
 		time += stepTime;
+	}
+
+	
+
+	/**
+	 * @return the acceleration
+	 */
+	public double getAcceleration() {
+		return acceleration;
+	}
+
+	/**
+	 * @param acceleration the acceleration to set
+	 */
+	public void setAcceleration(double acceleration) {
+		this.acceleration = acceleration;
+	}
+
+	/**
+	 * @return the position
+	 */
+	public double getPosition() {
+		return position;
+	}
+
+	/**
+	 * @param position the position to set
+	 */
+	public void setPosition(double position) {
+		this.position = position;
+	}
+
+	/**
+	 * @return the time
+	 */
+	public double getTime() {
+		return time;
+	}
+
+	/**
+	 * @param time the time to set
+	 */
+	public void setTime(double time) {
+		this.time = time;
+	}
+
+	/**
+	 * @return the speed
+	 */
+	public double getSpeed() {
+		return speed;
+	}
+
+	/**
+	 * @param speed the speed to set
+	 */
+	public void setSpeed(double speed) {
+		this.speed = speed;
 	}
 	
 }
