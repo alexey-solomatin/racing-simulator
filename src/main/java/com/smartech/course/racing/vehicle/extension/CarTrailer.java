@@ -3,35 +3,26 @@
  */
 package com.smartech.course.racing.vehicle.extension;
 
+import com.smartech.course.racing.exception.CreatingVehicleException;
+import com.smartech.course.racing.vehicle.DynamicObject;
+
 /**
  * @author Alexey Solomatin
  *
  */
-public class CarTrailer {
-	private String name;
-	private double maxSpeed;
-	private double weight;
+public class CarTrailer extends DynamicObject {	
 	private double maxPayloadWeight;	
 	private double payloadWeight;
 
 	/**
+	 * @throws CreatingVehicleException 
 	 * 
 	 */
-	public CarTrailer(double weigth, double maxPayloadWeight, double maxSpeed) {		
-		//super(weight, maxPayloadWeight);
-//		this.weight = weigth;
-		this.maxSpeed = maxSpeed;		
+	public CarTrailer(String name, double weight, double maxSpeed, double maxPayloadWeight) throws CreatingVehicleException {		
+		super(name, weight, maxPayloadWeight);
+		this.maxPayloadWeight = maxPayloadWeight;		
 	}
 	
-	public double getMaxSpeed() {	
-		return maxSpeed;
-	}
-	
-
-	public double getWeight() {
-		return weight;
-	}
-
 	/**
 	 * @return the maxPayload
 	 */
@@ -60,18 +51,4 @@ public class CarTrailer {
 		//this.payload = payload;
 	}
 
-	/**
-	 * @param weight the weight to set
-	 */
-	public void setWeight(double weight) {
-		//this.weight = weight;
-	}
-
-	/**
-	 * @param maxSpeed the maxSpeed to set
-	 */
-	public void setMaxSpeed(double maxSpeed) {
-		this.maxSpeed = maxSpeed;
-	}
-	
 }

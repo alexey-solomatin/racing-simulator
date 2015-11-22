@@ -6,6 +6,8 @@ package com.smartech.course.racing.vehicle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.smartech.course.racing.exception.CreatingVehicleException;
+
 /**
  * @author Alexey Solomatin
  *
@@ -20,7 +22,7 @@ public class DynamicObject {
 	/**
 	 * 
 	 */
-	public DynamicObject(String name, double weight, double maxSpeed) {
+	public DynamicObject(String name, double weight, double maxSpeed) throws CreatingVehicleException {
 		// TODO Auto-generated constructor stub
 	}
 	

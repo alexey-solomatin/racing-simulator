@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.smartech.course.racing.exception.MovingException;
+import com.smartech.course.racing.exception.MovingVehicleException;
 import com.smartech.course.racing.vehicle.Bus;
 import com.smartech.course.racing.vehicle.Car;
 import com.smartech.course.racing.vehicle.Vehicle;
@@ -34,19 +34,19 @@ public class RacingSimulator {
 		 * 5) Print results to the screen.
 		 */
 		try {
-			Collection<Vehicle> racers = createRacers();
+			Collection<Raceable> racers = createRacers();
 			Racing racing = createRacing(racers);
 			racers.stream().forEach(racing::register);
 			racing.run();
-		} catch (MovingException e) {			
+		} catch (MovingVehicleException e) {			
 			e.printStackTrace();
 		}
 		
 	}
 	
-	private static Collection<Vehicle> createRacers() {
-		List<Vehicle> racers = new ArrayList<>();
-		
+	private static Collection<Raceable> createRacers() {
+		List<Raceable> racers = new ArrayList<>();
+		/*
 		Car carRacer = new Car("Car", 200, 10, 30);
 		racers.add(carRacer);
 		
@@ -55,11 +55,11 @@ public class RacingSimulator {
 		
 		Truck truckRacer = new Truck("Track", 200, 7, 30, 100);
 		racers.add(truckRacer);
-		
+		*/
 		return racers;
 	}
 	
-	private static Racing createRacing(Collection<Vehicle> racers) {
+	private static Racing createRacing(Collection<Raceable> racers) {
 		Racing racing = new Racing();
 		return racing;
 	}

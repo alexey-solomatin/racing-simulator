@@ -11,130 +11,104 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smartech.course.racing.exception.MovingException;
+import com.smartech.course.racing.exception.CreatingVehicleException;
+import com.smartech.course.racing.exception.MovingVehicleException;
 
 /**
  * Races is a vehicle which is able to move on the racing track
  * @author Alexey Solomatin
  *
  */
-public class Vehicle extends DynamicObject implements Movable {	
-	protected double acceleration;
+public class Vehicle extends DynamicObject implements Movable {
+	public static class VehicleState {		
+		private final double time;
+		private final double speed;
+		private final double position;
+		
+		public VehicleState() {
+			time = 0;
+			speed = 0;
+			position = 0;
+		}
+		
+		/**
+		 * @param time
+		 * @param speed
+		 * @param position
+		 */
+		public VehicleState(double time, double speed, double position) {
+			super();
+			this.time = time;
+			this.speed = speed;
+			this.position = position;
+		}
+		/**
+		 * @return the time
+		 */
+		public double getTime() {
+			return time;
+		}
+		/**
+		 * @return the speed
+		 */
+		public double getSpeed() {
+			return speed;
+		}
+		/**
+		 * @return the position
+		 */
+		public double getPosition() {
+			return position;
+		}			
+	}
+	protected double acceleration;	
 	
-	protected double position;
-	protected double time;	
-	protected double speed;
-	
-	public Vehicle(String name, double weight, double maxSpeed, double acceleration) {
+	public Vehicle(String name, double weight, double maxSpeed, double acceleration)  throws CreatingVehicleException {
 		// TODO: add checking parameters
 		super(name, weight, maxSpeed);		
 		this.acceleration = acceleration;
-		this.speed = 0;
-		this.time = 0;
-		this.position = 0;
 	}
-	
+		
 	/* (non-Javadoc)
-	 * @see com.smartech.course.racing.vehicle.Movable#move(double)
+	 * @see com.smartech.course.racing.vehicle.Movable#move(com.smartech.course.racing.vehicle.Vehicle.VehicleState, double)
 	 */
 	@Override
-	public void move(double time) throws MovingException {
-		if (time < 0)
-			throw new MovingException("Moving time cannot be negative.");		
+	public VehicleState move(VehicleState curState, double time) {
+		return new VehicleState(
+			curState.getTime()+time,
+			calculateNewSpeed(curState, time), 
+			calculateNewPosition(curState, time));
+	}
 		
-		double timeOfAcceleratedMoving = calculateSpeed(time) >= calculateMaxSpeed() ?
-			(calculateMaxSpeed() - speed) / calculateAcceleration() :
-			time;				
-		moveWithAcceleration(timeOfAcceleratedMoving);
-		moveWithoutAcceleration(time - timeOfAcceleratedMoving);			
-	}
-	
-	protected double calculateAcceleration() {
-		return acceleration;
-	}
-	
-	protected double calculateMaxSpeed() {
-		return maxSpeed;
-	}
-	
-	public void reset() {
-		position = 0;
-		speed = 0;
-		time = 0;
-	}
-	
-	private double calculateSpeed(double stepTime) {
-		double nextSpeed = speed + calculateAcceleration()*stepTime;
+	protected double calculateNewSpeed(VehicleState curState, double time) {
+		double nextSpeed = curState.getSpeed() + getAcceleration()*time;
 		return nextSpeed > maxSpeed ? maxSpeed : nextSpeed;
 	}
 	
-	private void moveWithAcceleration(double stepTime) {		
-		position += speed*stepTime + (calculateAcceleration()*stepTime*stepTime/2);
-		speed += calculateAcceleration()*stepTime;
-		time += stepTime;
+	protected double calculateNewPosition(VehicleState curState, double time) {
+		double timeOfAcceleratedMoving = calculateNewSpeed(curState, time) >= getMaxSpeed() ?
+				(getMaxSpeed() - curState.getSpeed()) / getAcceleration() :
+				time;				
+		return curState.getPosition() + 
+			moveWithAcceleration(curState.getSpeed(), timeOfAcceleratedMoving) +
+			moveWithoutAcceleration(curState.getSpeed(), time - timeOfAcceleratedMoving);
 	}
 	
-	private void moveWithoutAcceleration(double stepTime) {		
-		position += this.speed * stepTime;
-		time += stepTime;
+	public double getMaxSpeed() {
+		return maxSpeed;
 	}
-
 	
-
-	/**
-	 * @return the acceleration
-	 */
 	public double getAcceleration() {
 		return acceleration;
+	}		
+	
+	private double moveWithAcceleration(double speed, double time) {		
+		return speed*time + (getAcceleration()*time*time/2);
+		
 	}
-
-	/**
-	 * @param acceleration the acceleration to set
-	 */
-	public void setAcceleration(double acceleration) {
-		this.acceleration = acceleration;
-	}
-
-	/**
-	 * @return the position
-	 */
-	public double getPosition() {
-		return position;
-	}
-
-	/**
-	 * @param position the position to set
-	 */
-	public void setPosition(double position) {
-		this.position = position;
-	}
-
-	/**
-	 * @return the time
-	 */
-	public double getTime() {
-		return time;
-	}
-
-	/**
-	 * @param time the time to set
-	 */
-	public void setTime(double time) {
-		this.time = time;
-	}
-
-	/**
-	 * @return the speed
-	 */
-	public double getSpeed() {
-		return speed;
-	}
-
-	/**
-	 * @param speed the speed to set
-	 */
-	public void setSpeed(double speed) {
-		this.speed = speed;
+	
+	private double moveWithoutAcceleration(double speed, double time) {		
+		return speed * time;
 	}
 	
 }

@@ -3,6 +3,7 @@
  */
 package com.smartech.course.racing.vehicle;
 
+import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.vehicle.extension.CarTrailer;
 
 /**
@@ -19,7 +20,7 @@ public class Car extends Vehicle {
 	 * @param maxSpeed
 	 * @param acceleration
 	 */
-	public Car(String name, double weight, double maxSpeed, double acceleration) {
+	public Car(String name, double weight, double maxSpeed, double acceleration) throws CreatingVehicleException {
 		super(name, weight, maxSpeed, acceleration);
 	}
 

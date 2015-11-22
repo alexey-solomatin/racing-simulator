@@ -1,15 +1,20 @@
-/**
- * 
- */
 package com.smartech.course.racing.vehicle;
 
-import com.smartech.course.racing.exception.MovingException;
+import com.smartech.course.racing.vehicle.Vehicle.VehicleState;
 
 /**
- * Interface that movable vehicles should implement
+ * Movable vehicles should implement this interface
  * @author Alexey Solomatin
  *
  */
-public interface Movable {	
-	void move(double time) throws MovingException;	
+public interface Movable {
+
+	/**
+	 * Calculates the new state of a vehicle from the previous state
+	 * @param curState the current state of a vehicle
+	 * @param time the moving time
+	 * @return the new state of a vehicle
+	 */
+	VehicleState move(VehicleState curState, double time);
+
 }

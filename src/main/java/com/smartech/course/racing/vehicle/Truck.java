@@ -3,6 +3,8 @@
  */
 package com.smartech.course.racing.vehicle;
 
+import com.smartech.course.racing.exception.CreatingVehicleException;
+
 /**
  * @author Alexey Solomatin
  *
@@ -17,7 +19,7 @@ public class Truck extends Transport {
 	 * @param maxSpeed
 	 * @param acceleration
 	 */
-	public Truck(String name, double weight, double maxSpeed, double acceleration, double maxPayload) {
+	public Truck(String name, double weight, double maxSpeed, double acceleration, double maxPayload) throws CreatingVehicleException {
 		super(name, weight, maxSpeed, acceleration);
 		this.maxPayload = maxPayload;
 	}

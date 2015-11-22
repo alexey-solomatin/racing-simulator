@@ -10,7 +10,7 @@ import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smartech.course.racing.exception.MovingException;
+import com.smartech.course.racing.exception.MovingVehicleException;
 import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
@@ -22,22 +22,22 @@ public class Racing {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	private double distance;
-	private Collection<Vehicle> racers;
+	private Collection<Raceable> racers;
 	private double timeStep = 1; // in seconds
 	
 	public Racing() {
 		racers = new ArrayList<>();
 	}
 	
-	public void register(Vehicle racer) {
+	public void register(Raceable racer) {
 		racers.add(racer);
 	}
 	
-	public void deregister(Vehicle racer) {
+	public void deregister(Raceable racer) {
 		racers.remove(racer);
 	}
 	
-	public void run() throws MovingException {
+	public void run() throws MovingVehicleException {
 		/*
 		Collection<Vehicle> activeRacers = new ArrayList<>(racers);
 		double printStateTimeStep = 0;
@@ -67,6 +67,14 @@ public class Racing {
 			}
 		}
 		*/		
+	}
+
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
 	}
 	
 }
