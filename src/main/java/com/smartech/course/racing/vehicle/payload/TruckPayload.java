@@ -7,7 +7,7 @@ package com.smartech.course.racing.vehicle.payload;
  * @author Alexey Solomatin
  *
  */
-public class TruckPayload implements VehiclePayload {
+public class TruckPayload implements Payloadable {
 	private double maxPayloadWeight;
 	private double payloadWeight;
 

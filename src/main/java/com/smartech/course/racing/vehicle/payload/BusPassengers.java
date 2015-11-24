@@ -7,7 +7,7 @@ package com.smartech.course.racing.vehicle.payload;
  * @author Alexey Solomatin
  *
  */
-public class BusPassengers implements VehiclePayload {
+public class BusPassengers implements Payloadable {
 	public final static double PASSENGER_WEIGHT = 70;
 
 	/**

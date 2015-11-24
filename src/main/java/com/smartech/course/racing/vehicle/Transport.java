@@ -4,14 +4,14 @@
 package com.smartech.course.racing.vehicle;
 
 import com.smartech.course.racing.exception.CreatingVehicleException;
-import com.smartech.course.racing.vehicle.payload.VehiclePayload;
+import com.smartech.course.racing.vehicle.payload.Payloadable;
 
 /**
  * @author Alexey Solomatin
  *
  */
 public abstract class Transport extends Vehicle {
-	protected VehiclePayload payload;
+	protected Payloadable payload;
 
 	/**
 	 * @param name
@@ -19,7 +19,7 @@ public abstract class Transport extends Vehicle {
 	 * @param maxSpeed 
 	 * @param acceleration
 	 */
-	public Transport(String name, double weight, double maxSpeed, double acceleration, VehiclePayload payload) throws CreatingVehicleException {
+	public Transport(String name, double weight, double maxSpeed, double acceleration, Payloadable payload) throws CreatingVehicleException {
 		super(name, weight, maxSpeed, acceleration);
 		this.payload = payload;
 	}	

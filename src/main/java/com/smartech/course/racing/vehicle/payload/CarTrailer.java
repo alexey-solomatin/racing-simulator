@@ -10,8 +10,8 @@ import com.smartech.course.racing.vehicle.DynamicObject;
  * @author Alexey Solomatin
  *
  */
-public class CarTrailer extends DynamicObject implements VehiclePayload {	
-	private VehiclePayload payload;
+public class CarTrailer extends DynamicObject implements Payloadable {	
+	private Payloadable payload;
 
 	/**
 	 * @throws CreatingVehicleException 

@@ -22,6 +22,10 @@ public class Racer implements Raceable {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public Racer(Movable vehicle, Racing racing) {
+		// TODO Auto-generated constructor stub
+	}
+	
 	@Override
 	public void move(double time) throws MovingVehicleException {
 		// TODO Auto-generated method stub
