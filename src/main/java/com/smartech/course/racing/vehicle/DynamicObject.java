@@ -67,5 +67,9 @@ public class DynamicObject {
 	public void setMaxSpeed(double maxSpeed) {
 		this.maxSpeed = maxSpeed;
 	}
+	
+	protected double calculateCurrentMaxSpeed() {
+		return maxSpeed;
+	}
 
 }

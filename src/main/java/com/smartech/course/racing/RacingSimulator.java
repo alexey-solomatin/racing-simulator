@@ -7,11 +7,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.exception.MovingVehicleException;
-import com.smartech.course.racing.vehicle.Bus;
-import com.smartech.course.racing.vehicle.Car;
-import com.smartech.course.racing.vehicle.Vehicle;
-import com.smartech.course.racing.vehicle.Truck;
 
 /**
  * Racing Simulator application
@@ -33,18 +30,18 @@ public class RacingSimulator {
 		 * 4) Run simulation.
 		 * 5) Print results to the screen.
 		 */
-		try {
-			Collection<Raceable> racers = createRacers();
-			Racing racing = createRacing(racers);
-			racers.stream().forEach(racing::register);
-			racing.run();
-		} catch (MovingVehicleException e) {			
-			e.printStackTrace();
-		}
+//		try {
+//			Collection<Raceable> racers = createRacers();
+//			Racing racing = createRacing(racers);
+//			racers.stream().forEach(racing::register);
+//			racing.run();
+//		} catch (MovingVehicleException e) {			
+//			e.printStackTrace();
+//		}
 		
 	}
 	
-	private static Collection<Raceable> createRacers() {
+	private static Collection<Raceable> createRacers() throws CreatingVehicleException {
 		List<Raceable> racers = new ArrayList<>();
 		/*
 		Car carRacer = new Car("Car", 200, 10, 30);

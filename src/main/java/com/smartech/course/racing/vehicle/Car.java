@@ -4,15 +4,14 @@
 package com.smartech.course.racing.vehicle;
 
 import com.smartech.course.racing.exception.CreatingVehicleException;
-import com.smartech.course.racing.vehicle.extension.CarTrailer;
+import com.smartech.course.racing.vehicle.payload.CarTrailer;
 
 /**
  * Car
  * @author Alexey Solomatin
  *
  */
-public class Car extends Vehicle {
-	private CarTrailer trailer;
+public class Car extends Transport {	
 
 	/**
 	 * @param name
@@ -21,15 +20,27 @@ public class Car extends Vehicle {
 	 * @param acceleration
 	 */
 	public Car(String name, double weight, double maxSpeed, double acceleration) throws CreatingVehicleException {
-		super(name, weight, maxSpeed, acceleration);
+		super(name, weight, maxSpeed, acceleration, null);
 	}
 
 	public void addTrailer(CarTrailer trailer) {
-		this.trailer = trailer;
+		this.payload = trailer;
 	}
 	
 	public void removeTrailer(CarTrailer trailer) {
-		this.trailer = null;
+		this.payload = null;
+	}
+	
+	@Override
+	protected double calculateCurrentAcceleration() {
+		// TODO Auto-generated method stub
+		return super.calculateCurrentAcceleration();
+	}
+	
+	@Override
+	protected double calculateCurrentMaxSpeed() {
+		// TODO Auto-generated method stub
+		return super.calculateCurrentMaxSpeed();
 	}
 	
 	/*

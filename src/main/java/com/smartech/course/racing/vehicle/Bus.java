@@ -4,15 +4,14 @@
 package com.smartech.course.racing.vehicle;
 
 import com.smartech.course.racing.exception.CreatingVehicleException;
+import com.smartech.course.racing.vehicle.payload.BusPassengers;
 
 /**
  * @author Alexey Solomatin
  *
  */
 public class Bus extends Transport {
-	public final static double PASSENGER_WEIGHT = 70;
-	private long maxNumberOfPassengers;
-	private long numberOfPassengers;
+		
 
 	/**
 	 * @param name
@@ -20,21 +19,8 @@ public class Bus extends Transport {
 	 * @param maxSpeed
 	 * @param acceleration
 	 */
-	public Bus(String name, double weight, double maxSpeed, double acceleration, long maxNumberOfPassengers) throws CreatingVehicleException {
-		super(name, weight, maxSpeed, acceleration);		
+	public Bus(String name, double weight, double maxSpeed, double acceleration, long maxNumberOfPassengers, long numberOfPassengers) throws CreatingVehicleException {
+		super(name, weight, maxSpeed, acceleration, new BusPassengers(maxNumberOfPassengers, numberOfPassengers));		
 	}
 
-	@Override
-	protected double getPayloadWeight() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public long getNumberOfPassengers() {
-		return numberOfPassengers;
-	}
-
-	public void setNumberOfPassengers(long numberOfPassengers) {
-		this.numberOfPassengers = numberOfPassengers;
-	}
 }

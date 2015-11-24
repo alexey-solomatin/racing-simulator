@@ -34,4 +34,39 @@ public class Racer implements Raceable {
 		return false;
 	}
 
+	/**
+	 * @return the vehicle
+	 */
+	public Movable getVehicle() {
+		return vehicle;
+	}
+
+	/**
+	 * @param vehicle the vehicle to set
+	 */
+	public void setVehicle(Movable vehicle) {
+		this.vehicle = vehicle;
+	}
+
+	/**
+	 * @return the racing
+	 */
+	public Racing getRacing() {
+		return racing;
+	}
+
+	/**
+	 * @param racing the racing to set
+	 */
+	public void setRacing(Racing racing) {
+		this.racing = racing;
+	}
+
+	/**
+	 * @return the vehicleState
+	 */
+	public VehicleState getVehicleState() {
+		return vehicleState;
+	}
+
 }

@@ -3,11 +3,8 @@
  */
 package com.smartech.course.racing.vehicle;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
 import com.smartech.course.racing.exception.CreatingVehicleException;
+import com.smartech.course.racing.vehicle.payload.BusPassengers;
 
 /**
  * @author Alexey Solomatin
@@ -23,14 +20,13 @@ public class BusTest extends AbstractVehicleTest {
 	@Override
 	protected Vehicle createVehicle() throws CreatingVehicleException {
 		// TODO Auto-generated method stub
-		Bus bus = new Bus(BUS_NAME, BUS_WEIGHT, BUS_MAX_SPEED, BUS_ACCELERATION, NUMBER_OF_PASSENGERS);
-		bus.setNumberOfPassengers(NUMBER_OF_PASSENGERS);
+		Bus bus = new Bus(BUS_NAME, BUS_WEIGHT, BUS_MAX_SPEED, BUS_ACCELERATION, NUMBER_OF_PASSENGERS, NUMBER_OF_PASSENGERS);		
 		return bus;
 	}
 	
 	@Override
 	protected double getVehicleAcceleration() {
-		return BUS_ACCELERATION * BUS_WEIGHT / (BUS_WEIGHT + Bus.PASSENGER_WEIGHT*NUMBER_OF_PASSENGERS);
+		return BUS_ACCELERATION * BUS_WEIGHT / (BUS_WEIGHT + BusPassengers.PASSENGER_WEIGHT*NUMBER_OF_PASSENGERS);
 	}
 	
 	@Override

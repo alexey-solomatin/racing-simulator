@@ -1,5 +1,6 @@
 package com.smartech.course.racing.vehicle;
 
+import com.smartech.course.racing.exception.MovingVehicleException;
 import com.smartech.course.racing.vehicle.Vehicle.VehicleState;
 
 /**
@@ -15,6 +16,6 @@ public interface Movable {
 	 * @param time the moving time
 	 * @return the new state of a vehicle
 	 */
-	VehicleState move(VehicleState curState, double time);
+	VehicleState move(VehicleState curState, double time) throws MovingVehicleException;
 
 }

@@ -3,7 +3,9 @@
  */
 package com.smartech.course.racing.vehicle;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -71,9 +73,10 @@ abstract class AbstractVehicleTest {
 	/**
 	 * Test method for {@link com.smartech.course.racing.vehicle.Vehicle#move(com.smartech.course.racing.vehicle.Vehicle.VehicleState, double)}.
 	 * @throws CreatingVehicleException 
+	 * @throws MovingVehicleException 
 	 */
 	@Test(expected=MovingVehicleException.class)
-	public void testMoveWithNegativeTime() throws CreatingVehicleException {
+	public void testMoveWithNegativeTime() throws CreatingVehicleException, MovingVehicleException {
 		Vehicle vehicle = createVehicle();
 		assertNotNull(vehicle);
 		vehicle.move(new VehicleState(), -1);
@@ -83,9 +86,10 @@ abstract class AbstractVehicleTest {
 	/**
 	 * Test method for {@link com.smartech.course.racing.vehicle.Vehicle#move(com.smartech.course.racing.vehicle.Vehicle.VehicleState, double)}.
 	 * @throws CreatingVehicleException 
+	 * @throws MovingVehicleException 
 	 */
 	@Test(expected=MovingVehicleException.class)
-	public void testMoveWithNullVehicleState() throws CreatingVehicleException {
+	public void testMoveWithNullVehicleState() throws CreatingVehicleException, MovingVehicleException {
 		Vehicle vehicle = createVehicle();
 		assertNotNull(vehicle);
 		vehicle.move(null, 1);
@@ -95,9 +99,10 @@ abstract class AbstractVehicleTest {
 	/**
 	 * Test method for {@link com.smartech.course.racing.vehicle.Vehicle#move(com.smartech.course.racing.vehicle.Vehicle.VehicleState, double)}.
 	 * @throws CreatingVehicleException 
+	 * @throws MovingVehicleException 
 	 */
 	@Test
-	public void testMoveWithoutAcceleration() throws CreatingVehicleException {		
+	public void testMoveWithoutAcceleration() throws CreatingVehicleException, MovingVehicleException {		
 		double time = 1;
 		Vehicle vehicle = createVehicle();
 		assertNotNull(vehicle);
@@ -112,9 +117,10 @@ abstract class AbstractVehicleTest {
 	/**
 	 * Test method for {@link com.smartech.course.racing.vehicle.Vehicle#move(com.smartech.course.racing.vehicle.Vehicle.VehicleState, double)}.
 	 * @throws CreatingVehicleException 
+	 * @throws MovingVehicleException 
 	 */
 	@Test
-	public void testMoveWithAcceleration() throws CreatingVehicleException {
+	public void testMoveWithAcceleration() throws CreatingVehicleException, MovingVehicleException {
 		Vehicle vehicle = createVehicle();
 		assertNotNull(vehicle);
 		VehicleState curState = new VehicleState(0, 0, 0);
@@ -130,9 +136,10 @@ abstract class AbstractVehicleTest {
 	/**
 	 * Test method for {@link com.smartech.course.racing.vehicle.Vehicle#move(com.smartech.course.racing.vehicle.Vehicle.VehicleState, double)}.
 	 * @throws CreatingVehicleException 
+	 * @throws MovingVehicleException 
 	 */
 	@Test
-	public void testMoveWithAccelerationAndWithoutAcceleration() throws CreatingVehicleException {
+	public void testMoveWithAccelerationAndWithoutAcceleration() throws CreatingVehicleException, MovingVehicleException {
 		Vehicle vehicle = createVehicle();
 		assertNotNull(vehicle);
 		VehicleState curState = new VehicleState(0, 0, 0);

@@ -3,12 +3,8 @@
  */
 package com.smartech.course.racing.vehicle;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
 import com.smartech.course.racing.exception.CreatingVehicleException;
-import com.smartech.course.racing.vehicle.extension.CarTrailer;
+import com.smartech.course.racing.vehicle.payload.CarTrailer;
 
 /**
  * @author Alexey Solomatin
@@ -23,8 +19,7 @@ public class CarWithTrailerTest extends CarTest {
 	@Override
 	protected Vehicle createVehicle() throws CreatingVehicleException {
 		Car car = (Car) super.createVehicle();
-		CarTrailer trailer = new CarTrailer(TRAILER_NAME, TRAILER_WEIGHT, TRAILER_MAX_SPEED, TRAILER_PAYLOAD_WEIGHT);
-		trailer.setPayload(TRAILER_PAYLOAD_WEIGHT);
+		CarTrailer trailer = new CarTrailer(TRAILER_NAME, TRAILER_WEIGHT, TRAILER_MAX_SPEED, TRAILER_PAYLOAD_WEIGHT, TRAILER_PAYLOAD_WEIGHT);		
 		car.addTrailer(trailer);
 		return car;
 	}

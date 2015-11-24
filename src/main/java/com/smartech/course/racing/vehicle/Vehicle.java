@@ -3,14 +3,6 @@
  */
 package com.smartech.course.racing.vehicle;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Observable;
-import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.exception.MovingVehicleException;
 
@@ -61,6 +53,7 @@ public class Vehicle extends DynamicObject implements Movable {
 			return position;
 		}			
 	}
+	
 	protected double acceleration;	
 	
 	public Vehicle(String name, double weight, double maxSpeed, double acceleration)  throws CreatingVehicleException {
@@ -73,42 +66,51 @@ public class Vehicle extends DynamicObject implements Movable {
 	 * @see com.smartech.course.racing.vehicle.Movable#move(com.smartech.course.racing.vehicle.Vehicle.VehicleState, double)
 	 */
 	@Override
-	public VehicleState move(VehicleState curState, double time) {
+	public VehicleState move(VehicleState curState, double time) throws MovingVehicleException {
 		return new VehicleState(
 			curState.getTime()+time,
 			calculateNewSpeed(curState, time), 
 			calculateNewPosition(curState, time));
 	}
+	
+	protected double calculateCurrentAcceleration() {
+		return acceleration;
+	}	
 		
-	protected double calculateNewSpeed(VehicleState curState, double time) {
-		double nextSpeed = curState.getSpeed() + getAcceleration()*time;
-		return nextSpeed > maxSpeed ? maxSpeed : nextSpeed;
+	protected double calculateNewSpeed(VehicleState curState, double time) throws MovingVehicleException {
+		double nextSpeed = curState.getSpeed() + calculateCurrentAcceleration()*time;
+		return nextSpeed > calculateCurrentMaxSpeed() ? calculateCurrentMaxSpeed() : nextSpeed;
 	}
 	
-	protected double calculateNewPosition(VehicleState curState, double time) {
+	protected double calculateNewPosition(VehicleState curState, double time) throws MovingVehicleException {
 		double timeOfAcceleratedMoving = calculateNewSpeed(curState, time) >= getMaxSpeed() ?
-				(getMaxSpeed() - curState.getSpeed()) / getAcceleration() :
+				(getMaxSpeed() - curState.getSpeed()) / calculateCurrentAcceleration() :
 				time;				
 		return curState.getPosition() + 
 			moveWithAcceleration(curState.getSpeed(), timeOfAcceleratedMoving) +
 			moveWithoutAcceleration(curState.getSpeed(), time - timeOfAcceleratedMoving);
 	}
 	
-	public double getMaxSpeed() {
-		return maxSpeed;
-	}
-	
-	public double getAcceleration() {
-		return acceleration;
-	}		
-	
 	private double moveWithAcceleration(double speed, double time) {		
-		return speed*time + (getAcceleration()*time*time/2);
+		return speed*time + (calculateCurrentAcceleration()*time*time/2);
 		
 	}
 	
 	private double moveWithoutAcceleration(double speed, double time) {		
 		return speed * time;
 	}
-	
+
+	/**
+	 * @return the acceleration
+	 */
+	public double getAcceleration() {
+		return acceleration;
+	}
+
+	/**
+	 * @param acceleration the acceleration to set
+	 */
+	public void setAcceleration(double acceleration) {
+		this.acceleration = acceleration;
+	}	
 }

@@ -3,10 +3,6 @@
  */
 package com.smartech.course.racing.vehicle;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
 import com.smartech.course.racing.exception.CreatingVehicleException;
 
 /**

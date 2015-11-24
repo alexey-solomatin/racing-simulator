@@ -4,12 +4,14 @@
 package com.smartech.course.racing.vehicle;
 
 import com.smartech.course.racing.exception.CreatingVehicleException;
+import com.smartech.course.racing.vehicle.payload.VehiclePayload;
 
 /**
  * @author Alexey Solomatin
  *
  */
 public abstract class Transport extends Vehicle {
+	protected VehiclePayload payload;
 
 	/**
 	 * @param name
@@ -17,10 +19,17 @@ public abstract class Transport extends Vehicle {
 	 * @param maxSpeed 
 	 * @param acceleration
 	 */
-	public Transport(String name, double weight, double maxSpeed, double acceleration) throws CreatingVehicleException {
+	public Transport(String name, double weight, double maxSpeed, double acceleration, VehiclePayload payload) throws CreatingVehicleException {
 		super(name, weight, maxSpeed, acceleration);
-		// TODO Auto-generated constructor stub
-	}
+		this.payload = payload;
+	}	
+	
+	@Override
+	protected double calculateCurrentAcceleration() {
+		// TODO Auto-generated method stub
+		return super.calculateCurrentAcceleration();
+	}	
+	
 	/*
 	@Override
 	protected double calculateAcceleration() {
@@ -28,7 +37,5 @@ public abstract class Transport extends Vehicle {
 		return super.calculateAcceleration();
 	}
 	*/
-	
-	protected abstract double getPayloadWeight();
 
 }
