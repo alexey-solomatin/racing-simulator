@@ -12,10 +12,16 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
+ * Tests for {@link BusPassengers}
  * @author Alexey Solomatin
  *
  */
 public class BusPassengersTest {
+	private static final long MAX_NUMBER_OF_PASSENGERS = 20;
+	private static final long NUMBER_OF_PASSENGERS = 10;
+	private static final double COMPARISION_DELTA = 0.001;
+	
+	private BusPassengers payload = new BusPassengers(MAX_NUMBER_OF_PASSENGERS, MAX_NUMBER_OF_PASSENGERS);
 
 	/**
 	 * @throws java.lang.Exception
@@ -58,7 +64,7 @@ public class BusPassengersTest {
 	 */
 	@Test
 	public void testGetMaxPayloadWeight() {
-		fail("Not yet implemented");
+		assertEquals(MAX_NUMBER_OF_PASSENGERS*BusPassengers.PASSENGER_WEIGHT, payload.getMaxPayloadWeight(), COMPARISION_DELTA);
 	}
 
 	/**
@@ -66,7 +72,7 @@ public class BusPassengersTest {
 	 */
 	@Test
 	public void testGetPayloadWeight() {
-		fail("Not yet implemented");
+		assertEquals(NUMBER_OF_PASSENGERS*BusPassengers.PASSENGER_WEIGHT, payload.getPayloadWeight(), COMPARISION_DELTA);
 	}
 
 }

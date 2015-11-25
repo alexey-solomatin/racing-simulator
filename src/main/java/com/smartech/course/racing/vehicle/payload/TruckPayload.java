@@ -4,10 +4,11 @@
 package com.smartech.course.racing.vehicle.payload;
 
 /**
+ * Payload carried by a truck
  * @author Alexey Solomatin
  *
  */
-public class TruckPayload implements Payloadable {
+public class TruckPayload implements PayloadCarriable {
 	private double maxPayloadWeight;
 	private double payloadWeight;
 
@@ -31,9 +32,9 @@ public class TruckPayload implements Payloadable {
 	 * @see com.smartech.course.racing.vehicle.VehiclePayload#getPayloadWeight()
 	 */
 	@Override
-	public void getPayloadWeight() {
+	public double getPayloadWeight() {
 		// TODO Auto-generated method stub
-
+		return 0;
 	}
 
 }

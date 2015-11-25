@@ -7,11 +7,12 @@ import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.vehicle.DynamicObject;
 
 /**
+ * Car trailer, a special form of a payload
  * @author Alexey Solomatin
  *
  */
-public class CarTrailer extends DynamicObject implements Payloadable {	
-	private Payloadable payload;
+public class CarTrailer extends DynamicObject implements PayloadCarriable {	
+	private PayloadCarriable payload;
 
 	/**
 	 * @throws CreatingVehicleException 
@@ -29,9 +30,9 @@ public class CarTrailer extends DynamicObject implements Payloadable {
 	}
 
 	@Override
-	public void getPayloadWeight() {
+	public double getPayloadWeight() {
 		// TODO Auto-generated method stub
-		
+		return 0;
 	}
 	
 }

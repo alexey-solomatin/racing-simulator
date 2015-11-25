@@ -7,6 +7,7 @@ import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.vehicle.payload.BusPassengers;
 
 /**
+ * Bus for carrying passengers
  * @author Alexey Solomatin
  *
  */

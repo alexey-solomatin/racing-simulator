@@ -7,7 +7,7 @@ import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.vehicle.payload.CarTrailer;
 
 /**
- * Car
+ * Car which can also have a {@link CarTrailer}
  * @author Alexey Solomatin
  *
  */

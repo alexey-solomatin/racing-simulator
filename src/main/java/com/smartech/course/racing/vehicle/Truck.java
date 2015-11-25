@@ -7,6 +7,7 @@ import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.vehicle.payload.TruckPayload;
 
 /**
+ * Truck for carrying a payload
  * @author Alexey Solomatin
  *
  */

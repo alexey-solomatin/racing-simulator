@@ -7,7 +7,7 @@ import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.exception.MovingVehicleException;
 
 /**
- * Races is a vehicle which is able to move on the racing track
+ * Vehicle with its moving rules
  * @author Alexey Solomatin
  *
  */

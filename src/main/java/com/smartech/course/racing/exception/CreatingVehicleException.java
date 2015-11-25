@@ -4,6 +4,7 @@
 package com.smartech.course.racing.exception;
 
 /**
+ * Exception for unsuccessful creating a vehicle of its parts
  * @author Alexey Solomatin
  *
  */

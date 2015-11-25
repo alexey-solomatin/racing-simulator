@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.smartech.course.racing.exception.CreatingVehicleException;
 
 /**
+ * Dynamic object
  * @author Alexey Solomatin
  *
  */

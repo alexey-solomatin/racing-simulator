@@ -4,6 +4,7 @@
 package com.smartech.course.racing.exception;
 
 /**
+ * Exception for unsuccessful moving a vehicle
  * @author Alexey Solomatin
  *
  */

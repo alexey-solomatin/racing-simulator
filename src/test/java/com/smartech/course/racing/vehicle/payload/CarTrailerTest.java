@@ -12,10 +12,18 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
+ * Tests for {@link CarTrailer}
  * @author Alexey Solomatin
  *
  */
 public class CarTrailerTest {
+	private static final double MAX_PAYLOAD_WEIGHT = 100;
+	private static final double PAYLOAD_WEIGHT = 50;
+	private static final double TRAILER_WEIGHT = 100;
+	private static final double TRAILER_MAX_SPEED = 20;
+	private static final double COMPARISION_DELTA = 0.001;
+	
+	private CarTrailer payload;
 
 	/**
 	 * @throws java.lang.Exception
@@ -36,6 +44,7 @@ public class CarTrailerTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		payload = new CarTrailer("CarTrailer", TRAILER_WEIGHT, TRAILER_MAX_SPEED, MAX_PAYLOAD_WEIGHT, PAYLOAD_WEIGHT);
 	}
 
 	/**
@@ -57,16 +66,16 @@ public class CarTrailerTest {
 	 * Test method for {@link com.smartech.course.racing.vehicle.payload.CarTrailer#getMaxPayloadWeight()}.
 	 */
 	@Test
-	public void testGetMaxPayloadWeight() {
-		fail("Not yet implemented");
+	public void testGetMaxPayloadWeight() {		
+		assertEquals(MAX_PAYLOAD_WEIGHT, payload.getMaxPayloadWeight(), COMPARISION_DELTA);
 	}
 
 	/**
 	 * Test method for {@link com.smartech.course.racing.vehicle.payload.CarTrailer#getPayloadWeight()}.
 	 */
 	@Test
-	public void testGetPayloadWeight() {
-		fail("Not yet implemented");
+	public void testGetPayloadWeight() {		
+		assertEquals(PAYLOAD_WEIGHT, payload.getPayloadWeight(), COMPARISION_DELTA);
 	}
 
 }
