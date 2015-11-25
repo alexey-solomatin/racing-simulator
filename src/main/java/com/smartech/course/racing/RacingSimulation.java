@@ -50,29 +50,31 @@ public class RacingSimulation {
 		return racers != null ? Collections.unmodifiableCollection(racers.values()) : null;
 	}
 
-	public void run() throws MovingVehicleException {
-		System.out.println("================= Start State =================");
-		System.out.println(racers.values());
-		System.out.println("===============================================");
+	public void run() throws MovingVehicleException {		
+		log.debug("================= Start State =================");
+		log.debug("{}", racers.values());
+		log.debug("===============================================");
 		Collection<Raceable> activeRacers = new ArrayList<>(racers.values());
 		double printStateTimeStep = 0;
 		while (!activeRacers.isEmpty()) {
 			Collection<Raceable> finished = new ArrayList<>();
 			for (Raceable racer : activeRacers) {
 				racer.move(timeStep);
-				if (racer.isFinished())
-					finished.add(racer);							
+				if (racer.isFinished()) {
+					log.debug("{} finished!", racer);
+					finished.add(racer);
+				}
 			}
 			printStateTimeStep += timeStep;
 			for (Raceable racer : finished)
 				activeRacers.remove(racer);
 			
 			// printing the state of the race
-			if (printStateTimeStep >= 10) {
+			if (printStateTimeStep >= 10 && !activeRacers.isEmpty()) {
 				printStateTimeStep = 0;
-				System.out.println("==============================================");
-				System.out.println(racers.values());
-				System.out.println("==============================================");
+				log.debug("==============================================");
+				log.debug("{}", racers.values());
+				log.debug("==============================================");
 			}
 			
 			try {
@@ -82,9 +84,9 @@ public class RacingSimulation {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("================= Finish State =================");
-		System.out.println(racers.values());
-		System.out.println("================================================");
+		log.debug("================= Finish State =================");
+		log.debug("{}", racers.values());
+		log.debug("================================================");
 	}
 
 	/**

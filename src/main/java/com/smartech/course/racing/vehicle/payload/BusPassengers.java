@@ -38,4 +38,13 @@ public class BusPassengers implements PayloadCarriable {
 		return PASSENGER_WEIGHT*numberOfPassengers;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "BusPassengers [maxNumberOfPassengers=" + maxNumberOfPassengers + ", numberOfPassengers="
+				+ numberOfPassengers + "]";
+	}
+
 }

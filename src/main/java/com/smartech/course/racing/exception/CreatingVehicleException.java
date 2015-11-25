@@ -13,6 +13,11 @@ public final class CreatingVehicleException extends RacingException {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 5136360304229418629L;
+
+	/**
+	 * 
+	 */
 	public CreatingVehicleException() {
 		// TODO Auto-generated constructor stub
 	}

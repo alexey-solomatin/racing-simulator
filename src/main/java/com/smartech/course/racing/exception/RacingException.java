@@ -13,6 +13,11 @@ public class RacingException extends Exception {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = -5169344918041985529L;
+
+	/**
+	 * 
+	 */
 	public RacingException() {
 		// TODO Auto-generated constructor stub
 	}

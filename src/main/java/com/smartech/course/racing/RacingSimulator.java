@@ -61,7 +61,7 @@ public class RacingSimulator {
 	}
 	
 	private static Racing createRacing() {
-		return new Racing("Racing #1", 1000);				
+		return new Racing("Racing #1", 500);				
 	}
 
 }

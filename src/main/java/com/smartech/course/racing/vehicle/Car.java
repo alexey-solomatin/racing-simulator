@@ -41,5 +41,14 @@ public class Car extends Transport {
 	@Override
 	protected double calculateCurrentMaxSpeed() {
 		return payload != null ? Math.min(((CarTrailer)payload).getMaxSpeed(), maxSpeed) : maxSpeed;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Car [name=" + name + ", weight=" + weight + ", acceleration=" + acceleration + ", maxSpeed=" + maxSpeed
+				+ ", payload=" + payload + "]";
 	}	
 }

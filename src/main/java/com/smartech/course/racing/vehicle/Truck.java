@@ -22,5 +22,14 @@ public class Truck extends Transport {
 	public Truck(String name, double weight, double maxSpeed, double acceleration, double maxPayloadWeight, double payloadWeight) throws CreatingVehicleException {
 		super(name, weight, maxSpeed, acceleration, new SimplePayload(maxPayloadWeight, payloadWeight));		
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Truck [name=" + name + ", weight=" + weight + ", acceleration=" + acceleration + ", maxSpeed="
+				+ maxSpeed + ", payload=" + payload + "]";
+	}
 	
 }

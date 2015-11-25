@@ -32,5 +32,14 @@ public class CarTrailer extends DynamicObject implements PayloadCarriable {
 	public double getPayloadWeight() {
 		return payload != null ? payload.getPayloadWeight() : 0;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CarTrailer [name=" + name + ", weight=" + weight + ", maxSpeed=" + maxSpeed + ", payload=" + payload
+				+ "]";
+	}
 	
 }
