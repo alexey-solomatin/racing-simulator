@@ -3,12 +3,14 @@
  */
 package com.smartech.course.racing.vehicle.payload;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -21,7 +23,7 @@ public class BusPassengersTest {
 	private static final long NUMBER_OF_PASSENGERS = 10;
 	private static final double COMPARISION_DELTA = 0.001;
 	
-	private BusPassengers payload = new BusPassengers(MAX_NUMBER_OF_PASSENGERS, MAX_NUMBER_OF_PASSENGERS);
+	private BusPassengers payload = new BusPassengers(MAX_NUMBER_OF_PASSENGERS, NUMBER_OF_PASSENGERS);
 
 	/**
 	 * @throws java.lang.Exception
@@ -55,6 +57,7 @@ public class BusPassengersTest {
 	 * Test method for {@link com.smartech.course.racing.vehicle.payload.BusPassengers#BusPassengers(long, long)}.
 	 */
 	@Test
+	@Ignore
 	public void testBusPassengers() {
 		fail("Not yet implemented");
 	}

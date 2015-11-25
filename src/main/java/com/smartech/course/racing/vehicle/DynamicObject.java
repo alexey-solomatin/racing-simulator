@@ -24,7 +24,9 @@ public class DynamicObject {
 	 * 
 	 */
 	public DynamicObject(String name, double weight, double maxSpeed) throws CreatingVehicleException {
-		// TODO Auto-generated constructor stub
+		this.name = name;
+		this.weight = weight;
+		this.maxSpeed = maxSpeed;
 	}
 	
 	/**

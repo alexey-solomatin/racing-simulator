@@ -27,8 +27,9 @@ public abstract class Transport extends Vehicle {
 	
 	@Override
 	protected double calculateCurrentAcceleration() {
-		// TODO Auto-generated method stub
-		return super.calculateCurrentAcceleration();
+		return payload != null
+			? acceleration * weight / (weight + payload.getPayloadWeight())
+			: acceleration;		
 	}		
 
 }

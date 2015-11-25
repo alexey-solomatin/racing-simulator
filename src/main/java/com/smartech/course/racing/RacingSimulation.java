@@ -34,7 +34,6 @@ public class RacingSimulation {
 	 * @param timeStep the time step for the simulation
 	 */
 	public RacingSimulation(Racing racing, double timeStep) {
-		// TODO Auto-generated constructor stub
 		this.racing = racing;
 		this.timeStep = timeStep;
 	}
@@ -52,26 +51,27 @@ public class RacingSimulation {
 	}
 
 	public void run() throws MovingVehicleException {
-		// TODO: create racers
-		// TODO: perform racing simulation
-		/*
-		Collection<Vehicle> activeRacers = new ArrayList<>(racers);
+		System.out.println("================= Start State =================");
+		System.out.println(racers.values());
+		System.out.println("===============================================");
+		Collection<Raceable> activeRacers = new ArrayList<>(racers.values());
 		double printStateTimeStep = 0;
 		while (!activeRacers.isEmpty()) {
-			Collection<Vehicle> finished = new ArrayList<>();
-			for (Vehicle racer : activeRacers) {
+			Collection<Raceable> finished = new ArrayList<>();
+			for (Raceable racer : activeRacers) {
 				racer.move(timeStep);
-				if (racer.getPosition() >= raceLength)
-					finished.add(racer);				
+				if (racer.isFinished())
+					finished.add(racer);							
 			}
 			printStateTimeStep += timeStep;
-			for (Vehicle racer : finished)
+			for (Raceable racer : finished)
 				activeRacers.remove(racer);
 			
 			// printing the state of the race
 			if (printStateTimeStep >= 10) {
+				printStateTimeStep = 0;
 				System.out.println("==============================================");
-				System.out.println(racers);
+				System.out.println(racers.values());
 				System.out.println("==============================================");
 			}
 			
@@ -82,7 +82,9 @@ public class RacingSimulation {
 				e.printStackTrace();
 			}
 		}
-		*/		
+		System.out.println("================= Finish State =================");
+		System.out.println(racers.values());
+		System.out.println("================================================");
 	}
 
 	/**

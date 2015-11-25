@@ -3,14 +3,6 @@
  */
 package com.smartech.course.racing;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.smartech.course.racing.exception.MovingVehicleException;
-
 /**
  * Racing represents the racing track and the racers.
  * @author Alexey Solomatin
@@ -50,6 +42,14 @@ public class Racing {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Racing [name=" + name + ", distance=" + distance + "]";
 	}
 	
 }

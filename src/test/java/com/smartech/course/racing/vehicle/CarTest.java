@@ -13,7 +13,7 @@ import com.smartech.course.racing.exception.CreatingVehicleException;
 public class CarTest extends AbstractVehicleTest {
 	protected final String CAR_NAME = "Car";
 	protected final double CAR_WEIGHT = 500;
-	protected final double CAR_MAX_SPEED = 200;
+	protected final double CAR_MAX_SPEED = 55;
 	protected final double CAR_ACCELERATION = 10;
 	
 	@Override

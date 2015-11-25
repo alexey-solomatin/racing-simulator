@@ -3,12 +3,14 @@
  */
 package com.smartech.course.racing.vehicle.payload;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -58,6 +60,7 @@ public class CarTrailerTest {
 	 * Test method for {@link com.smartech.course.racing.vehicle.payload.CarTrailer#CarTrailer(java.lang.String, double, double, double, double)}.
 	 */
 	@Test
+	@Ignore
 	public void testCarTrailer() {
 		fail("Not yet implemented");
 	}

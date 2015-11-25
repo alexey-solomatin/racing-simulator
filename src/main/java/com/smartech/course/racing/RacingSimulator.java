@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.List;
 
 import com.smartech.course.racing.exception.CreatingVehicleException;
-import com.smartech.course.racing.exception.MovingVehicleException;
 import com.smartech.course.racing.vehicle.Bus;
 import com.smartech.course.racing.vehicle.Car;
 import com.smartech.course.racing.vehicle.Movable;
@@ -38,8 +37,7 @@ public class RacingSimulator {
 			Racing racing = createRacing();
 			RacingSimulation simulation = new RacingSimulation(racing, 1);
 			vehicles.stream().forEach(simulation::register);
-			simulation.run();
-			System.out.println(simulation.listRacers());
+			simulation.run();			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		

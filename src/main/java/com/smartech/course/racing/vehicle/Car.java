@@ -33,31 +33,13 @@ public class Car extends Transport {
 	
 	@Override
 	protected double calculateCurrentAcceleration() {
-		// TODO Auto-generated method stub
-		return super.calculateCurrentAcceleration();
+		return payload != null 
+			? acceleration * weight / (weight + ((CarTrailer)payload).getWeight() + payload.getPayloadWeight())
+			: acceleration;
 	}
 	
 	@Override
 	protected double calculateCurrentMaxSpeed() {
-		// TODO Auto-generated method stub
-		return super.calculateCurrentMaxSpeed();
-	}
-	
-	/*
-	@Override
-	protected double calculateMaxSpeed() {
-		if (trailer != null)
-			return Math.max(trailer.getMaxSpeed(), super.calculateMaxSpeed());
-		else
-			return super.calculateMaxSpeed();
-	}
-	
-	@Override
-	protected double calculateAcceleration() {
-		if (trailer != null)
-			return super.calculateAcceleration() * (weight / (weight + trailer.getWeight() + trailer.getPayload()));
-		else
-			return super.calculateAcceleration();
-	}
-	*/
+		return payload != null ? Math.min(((CarTrailer)payload).getMaxSpeed(), maxSpeed) : maxSpeed;
+	}	
 }

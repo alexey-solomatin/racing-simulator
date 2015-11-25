@@ -7,13 +7,14 @@ import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.vehicle.payload.BusPassengers;
 
 /**
+ * Tests for {@link Bus}
  * @author Alexey Solomatin
  *
  */
 public class BusTest extends AbstractVehicleTest {
 	protected final String BUS_NAME = "Bus";
 	protected final double BUS_WEIGHT = 1000;
-	protected final double BUS_MAX_SPEED = 120;
+	protected final double BUS_MAX_SPEED = 30;
 	protected final double BUS_ACCELERATION = 5;
 	protected final long NUMBER_OF_PASSENGERS = 10;
 

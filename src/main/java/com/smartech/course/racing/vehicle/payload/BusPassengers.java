@@ -10,12 +10,16 @@ package com.smartech.course.racing.vehicle.payload;
  */
 public class BusPassengers implements PayloadCarriable {
 	public final static double PASSENGER_WEIGHT = 70;
+	
+	private long maxNumberOfPassengers;
+	private long numberOfPassengers;
 
 	/**
 	 * 
 	 */
 	public BusPassengers(long maxNumberOfPassengers, long numberOfPassengers) {
-		// TODO Auto-generated constructor stub
+		this.maxNumberOfPassengers = maxNumberOfPassengers;
+		this.numberOfPassengers = numberOfPassengers;
 	}
 
 	/* (non-Javadoc)
@@ -23,8 +27,7 @@ public class BusPassengers implements PayloadCarriable {
 	 */
 	@Override
 	public double getMaxPayloadWeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return PASSENGER_WEIGHT*maxNumberOfPassengers;
 	}
 
 	/* (non-Javadoc)
@@ -32,8 +35,7 @@ public class BusPassengers implements PayloadCarriable {
 	 */
 	@Override
 	public double getPayloadWeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return PASSENGER_WEIGHT*numberOfPassengers;
 	}
 
 }

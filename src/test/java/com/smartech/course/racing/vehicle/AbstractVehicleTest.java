@@ -7,10 +7,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.smartech.course.racing.exception.CreatingVehicleException;
@@ -22,36 +18,8 @@ import com.smartech.course.racing.vehicle.Vehicle.VehicleState;
  * @author Alexey Solomatin
  *
  */
-abstract class AbstractVehicleTest {
+public abstract class AbstractVehicleTest {
 	protected static final double COMPARISON_DELTA = 0.001;
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
 	
 	protected abstract Vehicle createVehicle() throws CreatingVehicleException;
 	
@@ -60,14 +28,14 @@ abstract class AbstractVehicleTest {
 	protected abstract double getVehicleAcceleration();
 	
 	/**
-	 * Test method for {@link com.smartech.course.racing.vehicle.Vehicle#getMaxSpeed()}.
+	 * Test method for {@link com.smartech.course.racing.vehicle.Vehicle#calculateCurrentMaxSpeed()}.
 	 * @throws CreatingVehicleException 
 	 */
 	@Test
-	public void testGetMaxSpeed() throws CreatingVehicleException {
+	public void testCalculateCurrentMaxSpeed() throws CreatingVehicleException {
 		Vehicle vehicle = createVehicle();
 		assertNotNull(vehicle);
-		assertEquals(getVehicleMaxSpeed(), vehicle.getMaxSpeed(), COMPARISON_DELTA);
+		assertEquals(getVehicleMaxSpeed(), vehicle.calculateCurrentMaxSpeed(), COMPARISON_DELTA);
 	}
 
 	/**
@@ -124,8 +92,8 @@ abstract class AbstractVehicleTest {
 		Vehicle vehicle = createVehicle();
 		assertNotNull(vehicle);
 		VehicleState curState = new VehicleState(0, 0, 0);
-		// calculate time for moving with acceleration
-		double time = getVehicleAcceleration()/2;
+		// calculate time for moving with acceleration, a half of max time
+		double time = getVehicleMaxSpeed() / getVehicleAcceleration() / 2;
 		VehicleState newState = vehicle.move(curState, time);
 		assertNotNull(newState);
 		assertEquals(curState.getTime()+time, newState.getTime(), COMPARISON_DELTA);
@@ -144,7 +112,7 @@ abstract class AbstractVehicleTest {
 		assertNotNull(vehicle);
 		VehicleState curState = new VehicleState(0, 0, 0);
 		// calculate time for moving with acceleration
-		double timeOfAcceleratedMoving = getVehicleAcceleration();
+		double timeOfAcceleratedMoving = getVehicleMaxSpeed() / getVehicleAcceleration();
 		// and without acceleration, just a half of the previous time
 		double timeOfNotAcceleratedMoving = timeOfAcceleratedMoving/2;
 		VehicleState newState = vehicle.move(curState, timeOfAcceleratedMoving + timeOfNotAcceleratedMoving);

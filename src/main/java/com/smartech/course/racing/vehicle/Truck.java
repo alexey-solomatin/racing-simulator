@@ -4,7 +4,7 @@
 package com.smartech.course.racing.vehicle;
 
 import com.smartech.course.racing.exception.CreatingVehicleException;
-import com.smartech.course.racing.vehicle.payload.TruckPayload;
+import com.smartech.course.racing.vehicle.payload.SimplePayload;
 
 /**
  * Truck for carrying a payload
@@ -20,7 +20,7 @@ public class Truck extends Transport {
 	 * @param acceleration
 	 */
 	public Truck(String name, double weight, double maxSpeed, double acceleration, double maxPayloadWeight, double payloadWeight) throws CreatingVehicleException {
-		super(name, weight, maxSpeed, acceleration, new TruckPayload(maxPayloadWeight, payloadWeight));		
+		super(name, weight, maxSpeed, acceleration, new SimplePayload(maxPayloadWeight, payloadWeight));		
 	}
 	
 }

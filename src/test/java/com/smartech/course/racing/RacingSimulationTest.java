@@ -3,8 +3,16 @@
  */
 package com.smartech.course.racing;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyDouble;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Collection;
 
@@ -68,6 +76,7 @@ public class RacingSimulationTest {
 		Collection<Raceable> racers = simulation.listRacers();
 		assertNotNull(racers);
 		assertEquals(1, racers.size());
+		assertTrue(racers.iterator().hasNext());
 		assertSame(vehicle, ((Racer)racers.iterator().next()).getVehicle());
 	}
 
@@ -109,6 +118,7 @@ public class RacingSimulationTest {
 		verify(vehicle2, times(5)).move(any(VehicleState.class), anyDouble());
 	}
 	
+	// TODO: refactor with com.smartech.course.racing.RacerTest.mockVehicle() 
 	private Movable mockVehicle() throws MovingVehicleException {
 		Movable vehicle = mock(Movable.class);
 		when(vehicle.move(any(VehicleState.class), anyDouble())).thenAnswer(new Answer<VehicleState>() {

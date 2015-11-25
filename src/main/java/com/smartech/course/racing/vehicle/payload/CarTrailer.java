@@ -20,19 +20,17 @@ public class CarTrailer extends DynamicObject implements PayloadCarriable {
 	 */
 	public CarTrailer(String name, double weight, double maxSpeed, double maxPayloadWeight, double payloadWeight) throws CreatingVehicleException {		
 		super(name, weight, maxSpeed);
-		this.payload = new TruckPayload(maxPayloadWeight, payloadWeight);		
+		this.payload = new SimplePayload(maxPayloadWeight, payloadWeight);		
 	}
 
 	@Override
 	public double getMaxPayloadWeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return payload != null ? payload.getMaxPayloadWeight() : 0;
 	}
 
 	@Override
 	public double getPayloadWeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return payload != null ? payload.getPayloadWeight() : 0;
 	}
 	
 }

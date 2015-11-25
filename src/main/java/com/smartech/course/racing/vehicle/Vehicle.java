@@ -51,6 +51,52 @@ public class Vehicle extends DynamicObject implements Movable {
 		 */
 		public double getPosition() {
 			return position;
+		}
+
+		/* (non-Javadoc)
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			return "VehicleState [time=" + time + ", speed=" + speed + ", position=" + position + "]";
+		}
+
+		/* (non-Javadoc)
+		 * @see java.lang.Object#hashCode()
+		 */
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			long temp;
+			temp = Double.doubleToLongBits(position);
+			result = prime * result + (int) (temp ^ (temp >>> 32));
+			temp = Double.doubleToLongBits(speed);
+			result = prime * result + (int) (temp ^ (temp >>> 32));
+			temp = Double.doubleToLongBits(time);
+			result = prime * result + (int) (temp ^ (temp >>> 32));
+			return result;
+		}
+
+		/* (non-Javadoc)
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			VehicleState other = (VehicleState) obj;
+			if (Double.doubleToLongBits(position) != Double.doubleToLongBits(other.position))
+				return false;
+			if (Double.doubleToLongBits(speed) != Double.doubleToLongBits(other.speed))
+				return false;
+			if (Double.doubleToLongBits(time) != Double.doubleToLongBits(other.time))
+				return false;
+			return true;
 		}			
 	}
 	
@@ -67,6 +113,10 @@ public class Vehicle extends DynamicObject implements Movable {
 	 */
 	@Override
 	public VehicleState move(VehicleState curState, double time) throws MovingVehicleException {
+		if (curState == null)
+			throw new MovingVehicleException("The current vehicle state is not specified.");
+		if (time < 0)
+			throw new MovingVehicleException("The time for moving the vehicle cannot be negative.");
 		return new VehicleState(
 			curState.getTime()+time,
 			calculateNewSpeed(curState, time), 
@@ -83,12 +133,12 @@ public class Vehicle extends DynamicObject implements Movable {
 	}
 	
 	protected double calculateNewPosition(VehicleState curState, double time) throws MovingVehicleException {
-		double timeOfAcceleratedMoving = calculateNewSpeed(curState, time) >= getMaxSpeed() ?
-				(getMaxSpeed() - curState.getSpeed()) / calculateCurrentAcceleration() :
+		double timeOfAcceleratedMoving = calculateNewSpeed(curState, time) >= calculateCurrentMaxSpeed() ?
+				(calculateCurrentMaxSpeed() - curState.getSpeed()) / calculateCurrentAcceleration() :
 				time;				
 		return curState.getPosition() + 
 			moveWithAcceleration(curState.getSpeed(), timeOfAcceleratedMoving) +
-			moveWithoutAcceleration(curState.getSpeed(), time - timeOfAcceleratedMoving);
+			moveWithoutAcceleration(calculateCurrentMaxSpeed(), time - timeOfAcceleratedMoving);
 	}
 	
 	private double moveWithAcceleration(double speed, double time) {		

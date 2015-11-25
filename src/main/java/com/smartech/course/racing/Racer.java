@@ -23,19 +23,19 @@ public class Racer implements Raceable {
 	}
 	
 	public Racer(Movable vehicle, Racing racing) {
-		// TODO Auto-generated constructor stub
+		this.vehicle = vehicle;
+		this.racing = racing;
+		this.vehicleState = new VehicleState();
 	}
 	
 	@Override
 	public void move(double time) throws MovingVehicleException {
-		// TODO Auto-generated method stub
-		
+		vehicleState = vehicle.move(vehicleState, time);
 	}
 	
 	@Override
 	public boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		return vehicleState.getPosition() >= racing.getDistance();
 	}
 
 	/**
@@ -71,6 +71,14 @@ public class Racer implements Raceable {
 	 */
 	public VehicleState getVehicleState() {
 		return vehicleState;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Racer [racing=" + racing + ", vehicle=" + vehicle + ", vehicleState=" + vehicleState + "]";
 	}
 
 }
