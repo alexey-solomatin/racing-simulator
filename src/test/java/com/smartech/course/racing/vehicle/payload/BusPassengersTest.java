@@ -13,6 +13,8 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.smartech.course.racing.exception.CreatingVehicleException;
+
 /**
  * Tests for {@link BusPassengers}
  * @author Alexey Solomatin
@@ -23,7 +25,7 @@ public class BusPassengersTest {
 	private static final long NUMBER_OF_PASSENGERS = 10;
 	private static final double COMPARISION_DELTA = 0.001;
 	
-	private BusPassengers payload = new BusPassengers(MAX_NUMBER_OF_PASSENGERS, NUMBER_OF_PASSENGERS);
+	private BusPassengers payload;
 
 	/**
 	 * @throws java.lang.Exception
@@ -44,6 +46,7 @@ public class BusPassengersTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		payload = new BusPassengers(MAX_NUMBER_OF_PASSENGERS, NUMBER_OF_PASSENGERS);
 	}
 
 	/**
@@ -55,11 +58,40 @@ public class BusPassengersTest {
 
 	/**
 	 * Test method for {@link com.smartech.course.racing.vehicle.payload.BusPassengers#BusPassengers(long, long)}.
+	 * @throws CreatingVehicleException 
 	 */
 	@Test
-	@Ignore
-	public void testBusPassengers() {
-		fail("Not yet implemented");
+	public void testBusPassengersWithCorrectParameters() throws CreatingVehicleException {		
+		new BusPassengers(1, 1);
+	}
+	
+	/**
+	 * Test method for {@link com.smartech.course.racing.vehicle.payload.BusPassengers#BusPassengers(long, long)}.
+	 * @throws CreatingVehicleException 
+	 */
+	@Test(expected=CreatingVehicleException.class)
+	public void testBusPassengersWithNotCorrectMaxNumberOfPassengers() throws CreatingVehicleException {		
+		new BusPassengers(-1, 1);
+		fail("BusPassengers cannot be created with the negative maxNumberOfPassengers value");
+	}
+	
+	/**
+	 * Test method for {@link com.smartech.course.racing.vehicle.payload.BusPassengers#BusPassengers(long, long)}.
+	 * @throws CreatingVehicleException 
+	 */
+	@Test(expected=CreatingVehicleException.class)
+	public void testBusPassengersWithNotCorrectNumberOfPassengers() throws CreatingVehicleException {		
+		new BusPassengers(1, -1);
+		fail("BusPassengers cannot be created with the negative numberOfPassengers value");
+	}
+	/**
+	 * Test method for {@link com.smartech.course.racing.vehicle.payload.BusPassengers#BusPassengers(long, long)}.
+	 * @throws CreatingVehicleException 
+	 */
+	@Test(expected=CreatingVehicleException.class)
+	public void testBusPassengersWithMaxNumberOfPassengersLessThanNumberOfPassengers() throws CreatingVehicleException {		
+		new BusPassengers(1, 2);
+		fail("BusPassengers cannot be created with the maxNumberOfPassengers value less that the numberOfPassengers value");
 	}
 
 	/**

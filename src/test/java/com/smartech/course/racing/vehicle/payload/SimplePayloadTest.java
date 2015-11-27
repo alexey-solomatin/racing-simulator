@@ -13,6 +13,8 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.smartech.course.racing.exception.CreatingVehicleException;
+
 /**
  * Tests for {@link SimplePayload}
  * @author Alexey Solomatin
@@ -23,7 +25,7 @@ public class SimplePayloadTest {
 	private static final double PAYLOAD_WEIGHT = 50;
 	private static final double COMPARISION_DELTA = 0.001;
 	
-	private SimplePayload payload = new SimplePayload(MAX_PAYLOAD_WEIGHT, PAYLOAD_WEIGHT); 
+	private SimplePayload payload; 
 
 	/**
 	 * @throws java.lang.Exception
@@ -44,6 +46,7 @@ public class SimplePayloadTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		payload = new SimplePayload(MAX_PAYLOAD_WEIGHT, PAYLOAD_WEIGHT);
 	}
 
 	/**
@@ -55,11 +58,41 @@ public class SimplePayloadTest {
 
 	/**
 	 * Test method for {@link com.smartech.course.racing.vehicle.payload.SimplePayload#SimplePayload(double, double)}.
+	 * @throws CreatingVehicleException 
 	 */
-	@Test
-	@Ignore
-	public void testSimplePayload() {
-		fail("Not yet implemented");
+	@Test	
+	public void testSimplePayloadWithCorrectParamaters() throws CreatingVehicleException {		
+		new SimplePayload(1, 1);
+	}
+	
+	/**
+	 * Test method for {@link com.smartech.course.racing.vehicle.payload.SimplePayload#SimplePayload(double, double)}.
+	 * @throws CreatingVehicleException 
+	 */
+	@Test(expected=CreatingVehicleException.class)
+	public void testSimplePayloadWithNotCorrectMaxPayloadWeight() throws CreatingVehicleException {		
+		new SimplePayload(-1, 1);
+		fail("SimplePayload cannot be created with the negative maxPayloadWeight value");
+	}
+	
+	/**
+	 * Test method for {@link com.smartech.course.racing.vehicle.payload.SimplePayload#SimplePayload(double, double)}.
+	 * @throws CreatingVehicleException 
+	 */
+	@Test(expected=CreatingVehicleException.class)
+	public void testSimplePayloadWithNotCorrectPayloadWeight() throws CreatingVehicleException {		
+		new SimplePayload(1, -1);
+		fail("SimplePayload cannot be created with the negative payloadWeight value");
+	}
+	
+	/**
+	 * Test method for {@link com.smartech.course.racing.vehicle.payload.SimplePayload#SimplePayload(double, double)}.
+	 * @throws CreatingVehicleException 
+	 */
+	@Test(expected=CreatingVehicleException.class)
+	public void testSimplePayloadWithMaxPayloadWeightLessThanPayloadWeight() throws CreatingVehicleException {		
+		new SimplePayload(1, 2);
+		fail("SimplePayload cannot be created with the payloadWeight value less than the maxPayloadWeightValue");
 	}
 
 	/**

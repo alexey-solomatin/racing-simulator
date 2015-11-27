@@ -25,6 +25,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import com.smartech.course.racing.exception.MovingVehicleException;
+import com.smartech.course.racing.utils.MockUtils;
 import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Vehicle.VehicleState;
 
@@ -71,7 +72,7 @@ public class RacingSimulationTest {
 	@Test
 	public void testRegister() throws MovingVehicleException {		
 		RacingSimulation simulation = new RacingSimulation(new Racing(), 1);
-		Movable vehicle = mockVehicle();
+		Movable vehicle = MockUtils.mockVehicle();
 		simulation.register(vehicle);
 		Collection<Raceable> racers = simulation.listRacers();
 		assertNotNull(racers);
@@ -87,7 +88,7 @@ public class RacingSimulationTest {
 	@Test
 	public void testDeregister() throws MovingVehicleException {		
 		RacingSimulation simulation = new RacingSimulation(new Racing(), 1);
-		Movable vehicle = mockVehicle();
+		Movable vehicle = MockUtils.mockVehicle();
 		simulation.register(vehicle);
 		Collection<Raceable> racers = simulation.listRacers();
 		assertNotNull(racers);
@@ -109,37 +110,13 @@ public class RacingSimulationTest {
 		Racing racing = new Racing("Racing #1", 4.5);		
 		double timeStep = 1;
 		RacingSimulation simulation = new RacingSimulation(racing, timeStep);
-		Movable vehicle1 = mockVehicle();
-		Movable vehicle2 = mockVehicle();
+		Movable vehicle1 = MockUtils.mockVehicle();
+		Movable vehicle2 = MockUtils.mockVehicle();
 		simulation.register(vehicle1);		
 		simulation.register(vehicle2);				
 		simulation.run();
 		verify(vehicle1, times(5)).move(any(VehicleState.class), anyDouble());
 		verify(vehicle2, times(5)).move(any(VehicleState.class), anyDouble());
-	}
-	
-	// TODO: refactor with com.smartech.course.racing.RacerTest.mockVehicle() 
-	private Movable mockVehicle() throws MovingVehicleException {
-		Movable vehicle = mock(Movable.class);
-		when(vehicle.move(any(VehicleState.class), anyDouble())).thenAnswer(new Answer<VehicleState>() {
-			@Override
-			public VehicleState answer(InvocationOnMock invocation) throws Throwable {
-				if (invocation.getArguments() != null &&
-					invocation.getArguments().length == 2 &&
-					invocation.getArguments()[0] instanceof VehicleState &&
-					invocation.getArguments()[0] != null &&
-					invocation.getArguments()[1] instanceof Double &&
-					invocation.getArguments()[1] != null) {
-					VehicleState curVS = invocation.getArgumentAt(0, VehicleState.class);
-					Double timeStep = (Double) invocation.getArgumentAt(1, Double.class);
-					return new VehicleState(curVS.getTime() + timeStep, 
-							curVS.getSpeed() + timeStep, 
-							curVS.getPosition() + timeStep);
-				} else
-					return null;
-			}			
-		});
-		return vehicle;
 	}
 
 }

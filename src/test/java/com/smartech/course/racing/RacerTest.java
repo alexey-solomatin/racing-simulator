@@ -21,6 +21,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import com.smartech.course.racing.exception.MovingVehicleException;
+import com.smartech.course.racing.utils.MockUtils;
 import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Vehicle.VehicleState;
 
@@ -66,7 +67,7 @@ public class RacerTest {
 	@Test
 	public void testMove() throws MovingVehicleException {		
 		Racing racing = new Racing("Racing #1", 4.5);
-		Movable vehicle = mockVehicle();
+		Movable vehicle = MockUtils.mockVehicle();
 		Racer racer = new Racer(vehicle, racing);
 		assertNotNull(racer.getVehicleState());
 		VehicleState beginVehicleState = new VehicleState(0, 0, 0);
@@ -84,7 +85,7 @@ public class RacerTest {
 	@Test
 	public void testIsFinished() throws MovingVehicleException {		
 		Racing racing = new Racing("Racing #1", 4.5);
-		Movable vehicle = mockVehicle();
+		Movable vehicle = MockUtils.mockVehicle();
 		Racer racer = new Racer(vehicle, racing);
 		assertFalse(racer.isFinished());
 		racer.move(4);
@@ -93,28 +94,4 @@ public class RacerTest {
 		assertTrue(racer.isFinished());		
 	}
 	
-	// TODO: refactor with com.smartech.course.racing.RacingSimulationTest.mockVehicle()
-	private Movable mockVehicle() throws MovingVehicleException {
-		Movable vehicle = mock(Movable.class);
-		when(vehicle.move(any(VehicleState.class), anyDouble())).thenAnswer(new Answer<VehicleState>() {
-			@Override
-			public VehicleState answer(InvocationOnMock invocation) throws Throwable {
-				if (invocation.getArguments() != null &&
-					invocation.getArguments().length == 2 &&
-					invocation.getArguments()[0] instanceof VehicleState &&
-					invocation.getArguments()[0] != null &&
-					invocation.getArguments()[1] instanceof Double &&
-					invocation.getArguments()[1] != null) {
-					VehicleState curVS = invocation.getArgumentAt(0, VehicleState.class);
-					Double timeStep = (Double) invocation.getArgumentAt(1, Double.class);
-					return new VehicleState(curVS.getTime() + timeStep, 
-							curVS.getSpeed() + timeStep, 
-							curVS.getPosition() + timeStep);
-				} else
-					return null;
-			}			
-		});
-		return vehicle;
-	}
-
 }
