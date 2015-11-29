@@ -24,6 +24,10 @@ public class DynamicObject {
 	 * 
 	 */
 	public DynamicObject(String name, double weight, double maxSpeed) throws CreatingVehicleException {
+		if (name == null ||
+			weight < 0 ||
+			maxSpeed < 0)
+			throw new CreatingVehicleException("Cannot create DynamicObject with the specified parameters.");
 		this.name = name;
 		this.weight = weight;
 		this.maxSpeed = maxSpeed;

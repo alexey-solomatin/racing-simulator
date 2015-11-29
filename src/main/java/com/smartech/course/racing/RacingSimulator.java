@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.vehicle.Bus;
 import com.smartech.course.racing.vehicle.Car;
@@ -19,6 +22,7 @@ import com.smartech.course.racing.vehicle.Truck;
  *
  */
 public class RacingSimulator {
+	private static Logger log = LoggerFactory.getLogger(RacingSimulator.class);
 
 	/**
 	 * Entry point to the application
@@ -37,6 +41,19 @@ public class RacingSimulator {
 			Racing racing = createRacing();
 			RacingSimulation simulation = new RacingSimulation(racing, 1);
 			vehicles.stream().forEach(simulation::register);
+			Thread printingThread = new Thread(()->{
+				while (true) {
+					log.warn("{}", simulation.listRacers());
+					try {
+						Thread.sleep(1000);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+			printingThread.setDaemon(true);
+			printingThread.start();
 			simulation.run();			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -61,7 +78,7 @@ public class RacingSimulator {
 	}
 	
 	private static Racing createRacing() {
-		return new Racing("Racing #1", 500);				
+		return new Racing("Racing #1", 1000);				
 	}
 
 }

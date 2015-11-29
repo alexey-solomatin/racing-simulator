@@ -72,7 +72,6 @@ public class CarTrailerTest {
 	 * @throws CreatingVehicleException 
 	 */
 	@Test(expected=CreatingVehicleException.class)
-	@Ignore
 	public void testCarTrailerWithNotCorrectName() throws CreatingVehicleException {		
 		new CarTrailer(null, 1, 1, 1, 1);
 		fail("CarTrailer cannot be created with the name value that equals to null");
@@ -82,7 +81,6 @@ public class CarTrailerTest {
 	 * Test method for {@link com.smartech.course.racing.vehicle.payload.CarTrailer#CarTrailer(java.lang.String, double, double, double, double)}.
 	 * @throws CreatingVehicleException 
 	 */
-	@Ignore
 	@Test(expected=CreatingVehicleException.class)	
 	public void testCarTrailerWithNotCorrectWeight() throws CreatingVehicleException {		
 		new CarTrailer("name", -1, 1, 1, 1);
@@ -93,30 +91,41 @@ public class CarTrailerTest {
 	 * Test method for {@link com.smartech.course.racing.vehicle.payload.CarTrailer#CarTrailer(java.lang.String, double, double, double, double)}.
 	 * @throws CreatingVehicleException 
 	 */
-	@Ignore
 	@Test(expected=CreatingVehicleException.class)	
 	public void testCarTrailerWithNotCorrectMaxSpeed() throws CreatingVehicleException {		
 		new CarTrailer("name", 1, -1, 1, 1);
 		fail("CarTrailer cannot be created with the negative maxSpeed value");
 	}
 	
-//	/**
-//	 * Test method for {@link com.smartech.course.racing.vehicle.payload.CarTrailer#CarTrailer(java.lang.String, double, double, double, double)}.
-//	 * @throws CreatingVehicleException 
-//	 */
-//	@Test	
-//	public void testCarTrailerWithCorrectParameters() throws CreatingVehicleException {		
-//		new CarTrailer("name", 1, 1, 1, 1);
-//	}
-//	
-//	/**
-//	 * Test method for {@link com.smartech.course.racing.vehicle.payload.CarTrailer#CarTrailer(java.lang.String, double, double, double, double)}.
-//	 * @throws CreatingVehicleException 
-//	 */
-//	@Test	
-//	public void testCarTrailerWithCorrectParameters() throws CreatingVehicleException {		
-//		new CarTrailer("name", 1, 1, 1, 1);
-//	}
+	/**
+	 * Test method for {@link com.smartech.course.racing.vehicle.payload.CarTrailer#CarTrailer(java.lang.String, double, double, double, double)}.
+	 * @throws CreatingVehicleException 
+	 */
+	@Test(expected=CreatingVehicleException.class)	
+	public void testCarTrailerWithNotCorrectMaxPayloadWeight() throws CreatingVehicleException {		
+		new CarTrailer("name", 1, 1, -1, 1);
+		fail("CarTrailer cannot be created with the negative maxPayloadWeight value");
+	}
+	
+	/**
+	 * Test method for {@link com.smartech.course.racing.vehicle.payload.CarTrailer#CarTrailer(java.lang.String, double, double, double, double)}.
+	 * @throws CreatingVehicleException 
+	 */
+	@Test(expected=CreatingVehicleException.class)	
+	public void testCarTrailerWithNotCorrectPayloadWeight() throws CreatingVehicleException {		
+		new CarTrailer("name", 1, 1, 1, -1);
+		fail("CarTrailer cannot be created with the negative payloadWeight value");
+	}
+	
+	/**
+	 * Test method for {@link com.smartech.course.racing.vehicle.payload.CarTrailer#CarTrailer(java.lang.String, double, double, double, double)}.
+	 * @throws CreatingVehicleException 
+	 */
+	@Test(expected=CreatingVehicleException.class)	
+	public void testCarTrailerWithMaxPayloadWeightLessThanPayloadWeight() throws CreatingVehicleException {		
+		new CarTrailer("name", 1, 1, 1, 2);
+		fail("CarTrailer cannot be created with the maxPayloadWeight value less than the payloadWeightValue");
+	}
 
 	/**
 	 * Test method for {@link com.smartech.course.racing.vehicle.payload.CarTrailer#getMaxPayloadWeight()}.

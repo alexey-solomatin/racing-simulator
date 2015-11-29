@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +25,10 @@ import com.smartech.course.racing.vehicle.Movable;
 public class RacingSimulation {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
+	private static final double RACING_LOGGING_TIME_STEP = 10;
+	
 	private final Racing racing;
-	private Map<Movable, Raceable> racers = new HashMap<>();
+	private Map<Movable, Raceable> racers = new ConcurrentHashMap<>(10, 0.9f, 1);
 	private double timeStep = 1; // in seconds
 
 	/**
@@ -34,15 +38,18 @@ public class RacingSimulation {
 	 * @param timeStep the time step for the simulation
 	 */
 	public RacingSimulation(Racing racing, double timeStep) {
+		log.debug("Creating the racing simulation with {} and time step {} s.", racing, timeStep);
 		this.racing = racing;
 		this.timeStep = timeStep;
 	}
 	
 	public void register(Movable vehicle) {
+		log.debug("Registering the vehicle {}.", vehicle);
 		racers.put(vehicle, new Racer(vehicle, racing));
 	}
 	
 	public void deregister(Movable vehicle) {
+		log.debug("Deregistering the vehicle {}.", vehicle);
 		racers.remove(vehicle);
 	}
 	
@@ -50,12 +57,12 @@ public class RacingSimulation {
 		return racers != null ? Collections.unmodifiableCollection(racers.values()) : null;
 	}
 
-	public void run() throws MovingVehicleException {		
-		log.debug("================= Start State =================");
-		log.debug("{}", racers.values());
-		log.debug("===============================================");
+	public void run() throws MovingVehicleException {
+		log.info("Starting the racing simulation.");
+		log.info("Start racers' state: {}.", racers.values());		
 		Collection<Raceable> activeRacers = new ArrayList<>(racers.values());
 		double printStateTimeStep = 0;
+		double time = 0;
 		while (!activeRacers.isEmpty()) {
 			Collection<Raceable> finished = new ArrayList<>();
 			for (Raceable racer : activeRacers) {
@@ -66,27 +73,24 @@ public class RacingSimulation {
 				}
 			}
 			printStateTimeStep += timeStep;
+			time += timeStep;
 			for (Raceable racer : finished)
 				activeRacers.remove(racer);
 			
-			// printing the state of the race
-			if (printStateTimeStep >= 10 && !activeRacers.isEmpty()) {
-				printStateTimeStep = 0;
-				log.debug("==============================================");
-				log.debug("{}", racers.values());
-				log.debug("==============================================");
+			// printing the state of the race			
+			if (log.isDebugEnabled() && printStateTimeStep >= RACING_LOGGING_TIME_STEP && !activeRacers.isEmpty()) {
+				printStateTimeStep = 0;				
+				log.debug("Racers' state at {} s: {}", time, racers.values());				
 			}
 			
 			try {
 				Thread.sleep((long)(1000*timeStep));
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error("Error during the racing simulation.", e);
 			}
-		}
-		log.debug("================= Finish State =================");
-		log.debug("{}", racers.values());
-		log.debug("================================================");
+		}		
+		log.info("Finish racers' state: {}.", racers.values());
+		log.info("Racing simulation ended.");
 	}
 
 	/**

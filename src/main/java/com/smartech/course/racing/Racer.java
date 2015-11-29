@@ -1,5 +1,7 @@
 package com.smartech.course.racing;
 
+import java.util.Observable;
+
 import com.smartech.course.racing.exception.MovingVehicleException;
 import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Vehicle;
@@ -11,7 +13,7 @@ import com.smartech.course.racing.vehicle.Vehicle.VehicleState;
  * @author Alexey Solomatin
  *
  */
-public class Racer implements Raceable {
+public class Racer extends Observable implements Raceable {
 	private Movable vehicle;
 	private Racing racing;
 	private VehicleState vehicleState;
@@ -31,6 +33,10 @@ public class Racer implements Raceable {
 	@Override
 	public void move(double time) throws MovingVehicleException {
 		vehicleState = vehicle.move(vehicleState, time);
+		if (vehicleState.getPosition() > racing.getDistance())
+			vehicleState = new VehicleState(vehicleState.getTime(), 
+					vehicleState.getSpeed(), 
+					racing.getDistance());
 	}
 	
 	@Override

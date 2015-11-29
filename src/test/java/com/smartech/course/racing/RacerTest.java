@@ -31,6 +31,8 @@ import com.smartech.course.racing.vehicle.Vehicle.VehicleState;
  *
  */
 public class RacerTest {
+	private static final double COMPARISON_DELTA = 0.001;
+	private static final double DISTANCE = 4.5; 
 
 	/**
 	 * @throws java.lang.Exception
@@ -66,7 +68,7 @@ public class RacerTest {
 	 */
 	@Test
 	public void testMove() throws MovingVehicleException {		
-		Racing racing = new Racing("Racing #1", 4.5);
+		Racing racing = new Racing("Racing #1", DISTANCE);
 		Movable vehicle = MockUtils.mockVehicle();
 		Racer racer = new Racer(vehicle, racing);
 		assertNotNull(racer.getVehicleState());
@@ -84,14 +86,15 @@ public class RacerTest {
 	 */
 	@Test
 	public void testIsFinished() throws MovingVehicleException {		
-		Racing racing = new Racing("Racing #1", 4.5);
+		Racing racing = new Racing("Racing #1", DISTANCE);
 		Movable vehicle = MockUtils.mockVehicle();
 		Racer racer = new Racer(vehicle, racing);
 		assertFalse(racer.isFinished());
 		racer.move(4);
 		assertFalse(racer.isFinished());
 		racer.move(1);
-		assertTrue(racer.isFinished());		
+		assertTrue(racer.isFinished());
+		assertEquals(4.5, racer.getVehicleState().getPosition(), COMPARISON_DELTA);
 	}
 	
 }
