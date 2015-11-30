@@ -13,6 +13,10 @@ import com.smartech.course.racing.vehicle.payload.CarTrailer;
  */
 public class Car extends Transport {	
 
+	public Car() {
+		
+	}
+	
 	/**
 	 * @param name
 	 * @param weight

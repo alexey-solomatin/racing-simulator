@@ -5,7 +5,7 @@ import java.util.Observable;
 import com.smartech.course.racing.exception.MovingVehicleException;
 import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Vehicle;
-import com.smartech.course.racing.vehicle.Vehicle.VehicleState;
+import com.smartech.course.racing.vehicle.VehicleState;
 
 /**
  * Racer which refers to {@link Vehicle} and {@link Racing}
@@ -33,10 +33,13 @@ public class Racer extends Observable implements Raceable {
 	@Override
 	public void move(double time) throws MovingVehicleException {
 		vehicleState = vehicle.move(vehicleState, time);
-		if (vehicleState.getPosition() > racing.getDistance())
+		if (vehicleState.getPosition() > racing.getDistance()) {			
 			vehicleState = new VehicleState(vehicleState.getTime(), 
 					vehicleState.getSpeed(), 
 					racing.getDistance());
+			setChanged();
+			notifyObservers();
+		}
 	}
 	
 	@Override

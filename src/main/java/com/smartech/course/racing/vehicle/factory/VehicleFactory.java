@@ -3,6 +3,7 @@
  */
 package com.smartech.course.racing.vehicle.factory;
 
+import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
@@ -10,5 +11,5 @@ import com.smartech.course.racing.vehicle.Vehicle;
  *
  */
 public interface VehicleFactory {
-	Vehicle createVehicle();
+	Vehicle createVehicle() throws CreatingVehicleException;
 }

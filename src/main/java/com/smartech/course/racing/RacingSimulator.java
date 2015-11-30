@@ -15,6 +15,8 @@ import com.smartech.course.racing.vehicle.Bus;
 import com.smartech.course.racing.vehicle.Car;
 import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Truck;
+import com.smartech.course.racing.vehicle.builder.racing.ConsoleRacingBuilder;
+import com.smartech.course.racing.vehicle.builder.racing.RacingBuilder;
 
 /**
  * Racing Simulator application
@@ -22,7 +24,8 @@ import com.smartech.course.racing.vehicle.Truck;
  *
  */
 public class RacingSimulator {
-	private static Logger log = LoggerFactory.getLogger(RacingSimulator.class);
+	private final int PRINTING_THREAD_TIME_STEP = 5000;
+	private Logger log = LoggerFactory.getLogger(RacingSimulator.class);
 
 	/**
 	 * Entry point to the application
@@ -36,31 +39,48 @@ public class RacingSimulator {
 		 * 4) Run simulation.
 		 * 5) Print results to the screen.
 		 */
-		try {
-			Collection<Movable> vehicles = createVehicles();
-			Racing racing = createRacing();
-			RacingSimulation simulation = new RacingSimulation(racing, 1);
-			vehicles.stream().forEach(simulation::register);
-			Thread printingThread = new Thread(()->{
-				while (true) {
-					log.warn("{}", simulation.listRacers());
-					try {
-						Thread.sleep(1000);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			});
-			printingThread.setDaemon(true);
-			printingThread.start();
-			simulation.run();			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}		
+		new RacingSimulator().run();		
 	}
 	
-	private static Collection<Movable> createVehicles() throws CreatingVehicleException {
+	private void run() {
+		try {
+			log.info("Starting Racing Simulator.");
+			showInfo();						
+			Collection<Movable> vehicles = createVehicles();
+			Racing racing = createRacing();
+			RacingSimulation simulation = createRacingSimulation(racing, vehicles);
+			startPrintingThread(simulation);
+			simulation.run();			
+		} catch (Throwable e) {
+			log.error("Fatal error.", e);
+			System.err.println("Fatal error: " + e.getMessage());
+		} finally {
+			log.info("Racing Simulator stopped.");
+		}
+	}
+	
+	private void showInfo() {
+		System.console().printf("Racing Simulator is an application for simulation of races.\n\n");
+		System.console().printf("Create a new simulation, specify the race details, add some racers, start the simulation, and enjoy the process!\n\n");
+	}
+	
+	
+	private void startPrintingThread(final RacingSimulation simulation) {
+		Thread printingThread = new Thread(()->{
+			while (true) {
+				System.out.println(simulation.listRacers());
+				try {
+					Thread.sleep(PRINTING_THREAD_TIME_STEP);
+				} catch (Exception e) {
+					log.error("Error in the printing thread.", e);
+				}
+			}
+		});
+		printingThread.setDaemon(true);
+		printingThread.start();
+	}
+	
+	private Collection<Movable> createVehicles() throws CreatingVehicleException {
 		List<Movable> vehicles = new ArrayList<>();
 		// 700 kg, 50 m/s, 10 m/s^2
 		Car car = new Car("Car", 700, 50, 10); 
@@ -77,8 +97,20 @@ public class RacingSimulator {
 		return vehicles;
 	}
 	
-	private static Racing createRacing() {
-		return new Racing("Racing #1", 1000);				
+	private Racing createRacing() {
+		log.debug("Creating a new racing.");
+		System.console().printf("Please specify the details about the racing you want to simulate.\n");
+		RacingBuilder racingBuilder = new ConsoleRacingBuilder();
+		Racing racing = racingBuilder.name().distance().build();
+		log.debug("Created racing: {}.", racing);
+		return racing;
+	}
+	
+	private RacingSimulation createRacingSimulation(Racing racing, Collection<Movable> vehicles) {
+		RacingSimulation simulation = new RacingSimulation(racing, 1);
+		vehicles.stream().forEach(simulation::register);
+		simulation.addRacerEventCallback((racer, event) -> System.out.println("Racer " + racer + " finished!"));
+		return simulation;
 	}
 
 }

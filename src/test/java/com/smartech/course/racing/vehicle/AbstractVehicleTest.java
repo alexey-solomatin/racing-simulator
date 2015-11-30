@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.exception.MovingVehicleException;
-import com.smartech.course.racing.vehicle.Vehicle.VehicleState;
 
 /**
  * Basic class for tests for vehicles

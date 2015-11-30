@@ -13,6 +13,10 @@ import com.smartech.course.racing.vehicle.payload.PayloadCarriable;
  */
 public abstract class Transport extends Vehicle {
 	protected PayloadCarriable payload;
+	
+	public Transport() {
+		
+	}
 
 	/**
 	 * @param name

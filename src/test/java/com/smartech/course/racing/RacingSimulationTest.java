@@ -27,7 +27,7 @@ import org.mockito.stubbing.Answer;
 import com.smartech.course.racing.exception.MovingVehicleException;
 import com.smartech.course.racing.utils.MockUtils;
 import com.smartech.course.racing.vehicle.Movable;
-import com.smartech.course.racing.vehicle.Vehicle.VehicleState;
+import com.smartech.course.racing.vehicle.VehicleState;
 
 /**
  * Tests for {@link RacingSimulation}

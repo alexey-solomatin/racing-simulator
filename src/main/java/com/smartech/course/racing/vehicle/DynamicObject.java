@@ -19,6 +19,10 @@ public class DynamicObject {
 	protected String name;
 	protected double weight;
 	protected double maxSpeed;
+	
+	public DynamicObject() {
+		
+	}
 
 	/**
 	 * 

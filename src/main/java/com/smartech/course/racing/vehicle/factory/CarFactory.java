@@ -3,8 +3,11 @@
  */
 package com.smartech.course.racing.vehicle.factory;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 
+import com.smartech.course.racing.vehicle.Car;
 import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
@@ -17,7 +20,8 @@ public class CarFactory extends AbstractVehicleFactory {
 	 * @param properties
 	 */
 	public CarFactory(Properties properties) {
-		super(properties);
+		// TODO: implement proper creation
+		super(properties, Car::new, new HashMap<>());
 	}
 
 	/* (non-Javadoc)
@@ -26,7 +30,7 @@ public class CarFactory extends AbstractVehicleFactory {
 	@Override
 	protected Vehicle createVehicleInstance() {
 		// TODO Auto-generated method stub
-		return null;
+		return new Car();
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +39,7 @@ public class CarFactory extends AbstractVehicleFactory {
 	@Override
 	protected void initializeVehicle(Vehicle vehicle) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

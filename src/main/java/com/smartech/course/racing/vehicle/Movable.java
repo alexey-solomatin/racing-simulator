@@ -1,7 +1,6 @@
 package com.smartech.course.racing.vehicle;
 
 import com.smartech.course.racing.exception.MovingVehicleException;
-import com.smartech.course.racing.vehicle.Vehicle.VehicleState;
 
 /**
  * Movable vehicles should implement this interface
