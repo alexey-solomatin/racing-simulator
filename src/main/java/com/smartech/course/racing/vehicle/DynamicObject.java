@@ -13,16 +13,12 @@ import com.smartech.course.racing.exception.CreatingVehicleException;
  * @author Alexey Solomatin
  *
  */
-public class DynamicObject {
+public class DynamicObject implements Cloneable {
 	protected Logger log = LoggerFactory.getLogger(getClass());
 	
 	protected String name;
 	protected double weight;
 	protected double maxSpeed;
-	
-	public DynamicObject() {
-		
-	}
 
 	/**
 	 * 
@@ -81,6 +77,16 @@ public class DynamicObject {
 	
 	protected double calculateCurrentMaxSpeed() {
 		return maxSpeed;
+	}
+	
+	// TODO: test it
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		try {
+			return new DynamicObject(name, weight, maxSpeed);
+		} catch (CreatingVehicleException e) {
+			throw new CloneNotSupportedException(e.getMessage());
+		}
 	}
 
 }

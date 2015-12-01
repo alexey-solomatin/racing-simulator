@@ -6,17 +6,24 @@ package com.smartech.course.racing;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.smartech.course.racing.builder.racing.RacingBuilderImpl;
+import com.smartech.course.racing.builder.racing.RacingBuilder;
+import com.smartech.course.racing.builder.simulation.RacingSimulationBuilder;
+import com.smartech.course.racing.builder.simulation.RacingSimulationBuilderImpl;
+import com.smartech.course.racing.builder.vehicle.BusBuilderImpl;
+import com.smartech.course.racing.dialog.DoubleValueConsoleDialog;
+import com.smartech.course.racing.dialog.StringValueConsoleDialog;
 import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.vehicle.Bus;
 import com.smartech.course.racing.vehicle.Car;
 import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Truck;
-import com.smartech.course.racing.vehicle.builder.racing.ConsoleRacingBuilder;
-import com.smartech.course.racing.vehicle.builder.racing.RacingBuilder;
 
 /**
  * Racing Simulator application
@@ -45,10 +52,8 @@ public class RacingSimulator {
 	private void run() {
 		try {
 			log.info("Starting Racing Simulator.");
-			showInfo();						
-			Collection<Movable> vehicles = createVehicles();
-			Racing racing = createRacing();
-			RacingSimulation simulation = createRacingSimulation(racing, vehicles);
+			showInfo();																		
+			RacingSimulation simulation = simulation().get();			
 			startPrintingThread(simulation);
 			simulation.run();			
 		} catch (Throwable e) {
@@ -64,7 +69,7 @@ public class RacingSimulator {
 		System.console().printf("Create a new simulation, specify the race details, add some racers, start the simulation, and enjoy the process!\n\n");
 	}
 	
-	
+	// The new RacersPositionInformer class should be created instead of this method
 	private void startPrintingThread(final RacingSimulation simulation) {
 		Thread printingThread = new Thread(()->{
 			while (true) {
@@ -80,37 +85,64 @@ public class RacingSimulator {
 		printingThread.start();
 	}
 	
-	private Collection<Movable> createVehicles() throws CreatingVehicleException {
+	private List<Movable> vehicles() {
 		List<Movable> vehicles = new ArrayList<>();
-		// 700 kg, 50 m/s, 10 m/s^2
-		Car car = new Car("Car", 700, 50, 10); 
-		vehicles.add(car);
-		
-		// 1000 kg, 30 m/s, 5 m/s^2, 0/40 passengers
-		Bus bus = new Bus("Bus", 1000, 30, 5, 40, 0); 
-		vehicles.add(bus);
-		
-		// 1500 kg, 40 m/s, 7 m/s^2, 0/500 kg
-		Truck truck = new Truck("Truck", 1500, 40, 7, 500, 0);
-		vehicles.add(truck);
+		try {
+			// 700 kg, 50 m/s, 10 m/s^2			
+			Car car = new Car("Car", 700, 50, 10); 
+			vehicles.add(car);
+			
+			// 1000 kg, 30 m/s, 5 m/s^2, 0/40 passengers
+			/*new BusBuilderImpl()
+				.name("Bus")
+				.weight(1000)
+				.maxSpeed(30)
+				.acceleration(5)
+				.maxNumberOfPassengers(40)
+				.numberOfPassengers(0)
+				.get();*/
+				
+			Bus bus = new Bus("Bus", 1000, 30, 5, 40, 0); 
+			vehicles.add(bus);
+			
+			// 1500 kg, 40 m/s, 7 m/s^2, 0/500 kg
+			Truck truck = new Truck("Truck", 1500, 40, 7, 500, 0);
+			vehicles.add(truck);
+		} catch (CreatingVehicleException e) {
+			log.error("Error during creation of vehicles.", e);
+		}
 		
 		return vehicles;
 	}
 	
-	private Racing createRacing() {
+	private Supplier<Racing> racing() {
 		log.debug("Creating a new racing.");
-		System.console().printf("Please specify the details about the racing you want to simulate.\n");
-		RacingBuilder racingBuilder = new ConsoleRacingBuilder();
-		Racing racing = racingBuilder.name().distance().build();
-		log.debug("Created racing: {}.", racing);
-		return racing;
+		System.console().printf("Please specify the details about the racing you want to simulate.\n");		
+		return new RacingBuilderImpl()
+			.name(new StringValueConsoleDialog(
+				"Please enter the racing name: ", 
+				"You've entered the incorrect name.", 
+				(s) -> !StringUtils.isBlank(s)))
+			.distance(new DoubleValueConsoleDialog(
+				"Please enter the racing distance in meters: ", 
+				"You've entered the incorrect distance.", 
+				(d) -> d>0));							
 	}
 	
-	private RacingSimulation createRacingSimulation(Racing racing, Collection<Movable> vehicles) {
-		RacingSimulation simulation = new RacingSimulation(racing, 1);
-		vehicles.stream().forEach(simulation::register);
-		simulation.addRacerEventCallback((racer, event) -> System.out.println("Racer " + racer + " finished!"));
-		return simulation;
+	private Supplier<Double> timeStep() {
+		log.debug("Specifying the simulation time step.");
+		return new DoubleValueConsoleDialog(
+			"Please enter the simlation time step in seconds: ", 
+			"You've entered the incorrect simulation time step.", 
+			(t) -> t > 0);			
+	}
+	
+	private Supplier<RacingSimulation> simulation() {		
+		return new RacingSimulationBuilderImpl()
+			.racing(racing())
+			.vehicles(this::vehicles)
+			.timeStep(timeStep())
+			.racerEventCallback((racer, event) -> System.out.println("Racer " + racer + " finished!"));			
 	}
 
 }

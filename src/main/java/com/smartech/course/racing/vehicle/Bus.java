@@ -11,8 +11,7 @@ import com.smartech.course.racing.vehicle.payload.BusPassengers;
  * @author Alexey Solomatin
  *
  */
-public class Bus extends Transport {
-		
+public class Bus extends Transport<BusPassengers> {
 
 	/**
 	 * @param name
@@ -24,6 +23,8 @@ public class Bus extends Transport {
 		super(name, weight, maxSpeed, acceleration, new BusPassengers(maxNumberOfPassengers, numberOfPassengers));		
 	}
 
+	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -33,4 +34,14 @@ public class Bus extends Transport {
 				+ ", payload=" + payload + "]";
 	}
 
+	// TODO: test it
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		try {
+			return new Bus(name, weight, maxSpeed, acceleration, payload.getMaxNumberOfPassengers(), payload.getNumberOfPassengers());
+		} catch (Exception e) {
+			throw new CloneNotSupportedException(e.getMessage());
+		}
+	}
+	
 }

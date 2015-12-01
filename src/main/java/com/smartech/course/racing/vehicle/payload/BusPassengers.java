@@ -13,8 +13,8 @@ import com.smartech.course.racing.exception.CreatingVehicleException;
 public class BusPassengers implements PayloadCarriable {
 	public final static double PASSENGER_WEIGHT = 70;
 	
-	private final long maxNumberOfPassengers;
-	private final long numberOfPassengers;
+	private long maxNumberOfPassengers;
+	private long numberOfPassengers;
 
 	/**
 	 * @throws CreatingVehicleException 
@@ -52,6 +52,34 @@ public class BusPassengers implements PayloadCarriable {
 	public String toString() {
 		return "BusPassengers [maxNumberOfPassengers=" + maxNumberOfPassengers + ", numberOfPassengers="
 				+ numberOfPassengers + "]";
+	}
+
+	/**
+	 * @return the maxNumberOfPassengers
+	 */
+	public long getMaxNumberOfPassengers() {
+		return maxNumberOfPassengers;
+	}
+
+	/**
+	 * @param maxNumberOfPassengers the maxNumberOfPassengers to set
+	 */
+	public void setMaxNumberOfPassengers(long maxNumberOfPassengers) {
+		this.maxNumberOfPassengers = maxNumberOfPassengers;
+	}
+
+	/**
+	 * @return the numberOfPassengers
+	 */
+	public long getNumberOfPassengers() {
+		return numberOfPassengers;
+	}
+
+	/**
+	 * @param numberOfPassengers the numberOfPassengers to set
+	 */
+	public void setNumberOfPassengers(long numberOfPassengers) {
+		this.numberOfPassengers = numberOfPassengers;
 	}
 
 }

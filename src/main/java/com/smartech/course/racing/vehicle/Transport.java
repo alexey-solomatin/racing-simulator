@@ -11,12 +11,8 @@ import com.smartech.course.racing.vehicle.payload.PayloadCarriable;
  * @author Alexey Solomatin
  *
  */
-public abstract class Transport extends Vehicle {
-	protected PayloadCarriable payload;
-	
-	public Transport() {
-		
-	}
+public class Transport<PayloadType extends PayloadCarriable> extends Vehicle {
+	protected PayloadType payload;
 
 	/**
 	 * @param name
@@ -24,7 +20,7 @@ public abstract class Transport extends Vehicle {
 	 * @param maxSpeed 
 	 * @param acceleration
 	 */
-	public Transport(String name, double weight, double maxSpeed, double acceleration, PayloadCarriable payload) throws CreatingVehicleException {
+	public Transport(String name, double weight, double maxSpeed, double acceleration, PayloadType payload) throws CreatingVehicleException {
 		super(name, weight, maxSpeed, acceleration);
 		this.payload = payload;
 	}	
@@ -34,6 +30,14 @@ public abstract class Transport extends Vehicle {
 		return payload != null
 			? acceleration * weight / (weight + payload.getPayloadWeight())
 			: acceleration;		
-	}		
-
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		try {
+			return new Transport<PayloadType>(name, weight, maxSpeed, acceleration, payload);
+		} catch (CreatingVehicleException e) {
+			throw new CloneNotSupportedException(e.getMessage());
+		}
+	}
 }

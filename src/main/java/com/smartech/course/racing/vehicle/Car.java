@@ -11,11 +11,7 @@ import com.smartech.course.racing.vehicle.payload.CarTrailer;
  * @author Alexey Solomatin
  *
  */
-public class Car extends Transport {	
-
-	public Car() {
-		
-	}
+public class Car extends Transport<CarTrailer> {	
 	
 	/**
 	 * @param name
@@ -54,5 +50,17 @@ public class Car extends Transport {
 	public String toString() {
 		return "Car [name=" + name + ", weight=" + weight + ", acceleration=" + acceleration + ", maxSpeed=" + maxSpeed
 				+ ", payload=" + payload + "]";
-	}	
+	}
+	
+	// TODO: test it
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		try {
+			Car car = new Car(name, weight, maxSpeed, acceleration);
+			car.addTrailer((CarTrailer)payload);
+			return car;
+		} catch (Exception e) {
+			throw new CloneNotSupportedException(e.getMessage());
+		}
+	}
 }

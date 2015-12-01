@@ -11,7 +11,7 @@ import com.smartech.course.racing.vehicle.payload.SimplePayload;
  * @author Alexey Solomatin
  *
  */
-public class Truck extends Transport {	
+public class Truck extends Transport<SimplePayload> {
 
 	/**
 	 * @param name
@@ -30,6 +30,16 @@ public class Truck extends Transport {
 	public String toString() {
 		return "Truck [name=" + name + ", weight=" + weight + ", acceleration=" + acceleration + ", maxSpeed="
 				+ maxSpeed + ", payload=" + payload + "]";
+	}
+	
+	// TODO: test it
+	@Override
+	public Object clone() throws CloneNotSupportedException {		
+		try {
+			return new Truck(name, weight, maxSpeed, acceleration, payload.getMaxPayloadWeight(), payload.getPayloadWeight());
+		} catch (Exception e) {
+			throw new CloneNotSupportedException(e.getMessage());
+		}
 	}
 	
 }
