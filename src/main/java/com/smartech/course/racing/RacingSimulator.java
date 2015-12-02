@@ -4,7 +4,6 @@
 package com.smartech.course.racing;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -13,17 +12,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.smartech.course.racing.builder.racing.RacingBuilderImpl;
-import com.smartech.course.racing.builder.racing.RacingBuilder;
-import com.smartech.course.racing.builder.simulation.RacingSimulationBuilder;
 import com.smartech.course.racing.builder.simulation.RacingSimulationBuilderImpl;
 import com.smartech.course.racing.builder.vehicle.BusBuilderImpl;
+import com.smartech.course.racing.builder.vehicle.CarBuilderImpl;
+import com.smartech.course.racing.builder.vehicle.TruckBuilderImpl;
 import com.smartech.course.racing.dialog.DoubleValueConsoleDialog;
 import com.smartech.course.racing.dialog.StringValueConsoleDialog;
 import com.smartech.course.racing.exception.CreatingVehicleException;
-import com.smartech.course.racing.vehicle.Bus;
-import com.smartech.course.racing.vehicle.Car;
 import com.smartech.course.racing.vehicle.Movable;
-import com.smartech.course.racing.vehicle.Truck;
 
 /**
  * Racing Simulator application
@@ -89,25 +85,35 @@ public class RacingSimulator {
 		List<Movable> vehicles = new ArrayList<>();
 		try {
 			// 700 kg, 50 m/s, 10 m/s^2			
-			Car car = new Car("Car", 700, 50, 10); 
-			vehicles.add(car);
+//			Car car = new Car("Car", 700, 50, 10);			
+			vehicles.add(new CarBuilderImpl()
+				.name("Car")
+				.weight(700)
+				.maxSpeed(50)
+				.acceleration(10)
+				.get());
 			
-			// 1000 kg, 30 m/s, 5 m/s^2, 0/40 passengers
-			/*new BusBuilderImpl()
+			// 1000 kg, 30 m/s, 5 m/s^2, 0/40 passengers							
+//			Bus bus = new Bus("Bus", 1000, 30, 5, 40, 0); 
+			vehicles.add(new BusBuilderImpl()
 				.name("Bus")
 				.weight(1000)
 				.maxSpeed(30)
 				.acceleration(5)
 				.maxNumberOfPassengers(40)
 				.numberOfPassengers(0)
-				.get();*/
-				
-			Bus bus = new Bus("Bus", 1000, 30, 5, 40, 0); 
-			vehicles.add(bus);
+				.get());
 			
 			// 1500 kg, 40 m/s, 7 m/s^2, 0/500 kg
-			Truck truck = new Truck("Truck", 1500, 40, 7, 500, 0);
-			vehicles.add(truck);
+//			Truck truck = new Truck("Truck", 1500, 40, 7, 500, 0);			
+			vehicles.add(new TruckBuilderImpl()
+				.name("Truck")
+				.weight(1500)
+				.maxSpeed(40)
+				.acceleration(7)
+				.maxPayloadWeight(500)
+				.payloadWeight(0)
+				.get());
 		} catch (CreatingVehicleException e) {
 			log.error("Error during creation of vehicles.", e);
 		}

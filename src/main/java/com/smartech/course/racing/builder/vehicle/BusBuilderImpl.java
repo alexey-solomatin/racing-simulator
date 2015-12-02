@@ -10,7 +10,7 @@ import com.smartech.course.racing.vehicle.Bus;
  * @author Alexey Solomatin
  *
  */
-public class BusBuilderImpl extends AbstractVehicleBuilder<Bus> implements BusBuilder {
+public class BusBuilderImpl extends AbstractVehicleBuilder<Bus, BusBuilder> implements BusBuilder {
 
 	private long maxNumberOfPassengers;
 	private long numberOfPassengers;
@@ -39,7 +39,7 @@ public class BusBuilderImpl extends AbstractVehicleBuilder<Bus> implements BusBu
 	 * @see com.smartech.course.racing.builder.vehicle.BusBuilder#maxNumberOfPassengers(long)
 	 */
 	@Override
-	public BusBuilder maxNumberOfPassengers(long maxNumberOfPassengers) {
+	public BusBuilder maxNumberOfPassengers(long maxNumberOfPassengers) throws CreatingVehicleException {
 		this.maxNumberOfPassengers = maxNumberOfPassengers;
 		return this;
 	}
@@ -48,7 +48,7 @@ public class BusBuilderImpl extends AbstractVehicleBuilder<Bus> implements BusBu
 	 * @see com.smartech.course.racing.builder.vehicle.BusBuilder#numberOfPassengers(long)
 	 */
 	@Override
-	public BusBuilder numberOfPassengers(long numberOfPassengers) {
+	public BusBuilder numberOfPassengers(long numberOfPassengers) throws CreatingVehicleException {
 		this.numberOfPassengers = numberOfPassengers;
 		return this;
 	}

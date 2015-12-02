@@ -5,13 +5,12 @@ package com.smartech.course.racing.builder.vehicle;
 
 import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.vehicle.Truck;
-import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
  * @author Alexey Solomatin
  *
  */
-public class TruckBuilderImpl extends AbstractVehicleBuilder<Truck> implements TruckBuilder {
+public class TruckBuilderImpl extends AbstractVehicleBuilder<Truck, TruckBuilder> implements TruckBuilder {
 
 	private double maxPayloadWeight;
 	private double payloadWeight;
@@ -37,13 +36,13 @@ public class TruckBuilderImpl extends AbstractVehicleBuilder<Truck> implements T
 	}
 
 	@Override
-	public TruckBuilder maxPayloadWeight(double maxPayloadWeight) {
-		this.maxPayloadWeight = payloadWeight;
+	public TruckBuilder maxPayloadWeight(double maxPayloadWeight) throws CreatingVehicleException {
+		this.maxPayloadWeight = maxPayloadWeight;
 		return this;
 	}
 
 	@Override
-	public TruckBuilder payloadWeight(double payloadWeight) {
+	public TruckBuilder payloadWeight(double payloadWeight) throws CreatingVehicleException {
 		this.payloadWeight = payloadWeight;
 		return this;
 	}

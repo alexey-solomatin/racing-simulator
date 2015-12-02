@@ -7,13 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.smartech.course.racing.vehicle.Vehicle;
-import com.smartech.course.racing.vehicle.payload.PayloadCarriable;
 
 /**
  * @author Alexey Solomatin
  *
  */
-public abstract class AbstractVehicleBuilder<VehicleType extends Vehicle> implements VehicleBuilder<VehicleType> {
+public abstract class AbstractVehicleBuilder<VehicleType extends Vehicle, VehicleBuilderType extends VehicleBuilder<?, ?>> implements VehicleBuilder<VehicleType, VehicleBuilderType> {
 	protected Logger log = LoggerFactory.getLogger(getClass());
 	
 	protected String name;
@@ -32,36 +31,36 @@ public abstract class AbstractVehicleBuilder<VehicleType extends Vehicle> implem
 	 * @see com.smartech.course.racing.builder.vehicle.VehicleBuilder#name(java.lang.String)
 	 */
 	@Override
-	public VehicleBuilder<VehicleType> name(String name) {
+	public VehicleBuilderType name(String name) {
 		this.name = name;
-		return this;
+		return (VehicleBuilderType) this;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.smartech.course.racing.builder.vehicle.VehicleBuilder#weight(double)
 	 */
 	@Override
-	public VehicleBuilder<VehicleType> weight(double weight) {
+	public VehicleBuilderType weight(double weight) {
 		this.weight = weight;
-		return this;
+		return (VehicleBuilderType) this;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.smartech.course.racing.builder.vehicle.VehicleBuilder#maxSpeed(double)
 	 */
 	@Override
-	public VehicleBuilder<VehicleType> maxSpeed(double maxSpeed) {
+	public VehicleBuilderType maxSpeed(double maxSpeed) {
 		this.maxSpeed = maxSpeed;
-		return this;
+		return (VehicleBuilderType) this;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.smartech.course.racing.builder.vehicle.VehicleBuilder#acceleration(double)
 	 */
 	@Override
-	public VehicleBuilder<VehicleType> acceleration(double acceleration) {
+	public VehicleBuilderType acceleration(double acceleration) {
 		this.acceleration = acceleration;
-		return this;
+		return (VehicleBuilderType) this;
 	}	
 
 }

@@ -3,9 +3,6 @@
  */
 package com.smartech.course.racing.builder.racing;
 
-import java.util.Scanner;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

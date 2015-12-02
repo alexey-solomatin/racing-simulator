@@ -5,28 +5,28 @@ package com.smartech.course.racing.builder.vehicle;
 
 import java.util.function.Supplier;
 
+import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.vehicle.Vehicle;
-import com.smartech.course.racing.vehicle.payload.PayloadCarriable;
 
 /**
  * @author Alexey Solomatin
  *
  */
-public interface VehicleBuilder<VehicleType extends Vehicle> extends Supplier<VehicleType> {
-	VehicleBuilder<VehicleType> name(String name);
-	default VehicleBuilder<VehicleType> name(Supplier<String> nameSupplier) {
+public interface VehicleBuilder<VehicleType extends Vehicle, VehicleBuilderType extends VehicleBuilder<?, ?>> extends Supplier<VehicleType> {
+	VehicleBuilderType name(String name) throws CreatingVehicleException;
+	default VehicleBuilderType name(Supplier<String> nameSupplier) throws CreatingVehicleException {
 		return name(nameSupplier.get());
 	}
-	VehicleBuilder<VehicleType> weight(double weight);
-	default VehicleBuilder<VehicleType> weight(Supplier<Double> weightSupplier) {
+	VehicleBuilderType weight(double weight) throws CreatingVehicleException;
+	default VehicleBuilderType weight(Supplier<Double> weightSupplier) throws CreatingVehicleException {
 		return weight(weightSupplier.get());
 	}
-	VehicleBuilder<VehicleType> maxSpeed(double maxSpeed);
-	default VehicleBuilder<VehicleType> maxSpeed(Supplier<Double> maxSpeedSupplier) {
+	VehicleBuilderType maxSpeed(double maxSpeed) throws CreatingVehicleException;
+	default VehicleBuilderType maxSpeed(Supplier<Double> maxSpeedSupplier) throws CreatingVehicleException {
 		return maxSpeed(maxSpeedSupplier.get());
 	}
-	VehicleBuilder<VehicleType> acceleration(double acceleration);
-	default VehicleBuilder<VehicleType> acceleration(Supplier<Double> accelerationSupplier) {
+	VehicleBuilderType acceleration(double acceleration) throws CreatingVehicleException;
+	default VehicleBuilderType acceleration(Supplier<Double> accelerationSupplier) throws CreatingVehicleException {
 		return acceleration(accelerationSupplier.get());
 	}	
 }
