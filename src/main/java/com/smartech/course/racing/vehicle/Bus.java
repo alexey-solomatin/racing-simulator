@@ -33,15 +33,5 @@ public class Bus extends Transport<BusPassengers> {
 		return "Bus [name=" + name + ", weight=" + weight + ", acceleration=" + acceleration + ", maxSpeed=" + maxSpeed
 				+ ", payload=" + payload + "]";
 	}
-
-	// TODO: test it
-	@Override
-	public Object clone() throws CloneNotSupportedException {
-		try {
-			return new Bus(name, weight, maxSpeed, acceleration, payload.getMaxNumberOfPassengers(), payload.getNumberOfPassengers());
-		} catch (Exception e) {
-			throw new CloneNotSupportedException(e.getMessage());
-		}
-	}
 	
 }

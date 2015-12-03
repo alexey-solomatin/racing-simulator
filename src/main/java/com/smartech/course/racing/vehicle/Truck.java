@@ -32,14 +32,4 @@ public class Truck extends Transport<SimplePayload> {
 				+ maxSpeed + ", payload=" + payload + "]";
 	}
 	
-	// TODO: test it
-	@Override
-	public Object clone() throws CloneNotSupportedException {		
-		try {
-			return new Truck(name, weight, maxSpeed, acceleration, payload.getMaxPayloadWeight(), payload.getPayloadWeight());
-		} catch (Exception e) {
-			throw new CloneNotSupportedException(e.getMessage());
-		}
-	}
-	
 }

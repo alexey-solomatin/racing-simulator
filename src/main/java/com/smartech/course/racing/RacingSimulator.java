@@ -16,8 +16,8 @@ import com.smartech.course.racing.builder.simulation.RacingSimulationBuilderImpl
 import com.smartech.course.racing.builder.vehicle.BusBuilderImpl;
 import com.smartech.course.racing.builder.vehicle.CarBuilderImpl;
 import com.smartech.course.racing.builder.vehicle.TruckBuilderImpl;
-import com.smartech.course.racing.dialog.DoubleValueConsoleDialog;
-import com.smartech.course.racing.dialog.StringValueConsoleDialog;
+import com.smartech.course.racing.dialog.simple.DoubleValueConsoleDialog;
+import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
 import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.vehicle.Movable;
 
@@ -91,7 +91,7 @@ public class RacingSimulator {
 				.weight(700)
 				.maxSpeed(50)
 				.acceleration(10)
-				.get());
+				.build());
 			
 			// 1000 kg, 30 m/s, 5 m/s^2, 0/40 passengers							
 //			Bus bus = new Bus("Bus", 1000, 30, 5, 40, 0); 
@@ -102,7 +102,7 @@ public class RacingSimulator {
 				.acceleration(5)
 				.maxNumberOfPassengers(40)
 				.numberOfPassengers(0)
-				.get());
+				.build());
 			
 			// 1500 kg, 40 m/s, 7 m/s^2, 0/500 kg
 //			Truck truck = new Truck("Truck", 1500, 40, 7, 500, 0);			
@@ -113,7 +113,7 @@ public class RacingSimulator {
 				.acceleration(7)
 				.maxPayloadWeight(500)
 				.payloadWeight(0)
-				.get());
+				.build());
 		} catch (CreatingVehicleException e) {
 			log.error("Error during creation of vehicles.", e);
 		}

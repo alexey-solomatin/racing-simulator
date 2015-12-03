@@ -21,18 +21,10 @@ public class TruckBuilderImpl extends AbstractVehicleBuilder<Truck, TruckBuilder
 	public TruckBuilderImpl() {
 		// TODO Auto-generated constructor stub
 	}
-
-	/* (non-Javadoc)
-	 * @see java.util.function.Supplier#get()
-	 */
+	
 	@Override
-	public Truck get() {
-		try {
-			return new Truck(name, weight, maxSpeed, acceleration, maxPayloadWeight, payloadWeight);
-		} catch (CreatingVehicleException e) {
-			log.error("Error during creation of a truck", e);
-			return null;
-		}
+	public Truck build() throws CreatingVehicleException {
+		return new Truck(name, weight, maxSpeed, acceleration, maxPayloadWeight, payloadWeight);
 	}
 
 	@Override

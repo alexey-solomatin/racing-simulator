@@ -75,15 +75,4 @@ public class Vehicle extends DynamicObject implements Movable {
 	public void setAcceleration(double acceleration) {
 		this.acceleration = acceleration;
 	}
-	
-	// TODO: test it
-	// TODO: refactor with using the super.clone() method
-	@Override
-	public Object clone() throws CloneNotSupportedException {
-		try {
-			return new Vehicle(name, weight, maxSpeed, acceleration);
-		} catch (CreatingVehicleException e) {
-			throw new CloneNotSupportedException(e.getMessage());
-		}
-	}
 }

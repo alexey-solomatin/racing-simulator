@@ -31,13 +31,5 @@ public class Transport<PayloadType extends PayloadCarriable> extends Vehicle {
 			? acceleration * weight / (weight + payload.getPayloadWeight())
 			: acceleration;		
 	}
-	
-	@Override
-	public Object clone() throws CloneNotSupportedException {
-		try {
-			return new Transport<PayloadType>(name, weight, maxSpeed, acceleration, payload);
-		} catch (CreatingVehicleException e) {
-			throw new CloneNotSupportedException(e.getMessage());
-		}
-	}
+
 }

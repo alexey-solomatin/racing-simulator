@@ -21,19 +21,11 @@ public class BusBuilderImpl extends AbstractVehicleBuilder<Bus, BusBuilder> impl
 	public BusBuilderImpl() {
 		// TODO Auto-generated constructor stub
 	}
-
-	/* (non-Javadoc)
-	 * @see java.util.function.Supplier#get()
-	 */
+	
 	@Override
-	public Bus get() {
-		try {
-			return new Bus(name, weight, maxSpeed, acceleration, maxNumberOfPassengers, numberOfPassengers);
-		} catch (CreatingVehicleException e) {
-			log.error("Error during creation of a bus.", e);
-			return null;
-		}
-	}
+	public Bus build() throws CreatingVehicleException {
+		return new Bus(name, weight, maxSpeed, acceleration, maxNumberOfPassengers, numberOfPassengers);
+	}	
 
 	/* (non-Javadoc)
 	 * @see com.smartech.course.racing.builder.vehicle.BusBuilder#maxNumberOfPassengers(long)

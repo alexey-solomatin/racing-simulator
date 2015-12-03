@@ -21,22 +21,13 @@ public class CarBuilderImpl extends AbstractVehicleBuilder<Car, CarBuilder> impl
 	public CarBuilderImpl() {
 		// TODO Auto-generated constructor stub
 	}
-
 	
-	/* (non-Javadoc)
-	 * @see java.util.function.Supplier#get()
-	 */
 	@Override
-	public Car get() {
-		try {
-			Car car = new Car(name, weight, maxSpeed, acceleration);
-			if (trailer != null)
-				car.addTrailer(trailer);
-			return car;
-		} catch (CreatingVehicleException e) {
-			log.error("Error during creation of a car.", e);
-			return null;
-		}
+	public Car build() throws CreatingVehicleException {
+		Car car = new Car(name, weight, maxSpeed, acceleration);
+		if (trailer != null)
+			car.addTrailer(trailer);
+		return car;
 	}
 
 	/* (non-Javadoc)
@@ -46,6 +37,6 @@ public class CarBuilderImpl extends AbstractVehicleBuilder<Car, CarBuilder> impl
 	public CarBuilder trailer(CarTrailer carTrailer) throws CreatingVehicleException {
 		this.trailer = carTrailer;
 		return this;
-	}
+	}	
 
 }

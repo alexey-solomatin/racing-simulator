@@ -12,7 +12,7 @@ import com.smartech.course.racing.vehicle.Vehicle;
  * @author Alexey Solomatin
  *
  */
-public interface VehicleBuilder<VehicleType extends Vehicle, VehicleBuilderType extends VehicleBuilder<?, ?>> extends Supplier<VehicleType> {
+public interface VehicleBuilder<VehicleType extends Vehicle, VehicleBuilderType extends VehicleBuilder<?, ?>> {
 	VehicleBuilderType name(String name) throws CreatingVehicleException;
 	default VehicleBuilderType name(Supplier<String> nameSupplier) throws CreatingVehicleException {
 		return name(nameSupplier.get());
@@ -28,5 +28,6 @@ public interface VehicleBuilder<VehicleType extends Vehicle, VehicleBuilderType 
 	VehicleBuilderType acceleration(double acceleration) throws CreatingVehicleException;
 	default VehicleBuilderType acceleration(Supplier<Double> accelerationSupplier) throws CreatingVehicleException {
 		return acceleration(accelerationSupplier.get());
-	}	
+	}
+	VehicleType build() throws CreatingVehicleException;
 }

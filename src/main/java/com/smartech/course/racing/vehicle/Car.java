@@ -52,15 +52,4 @@ public class Car extends Transport<CarTrailer> {
 				+ ", payload=" + payload + "]";
 	}
 	
-	// TODO: test it
-	@Override
-	public Object clone() throws CloneNotSupportedException {
-		try {
-			Car car = new Car(name, weight, maxSpeed, acceleration);
-			car.addTrailer((CarTrailer)payload);
-			return car;
-		} catch (Exception e) {
-			throw new CloneNotSupportedException(e.getMessage());
-		}
-	}
 }
