@@ -3,6 +3,7 @@
  */
 package com.smartech.course.racing;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -18,8 +19,9 @@ import com.smartech.course.racing.builder.vehicle.CarBuilderImpl;
 import com.smartech.course.racing.builder.vehicle.TruckBuilderImpl;
 import com.smartech.course.racing.dialog.simple.DoubleValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
-import com.smartech.course.racing.exception.CreatingVehicleException;
-import com.smartech.course.racing.vehicle.Movable;
+import com.smartech.course.racing.dialog.vehicle.BusCreationConsoleDialog;
+import com.smartech.course.racing.dialog.vehicle.CarCreationConsoleDialog;
+import com.smartech.course.racing.dialog.vehicle.TruckCreationConsoleDialog;
 import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
@@ -27,9 +29,10 @@ import com.smartech.course.racing.vehicle.Vehicle;
  * @author Alexey Solomatin
  *
  */
-public class RacingSimulator {
-	private final int PRINTING_THREAD_TIME_STEP = 5000;
+public class RacingSimulator {	
 	private Logger log = LoggerFactory.getLogger(RacingSimulator.class);
+	private final int PRINTING_THREAD_TIME_STEP = 5;
+	
 
 	/**
 	 * Entry point to the application
@@ -50,9 +53,16 @@ public class RacingSimulator {
 		try {
 			log.info("Starting Racing Simulator.");
 			showInfo();																		
-			RacingSimulation simulation = simulation();			
-			startPrintingThread(simulation);
-			simulation.run();			
+			RacingSimulation simulation = simulation();	
+			RacingSimulationConsoleInformer informer = new RacingSimulationConsoleInformer(simulation, Duration.ofSeconds(PRINTING_THREAD_TIME_STEP));
+			System.console().readLine("Plese press <ENTER> for starting the racing simulation.");
+			informer.start();
+			System.console().printf("Start state:\n");
+			RacingSimulationConsole.getInstance().printRacingSimulationState(simulation);
+			simulation.run();
+			informer.stop();
+			System.console().printf("Finish state:\n");
+			RacingSimulationConsole.getInstance().printRacingSimulationState(simulation);
 		} catch (Throwable e) {
 			log.error("Fatal error.", e);
 			System.err.println("Fatal error: " + e.getMessage());
@@ -64,68 +74,53 @@ public class RacingSimulator {
 	private void showInfo() {
 		System.console().printf("Racing Simulator is an application for simulation of races.\n\n");
 		System.console().printf("Create a new simulation, specify the race details, add some racers, start the simulation, and enjoy the process!\n\n");
-	}
-	
-	// The new RacersPositionInformer class should be created instead of this method
-	private void startPrintingThread(final RacingSimulation simulation) {
-		Thread printingThread = new Thread(()->{
-			while (true) {
-				// TODO: fix the synchronization issue here!
-				System.console().printf("------------------------------------\n");
-				simulation.listRacers().stream().forEach(this::printRacerPosition);
-				System.console().printf("------------------------------------\n");
-				try {
-					Thread.sleep(PRINTING_THREAD_TIME_STEP);
-				} catch (Exception e) {
-					log.error("Error in the printing thread.", e);
-				}
-			}
-		});
-		printingThread.setDaemon(true);
-		printingThread.start();
-	}
-	
-	private void printRacerPosition(Racer racer) {
-		System.console().printf("%-10s at position: \t%.1f/%.1f meters\n", racer.getVehicle().getName(), racer.getVehicleState().getPosition(), racer.getRacing().getDistance());
-	}
+	}	
 	
 	private List<Vehicle> vehicles() {
+		log.debug("Creating vehicles.");
 		List<Vehicle> vehicles = new ArrayList<>();
-		try {
-			// 700 kg, 50 m/s, 10 m/s^2			
-//			Car car = new Car("Car", 700, 50, 10);			
-			vehicles.add(new CarBuilderImpl()
-				.name("Car")
-				.weight(700)
-				.maxSpeed(50)
-				.acceleration(10)
-				.build());
-			
-			// 1000 kg, 30 m/s, 5 m/s^2, 0/40 passengers							
-//			Bus bus = new Bus("Bus", 1000, 30, 5, 40, 0); 
-			vehicles.add(new BusBuilderImpl()
-				.name("Bus")
-				.weight(1000)
-				.maxSpeed(30)
-				.acceleration(5)
-				.maxNumberOfPassengers(40)
-				.numberOfPassengers(0)
-				.build());
-			
-			// 1500 kg, 40 m/s, 7 m/s^2, 0/500 kg
-//			Truck truck = new Truck("Truck", 1500, 40, 7, 500, 0);			
-			vehicles.add(new TruckBuilderImpl()
-				.name("Truck")
-				.weight(1500)
-				.maxSpeed(40)
-				.acceleration(7)
-				.maxPayloadWeight(500)
-				.payloadWeight(0)
-				.build());
-		} catch (CreatingVehicleException e) {
-			log.error("Error during creation of vehicles.", e);
+		while (true) {
+			String creationDecision = System.console().readLine("Would you like to create a new vehicle? (yes/no) ");
+			log.debug("User decision of creation: {}.", creationDecision);
+			if (!creationDecision.equalsIgnoreCase("yes") && !creationDecision.equalsIgnoreCase("y"))
+				break;
+			String vehicleType = System.console().readLine("What type of a vehicle do you want to create? (car/truck/bus) ");
+			log.debug("A new vehicle should be {}.", vehicleType);
+			try {
+				Vehicle vehicle = null;
+				switch (vehicleType.toLowerCase()) {
+					case "car":
+					case "c":
+						log.debug("Creating a car.");
+						vehicle = new CarCreationConsoleDialog(new CarBuilderImpl()).get();
+						break;
+					case "truck":
+					case "t":
+						log.debug("Creating a truck.");
+						vehicle = new TruckCreationConsoleDialog(new TruckBuilderImpl()).get();
+						break;
+					case "bus":
+					case "b":
+						log.debug("Creating a bus.");
+						vehicle = new BusCreationConsoleDialog(new BusBuilderImpl()).get();
+						break;
+					default:
+						log.error("Unknown vehicle type: {}.", vehicleType);
+						System.console().printf("I don't know how to create it!\n");
+						break;
+				}
+				log.debug("Created vehicle: {}.", vehicle);
+				if (vehicle != null)
+					vehicles.add(vehicle);
+			} catch (RuntimeException e) {
+				log.error("Error during vehicle creation.", e);
+				System.console().printf("Error during vehicle creation!\n");
+				throw e;
+			} catch (Exception e) {
+				log.error("Error during vehicle creation.", e);
+				System.console().printf("Error during vehicle creation!\n");
+			}
 		}
-		
 		return vehicles;
 	}
 	
@@ -155,9 +150,9 @@ public class RacingSimulator {
 	private RacingSimulation simulation() {		
 		return new RacingSimulationBuilderImpl()
 			.racing(racing())
-			.vehicles(this::vehicles)
 			.timeStep(timeStep())
-			.racerEventCallback((racer, event) -> System.console().printf("%s finished!", racer.getVehicle().getName()))
+			.vehicles(vehicles())			
+			.racerEventCallback(RacingSimulationConsole.getInstance()::onRacerEvent)
 			.build();			
 	}
 

@@ -3,12 +3,7 @@
  */
 package com.smartech.course.racing.config;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.function.Function;
 
@@ -23,10 +18,9 @@ public class AppProperties {
 	private static final String PROPERTY_SOURCE = "/racing-simulator.properties";
 
 	private AppProperties() {		
-		try {
-			URL url = getClass().getResource(PROPERTY_SOURCE);					
+		try (InputStream propertieStream = getClass().getResourceAsStream(PROPERTY_SOURCE)) {							
 			properties = new Properties();
-			properties.load(new FileInputStream(new File(url.toURI())));	        			
+			properties.load(propertieStream);	        			
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to load " + PROPERTY_SOURCE + " file", e);
 		}

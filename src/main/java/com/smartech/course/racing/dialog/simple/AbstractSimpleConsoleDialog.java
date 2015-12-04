@@ -39,13 +39,13 @@ public abstract class AbstractSimpleConsoleDialog<ValueType> implements Supplier
 			try {
 				ValueType value = convertor.apply(System.console().readLine(questionMessage));
 				if (!validator.test(value)) {
-					System.console().printf(errorMessage + ". Please try again.\n\n");
+					System.console().printf(errorMessage + " Please try again.\n\n");
 					continue;
 				}
 				return value;
 			} catch (Exception e) {
 				log.error("Error in the dialog.", e);
-				System.console().printf(errorMessage + ". Please try again.\n\n");
+				System.console().printf(errorMessage + " Please try again.\n\n");
 			}
 		}		
 	}

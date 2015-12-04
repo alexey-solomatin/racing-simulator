@@ -6,10 +6,8 @@ package com.smartech.course.racing.dialog.vehicle;
 import org.apache.commons.lang3.StringUtils;
 
 import com.smartech.course.racing.builder.vehicle.BusBuilder;
-import com.smartech.course.racing.builder.vehicle.BusBuilderImpl;
 import com.smartech.course.racing.config.AppProperties;
 import com.smartech.course.racing.dialog.ConsoleDialog;
-import com.smartech.course.racing.dialog.simple.DoubleValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.LongValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
 import com.smartech.course.racing.vehicle.Bus;
@@ -22,7 +20,7 @@ public class BusCreationConsoleDialog extends ConsoleDialog<Bus> {
 	private BusBuilder busBuilder;
 
 	public BusCreationConsoleDialog(BusBuilder busBuilder) {
-		super("Please create a new bus", "The error occured during bus creation.");
+		super("Please create a new bus.", "The error occured during bus creation.");
 		this.busBuilder = busBuilder;
 	}
 

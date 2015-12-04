@@ -22,7 +22,7 @@ public class TruckCreationConsoleDialog extends ConsoleDialog<Truck> {
 	
 
 	public TruckCreationConsoleDialog(TruckBuilder truckBuilder) {
-		super("Please create a new truck", "The error occured during truck creation.");
+		super("Please create a new truck.", "The error occured during truck creation.");
 		this.truckBuilder = truckBuilder;
 	}
 
@@ -40,7 +40,7 @@ public class TruckCreationConsoleDialog extends ConsoleDialog<Truck> {
 			.payloadWeight(new DoubleValueConsoleDialog(
 				"Please enter the payload weight in kilograms: ", 
 				"You've entered the incorrect payload weight.", 
-				(d) -> d>0))
+				(d) -> d>=0))
 			.build();
 	}
 

@@ -10,7 +10,6 @@ import java.util.function.Supplier;
 import com.smartech.course.racing.Racer;
 import com.smartech.course.racing.Racing;
 import com.smartech.course.racing.RacingSimulation;
-import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Vehicle;
 
 /**

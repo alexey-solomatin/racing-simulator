@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.smartech.course.racing;
+package com.smartech.course.racing.config;
 
 /**
  * @author Alexey Solomatin

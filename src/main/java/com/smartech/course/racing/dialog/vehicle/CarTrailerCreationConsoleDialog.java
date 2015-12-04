@@ -22,7 +22,7 @@ public class CarTrailerCreationConsoleDialog extends ConsoleDialog<CarTrailer> {
 	 * @param errorMessage
 	 */
 	public CarTrailerCreationConsoleDialog() {
-		super("Please create a new car trailer", "The error occured during car trailer creation.");
+		super("Please create a new car trailer.", "The error occured during car trailer creation.");
 	}
 
 	/* (non-Javadoc)
@@ -41,7 +41,7 @@ public class CarTrailerCreationConsoleDialog extends ConsoleDialog<CarTrailer> {
 			new DoubleValueConsoleDialog(
 				"Please enter the payload weight in kilograms: ", 
 				"You've entered the incorrect payload weight.", 
-				(d) -> d>0).get());		
+				(d) -> d>=0).get());		
 	}
 
 }

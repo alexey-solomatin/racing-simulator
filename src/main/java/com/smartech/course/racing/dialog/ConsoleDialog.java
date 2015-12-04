@@ -3,17 +3,10 @@
  */
 package com.smartech.course.racing.dialog;
 
-import java.util.List;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.smartech.course.racing.dialog.simple.DoubleValueConsoleDialog;
-import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
-import com.smartech.course.racing.exception.CreatingVehicleException;
 
 /**
  * @author Alexey Solomatin
@@ -38,12 +31,16 @@ public abstract class ConsoleDialog<ResultType> implements Supplier<ResultType> 
 	@Override
 	public ResultType get() {
 		while (true) {
-			System.console().printf(questionMessage);
+			System.console().printf(questionMessage + "\n");
 			try {
 				return buildObject();
+			}  catch (RuntimeException e) {
+				log.error("Fatal error.", e);
+				System.console().printf("Fatal error during vehicle creation!\n");
+				throw e;
 			} catch (Exception e) {
 				log.error(errorMessage, e);
-				System.console().printf(errorMessage + " Please try again.");
+				System.console().printf(errorMessage + " Please try again.\n");
 			}
 		}
 	}

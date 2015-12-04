@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.smartech.course.racing.exception.MovingVehicleException;
-import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
@@ -28,12 +27,13 @@ import com.smartech.course.racing.vehicle.Vehicle;
 public class RacingSimulation implements Observer {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
-	private static final double RACING_LOGGING_TIME_STEP = 10;
+	private static final double RACING_LOGGING_TIME_STEP = 1;
 	
 	private final Racing racing;
 	private Map<Vehicle, Racer> racers = new ConcurrentHashMap<>(10, 0.9f, 1);
 	private double timeStep = 1; // in seconds
-	private List<BiConsumer<Racer, Object>> racerEventCallbacks = new ArrayList<>(); 
+	private List<BiConsumer<Racer, Object>> racerEventCallbacks = new ArrayList<>();
+	private Collection<Raceable> activeRacers;
 
 	/**
 	 * Creates the racing simulating with specified racing and time step.
@@ -80,7 +80,7 @@ public class RacingSimulation implements Observer {
 	public void run() throws MovingVehicleException {
 		log.info("Starting the racing simulation.");
 		log.info("Start racers' state: {}.", racers.values());		
-		Collection<Raceable> activeRacers = new ArrayList<>(racers.values());
+		activeRacers = new ArrayList<>(racers.values());
 		double printStateTimeStep = 0;
 		double time = 0;
 		while (!activeRacers.isEmpty()) {
@@ -141,5 +141,9 @@ public class RacingSimulation implements Observer {
 	public void update(Observable racer, Object event) {
 		for (BiConsumer<Racer, Object> callback : racerEventCallbacks)
 			callback.accept((Racer)racer, event);
+	}
+	
+	public boolean isRunning() {
+		return activeRacers != null && !activeRacers.isEmpty();
 	}
 }
