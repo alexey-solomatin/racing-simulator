@@ -20,6 +20,7 @@ import com.smartech.course.racing.dialog.simple.DoubleValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
 import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.vehicle.Movable;
+import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
  * Racing Simulator application
@@ -49,7 +50,7 @@ public class RacingSimulator {
 		try {
 			log.info("Starting Racing Simulator.");
 			showInfo();																		
-			RacingSimulation simulation = simulation().get();			
+			RacingSimulation simulation = simulation();			
 			startPrintingThread(simulation);
 			simulation.run();			
 		} catch (Throwable e) {
@@ -69,7 +70,10 @@ public class RacingSimulator {
 	private void startPrintingThread(final RacingSimulation simulation) {
 		Thread printingThread = new Thread(()->{
 			while (true) {
-				System.out.println(simulation.listRacers());
+				// TODO: fix the synchronization issue here!
+				System.console().printf("------------------------------------\n");
+				simulation.listRacers().stream().forEach(this::printRacerPosition);
+				System.console().printf("------------------------------------\n");
 				try {
 					Thread.sleep(PRINTING_THREAD_TIME_STEP);
 				} catch (Exception e) {
@@ -81,8 +85,12 @@ public class RacingSimulator {
 		printingThread.start();
 	}
 	
-	private List<Movable> vehicles() {
-		List<Movable> vehicles = new ArrayList<>();
+	private void printRacerPosition(Racer racer) {
+		System.console().printf("%-10s at position: \t%.1f/%.1f meters\n", racer.getVehicle().getName(), racer.getVehicleState().getPosition(), racer.getRacing().getDistance());
+	}
+	
+	private List<Vehicle> vehicles() {
+		List<Vehicle> vehicles = new ArrayList<>();
 		try {
 			// 700 kg, 50 m/s, 10 m/s^2			
 //			Car car = new Car("Car", 700, 50, 10);			
@@ -121,7 +129,7 @@ public class RacingSimulator {
 		return vehicles;
 	}
 	
-	private Supplier<Racing> racing() {
+	private Racing racing() {
 		log.debug("Creating a new racing.");
 		System.console().printf("Please specify the details about the racing you want to simulate.\n");		
 		return new RacingBuilderImpl()
@@ -132,23 +140,25 @@ public class RacingSimulator {
 			.distance(new DoubleValueConsoleDialog(
 				"Please enter the racing distance in meters: ", 
 				"You've entered the incorrect distance.", 
-				(d) -> d>0));							
+				(d) -> d>0))
+			.build();							
 	}
 	
 	private Supplier<Double> timeStep() {
 		log.debug("Specifying the simulation time step.");
 		return new DoubleValueConsoleDialog(
-			"Please enter the simlation time step in seconds: ", 
+			"Please enter the simulation time step in seconds: ", 
 			"You've entered the incorrect simulation time step.", 
 			(t) -> t > 0);			
 	}
 	
-	private Supplier<RacingSimulation> simulation() {		
+	private RacingSimulation simulation() {		
 		return new RacingSimulationBuilderImpl()
 			.racing(racing())
 			.vehicles(this::vehicles)
 			.timeStep(timeStep())
-			.racerEventCallback((racer, event) -> System.out.println("Racer " + racer + " finished!"));			
+			.racerEventCallback((racer, event) -> System.console().printf("%s finished!", racer.getVehicle().getName()))
+			.build();			
 	}
 
 }

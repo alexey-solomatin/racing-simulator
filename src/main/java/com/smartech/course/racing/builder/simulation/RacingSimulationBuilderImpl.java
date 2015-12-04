@@ -14,6 +14,7 @@ import com.smartech.course.racing.Racer;
 import com.smartech.course.racing.Racing;
 import com.smartech.course.racing.RacingSimulation;
 import com.smartech.course.racing.vehicle.Movable;
+import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
  * @author Alexey Solomatin
@@ -23,7 +24,7 @@ public class RacingSimulationBuilderImpl implements RacingSimulationBuilder {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	private Racing racing;
-	private List<Movable> vehicles;
+	private List<Vehicle> vehicles;
 	private List<BiConsumer<Racer, Object>> callbacks = new ArrayList<>();
 	private Double timeStep;
 	
@@ -38,7 +39,7 @@ public class RacingSimulationBuilderImpl implements RacingSimulationBuilder {
 	}
 	
 	@Override
-	public RacingSimulationBuilder vehicles(List<Movable> vehicles) {
+	public RacingSimulationBuilder vehicles(List<Vehicle> vehicles) {
 		this.vehicles = vehicles;
 		return this;		
 	}
@@ -59,7 +60,7 @@ public class RacingSimulationBuilderImpl implements RacingSimulationBuilder {
 	 * @see com.smartech.course.racing.builder.simulation.RacingSimulationBuilder#build()
 	 */
 	@Override
-	public RacingSimulation get() {
+	public RacingSimulation build() {
 		RacingSimulation simulation = new RacingSimulation(racing, timeStep);
 		vehicles.stream().forEach(simulation::register);
 		callbacks.stream().forEach(simulation::addRacerEventCallback);

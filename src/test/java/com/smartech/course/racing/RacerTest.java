@@ -17,6 +17,7 @@ import org.junit.Test;
 import com.smartech.course.racing.exception.MovingVehicleException;
 import com.smartech.course.racing.utils.MockUtils;
 import com.smartech.course.racing.vehicle.Movable;
+import com.smartech.course.racing.vehicle.Vehicle;
 import com.smartech.course.racing.vehicle.VehicleState;
 
 /**
@@ -63,7 +64,7 @@ public class RacerTest {
 	@Test
 	public void testMove() throws MovingVehicleException {		
 		Racing racing = new Racing("Racing #1", DISTANCE);
-		Movable vehicle = MockUtils.mockVehicle();
+		Vehicle vehicle = MockUtils.mockVehicle();
 		Racer racer = new Racer(vehicle, racing);
 		assertNotNull(racer.getVehicleState());
 		VehicleState beginVehicleState = new VehicleState(0, 0, 0);
@@ -81,7 +82,7 @@ public class RacerTest {
 	@Test
 	public void testIsFinished() throws MovingVehicleException {		
 		Racing racing = new Racing("Racing #1", DISTANCE);
-		Movable vehicle = MockUtils.mockVehicle();
+		Vehicle vehicle = MockUtils.mockVehicle();
 		Racer racer = new Racer(vehicle, racing);
 		assertFalse(racer.isFinished());
 		racer.move(4);

@@ -14,7 +14,7 @@ import com.smartech.course.racing.vehicle.VehicleState;
  *
  */
 public class Racer extends Observable implements Raceable {
-	private Movable vehicle;
+	private Vehicle vehicle;
 	private Racing racing;
 	private VehicleState vehicleState;
 	
@@ -24,7 +24,7 @@ public class Racer extends Observable implements Raceable {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Racer(Movable vehicle, Racing racing) {
+	public Racer(Vehicle vehicle, Racing racing) {
 		this.vehicle = vehicle;
 		this.racing = racing;
 		this.vehicleState = new VehicleState();
@@ -50,14 +50,14 @@ public class Racer extends Observable implements Raceable {
 	/**
 	 * @return the vehicle
 	 */
-	public Movable getVehicle() {
+	public Vehicle getVehicle() {
 		return vehicle;
 	}
 
 	/**
 	 * @param vehicle the vehicle to set
 	 */
-	public void setVehicle(Movable vehicle) {
+	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
 	}
 

@@ -18,9 +18,10 @@ import org.slf4j.LoggerFactory;
 
 import com.smartech.course.racing.exception.MovingVehicleException;
 import com.smartech.course.racing.vehicle.Movable;
+import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
- * Simulation of a racing of some vehicles
+ * Simulation of a racing of some vehicles 
  * @author Alexey Solomatin
  *
  */
@@ -30,7 +31,7 @@ public class RacingSimulation implements Observer {
 	private static final double RACING_LOGGING_TIME_STEP = 10;
 	
 	private final Racing racing;
-	private Map<Movable, Racer> racers = new ConcurrentHashMap<>(10, 0.9f, 1);
+	private Map<Vehicle, Racer> racers = new ConcurrentHashMap<>(10, 0.9f, 1);
 	private double timeStep = 1; // in seconds
 	private List<BiConsumer<Racer, Object>> racerEventCallbacks = new ArrayList<>(); 
 
@@ -46,14 +47,14 @@ public class RacingSimulation implements Observer {
 		this.timeStep = timeStep;
 	}
 	
-	public void register(Movable vehicle) {
+	public void register(Vehicle vehicle) {
 		log.debug("Registering the vehicle {}.", vehicle);
 		Racer racer = new Racer(vehicle, racing);
 		racer.addObserver(this);
 		racers.put(vehicle, racer);
 	}
 	
-	public void deregister(Movable vehicle) {
+	public void deregister(Vehicle vehicle) {
 		log.debug("Deregistering the vehicle {}.", vehicle);
 		Racer racer = racers.get(vehicle);
 		if (racer != null)
@@ -61,7 +62,7 @@ public class RacingSimulation implements Observer {
 		racers.remove(vehicle);
 	}
 	
-	public Collection<Raceable> listRacers() {
+	public Collection<Racer> listRacers() {
 		return racers != null ? Collections.unmodifiableCollection(racers.values()) : null;
 	}
 	
@@ -75,6 +76,7 @@ public class RacingSimulation implements Observer {
 		racerEventCallbacks.remove(callback);
 	}
 
+	// TODO: fix the synchronization issues here!
 	public void run() throws MovingVehicleException {
 		log.info("Starting the racing simulation.");
 		log.info("Start racers' state: {}.", racers.values());		

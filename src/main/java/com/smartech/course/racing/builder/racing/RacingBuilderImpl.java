@@ -38,7 +38,7 @@ public class RacingBuilderImpl implements RacingBuilder {
 	}
 
 	@Override
-	public Racing get() {
+	public Racing build() {
 		return new Racing(name, distance);
 	}
 

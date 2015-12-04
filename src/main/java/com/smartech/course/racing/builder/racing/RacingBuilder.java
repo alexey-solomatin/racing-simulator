@@ -11,7 +11,7 @@ import com.smartech.course.racing.Racing;
  * @author Alexey Solomatin
  *
  */
-public interface RacingBuilder extends Supplier<Racing> {
+public interface RacingBuilder {
 	RacingBuilder name(String name);
 	default RacingBuilder name(Supplier<String> nameSupplier) {
 		return name(nameSupplier.get());
@@ -19,5 +19,6 @@ public interface RacingBuilder extends Supplier<Racing> {
 	RacingBuilder distance(double distance);
 	default RacingBuilder distance(Supplier<Double> distanceSupplier) {
 		return distance(distanceSupplier.get());
-	}	
+	}
+	Racing build();
 }

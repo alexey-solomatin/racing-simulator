@@ -11,12 +11,13 @@ import com.smartech.course.racing.Racer;
 import com.smartech.course.racing.Racing;
 import com.smartech.course.racing.RacingSimulation;
 import com.smartech.course.racing.vehicle.Movable;
+import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
  * @author Alexey Solomatin
  *
  */
-public interface RacingSimulationBuilder extends Supplier<RacingSimulation> {
+public interface RacingSimulationBuilder {
 	RacingSimulationBuilder racing(Racing racing);
 	default RacingSimulationBuilder racing(Supplier<Racing> racingSupplier) {
 		return racing(racingSupplier.get());
@@ -25,12 +26,13 @@ public interface RacingSimulationBuilder extends Supplier<RacingSimulation> {
 	default RacingSimulationBuilder timeStep(Supplier<Double> timeStepSupplier) {
 		return timeStep(timeStepSupplier.get());
 	}	
-	RacingSimulationBuilder vehicles(List<Movable> vehicles);		
-	default RacingSimulationBuilder vehicles(Supplier<List<Movable>> vehiclesSupplier) {
+	RacingSimulationBuilder vehicles(List<Vehicle> vehicles);		
+	default RacingSimulationBuilder vehicles(Supplier<List<Vehicle>> vehiclesSupplier) {
 		return vehicles(vehiclesSupplier.get());
 	}
 	RacingSimulationBuilder racerEventCallback(BiConsumer<Racer, Object> callback);
 	default RacingSimulationBuilder racerEventCallback(Supplier<BiConsumer<Racer, Object>> callbackSupplier) {
 		return racerEventCallback(callbackSupplier.get());
-	}	
+	}
+	RacingSimulation build();
 }

@@ -5,8 +5,6 @@ package com.smartech.course.racing.builder.vehicle;
 
 import java.util.function.Supplier;
 
-import com.smartech.course.racing.exception.CreatingVehicleException;
-
 /**
  * @author Alexey Solomatin
  *

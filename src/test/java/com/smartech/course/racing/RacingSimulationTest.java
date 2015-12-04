@@ -23,6 +23,7 @@ import org.junit.Test;
 import com.smartech.course.racing.exception.MovingVehicleException;
 import com.smartech.course.racing.utils.MockUtils;
 import com.smartech.course.racing.vehicle.Movable;
+import com.smartech.course.racing.vehicle.Vehicle;
 import com.smartech.course.racing.vehicle.VehicleState;
 
 /**
@@ -68,9 +69,9 @@ public class RacingSimulationTest {
 	@Test
 	public void testRegister() throws MovingVehicleException {		
 		RacingSimulation simulation = new RacingSimulation(new Racing(), 1);
-		Movable vehicle = MockUtils.mockVehicle();
+		Vehicle vehicle = MockUtils.mockVehicle();
 		simulation.register(vehicle);
-		Collection<Raceable> racers = simulation.listRacers();
+		Collection<Racer> racers = simulation.listRacers();
 		assertNotNull(racers);
 		assertEquals(1, racers.size());
 		assertTrue(racers.iterator().hasNext());
@@ -84,9 +85,9 @@ public class RacingSimulationTest {
 	@Test
 	public void testDeregister() throws MovingVehicleException {		
 		RacingSimulation simulation = new RacingSimulation(new Racing(), 1);
-		Movable vehicle = MockUtils.mockVehicle();
+		Vehicle vehicle = MockUtils.mockVehicle();
 		simulation.register(vehicle);
-		Collection<Raceable> racers = simulation.listRacers();
+		Collection<Racer> racers = simulation.listRacers();
 		assertNotNull(racers);
 		assertEquals(1, racers.size());
 		assertSame(vehicle, ((Racer)racers.iterator().next()).getVehicle());
@@ -106,8 +107,8 @@ public class RacingSimulationTest {
 		Racing racing = new Racing("Racing #1", 4.5);		
 		double timeStep = 1;
 		RacingSimulation simulation = new RacingSimulation(racing, timeStep);
-		Movable vehicle1 = MockUtils.mockVehicle();
-		Movable vehicle2 = MockUtils.mockVehicle();
+		Vehicle vehicle1 = MockUtils.mockVehicle();
+		Vehicle vehicle2 = MockUtils.mockVehicle();
 		simulation.register(vehicle1);		
 		simulation.register(vehicle2);				
 		simulation.run();
