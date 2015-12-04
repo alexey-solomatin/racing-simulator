@@ -44,11 +44,12 @@ public class RacingSimulationConsole {
 	public synchronized void onRacerEvent(Racer racer, Object event) {
 		log.debug("onRacerEvent({}, {})", racer, event);
 		System.console().printf("%s finished!\n", racer.getVehicle().getName());
-	}
+	}		
 
 	private void printRacerPosition(Racer racer) {		
 		System.console().printf("%-10s at position: \t%.1f/%.1f meters\n", racer.getVehicle().getName(),
 				racer.getVehicleState().getPosition(), racer.getRacing().getDistance());
 	}
+		
 
 }

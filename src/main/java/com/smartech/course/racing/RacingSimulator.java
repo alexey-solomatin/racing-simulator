@@ -19,6 +19,7 @@ import com.smartech.course.racing.builder.vehicle.CarBuilderImpl;
 import com.smartech.course.racing.builder.vehicle.TruckBuilderImpl;
 import com.smartech.course.racing.dialog.simple.DoubleValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
+import com.smartech.course.racing.dialog.simple.YesNoConsoleDialog;
 import com.smartech.course.racing.dialog.vehicle.BusCreationConsoleDialog;
 import com.smartech.course.racing.dialog.vehicle.CarCreationConsoleDialog;
 import com.smartech.course.racing.dialog.vehicle.TruckCreationConsoleDialog;
@@ -78,14 +79,12 @@ public class RacingSimulator {
 	
 	private List<Vehicle> vehicles() {
 		log.debug("Creating vehicles.");
-		List<Vehicle> vehicles = new ArrayList<>();
-		while (true) {
-			String creationDecision = System.console().readLine("Would you like to create a new vehicle? (yes/no) ");
-			log.debug("User decision of creation: {}.", creationDecision);
-			if (!creationDecision.equalsIgnoreCase("yes") && !creationDecision.equalsIgnoreCase("y"))
-				break;
+		System.console().printf("You should specify some vehicles for the racing simulation.\n");
+		List<Vehicle> vehicles = new ArrayList<>();		
+		do {			
+			// TODO: refactor with a choice dialog
 			String vehicleType = System.console().readLine("What type of a vehicle do you want to create? (car/truck/bus) ");
-			log.debug("A new vehicle should be {}.", vehicleType);
+			log.debug("User decision of a vehicle type: {}.", vehicleType);
 			try {
 				Vehicle vehicle = null;
 				switch (vehicleType.toLowerCase()) {
@@ -119,8 +118,13 @@ public class RacingSimulator {
 			} catch (Exception e) {
 				log.error("Error during vehicle creation.", e);
 				System.console().printf("Error during vehicle creation!\n");
+				continue;
 			}
-		}
+			
+			if (!new YesNoConsoleDialog("Would you like to create one more vehicle?").get())						
+				break;			
+		} while (true);
+		
 		return vehicles;
 	}
 	
