@@ -8,6 +8,7 @@ import com.smartech.course.racing.builder.vehicle.CarBuilderImpl;
 import com.smartech.course.racing.builder.vehicle.TruckBuilderImpl;
 import com.smartech.course.racing.dialog.ConsoleDialog;
 import com.smartech.course.racing.vehicle.Movable;
+import com.smartech.course.racing.vehicle.SpeedLosingVehicleWrapper;
 
 /**
  * @author Alexey Solomatin
@@ -35,15 +36,15 @@ public class VehicleSelectionAndCreationConsoleDialog extends ConsoleDialog<Mova
 			case "car":
 			case "c":
 				log.debug("Creating a car.");
-				return new CarCreationConsoleDialog(new CarBuilderImpl()).get();						
+				return new SpeedLosingVehicleWrapper(new CarCreationConsoleDialog(new CarBuilderImpl()).get(), 0.4);						
 			case "truck":
 			case "t":
 				log.debug("Creating a truck.");
-				return new TruckCreationConsoleDialog(new TruckBuilderImpl()).get();
+				return new SpeedLosingVehicleWrapper(new TruckCreationConsoleDialog(new TruckBuilderImpl()).get(), 0.2);
 			case "bus":
 			case "b":
 				log.debug("Creating a bus.");
-				return new BusCreationConsoleDialog(new BusBuilderImpl()).get();
+				return new SpeedLosingVehicleWrapper(new BusCreationConsoleDialog(new BusBuilderImpl()).get(), 0.1);
 			default:
 				log.error("Unknown vehicle type: {}.", vehicleType);
 				System.console().printf("I don't know how to create it!\n");

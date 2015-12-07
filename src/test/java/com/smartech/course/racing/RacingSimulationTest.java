@@ -82,22 +82,6 @@ public class RacingSimulationTest {
 	}
 
 	/**
-	 * Test method for {@link com.smartech.course.racing.simulation.RacingSimulation#deregister(com.smartech.course.racing.vehicle.Movable)}.
-	 * @throws MovingVehicleException 
-	 */
-	@Test
-	public void testDeregister() throws MovingVehicleException {		
-		RacingSimulation simulation = new RacingSimulation(new Racing(), 1);
-		Movable vehicle = MockUtils.mockVehicle();
-		simulation.register("TestRacer", vehicle);
-		Collection<Racer> racers = simulation.listRacers();
-		assertNotNull(racers);
-		assertEquals(1, racers.size());
-		assertSame(vehicle, ((Racer)racers.iterator().next()).getVehicle());			
-		
-	}
-
-	/**
 	 * Test method for {@link com.smartech.course.racing.simulation.RacingSimulation#run()}.
 	 * @throws MovingVehicleException 
 	 */

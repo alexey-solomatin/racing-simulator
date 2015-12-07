@@ -39,9 +39,9 @@ public class RacingSimulationConsole {
 	}
 	
 	public synchronized void printRacingSimulationState(RacingSimulation simulation) {
-		System.console().printf("------------------------------------\n");
+		System.console().printf("-------------------------------------------------------------\n");
 		simulation.listRacers().stream().forEach(this::printRacerState);
-		System.console().printf("------------------------------------\n");
+		System.console().printf("-------------------------------------------------------------\n");
 	}
 	
 	public synchronized void onRacerEvent(Racer racer, Object event) {
@@ -50,9 +50,10 @@ public class RacingSimulationConsole {
 	}		
 
 	private void printRacerState(Racer racer) {		
-		System.console().printf("%.1f s: %-10s at position: \t%.1f/%.1f meters, cur. speed: %f, avg. speed: %f\n", 
+		System.console().printf("%.1f s: %-10s in %-10s: \t%.1f/%.1f meters, speed: %.1f m/s, avg. speed: %.1f m/s\n", 
 			racer.getVehicleState().getTime(), 
 			racer.getName(),
+			racer.getVehicle().getDescription(),
 			racer.getVehicleState().getPosition(), 
 			racer.getRacing().getDistance(),
 			racer.getVehicleState().getSpeed(),

@@ -96,7 +96,9 @@ public class Racer extends Observable implements Raceable {
 
 	@Override
 	public double getAverageSpeed() {
-		return movingHistory.stream().mapToDouble((state)->state.getSpeed()).sum() / movingHistory.size();
+		return !movingHistory.isEmpty() 
+			? movingHistory.stream().mapToDouble((state)->state.getSpeed()).sum() / movingHistory.size()
+			: 0;
 	}
 
 	/**

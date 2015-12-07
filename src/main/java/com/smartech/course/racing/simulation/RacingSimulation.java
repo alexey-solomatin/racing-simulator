@@ -35,6 +35,7 @@ public class RacingSimulation implements Observer {
 	private double timeStep = 1; // in seconds
 	private List<BiConsumer<Racer, Object>> racerEventCallbacks = new ArrayList<>();
 	private Collection<Raceable> activeRacers;
+	private Object lock = new Object();
 
 	/**
 	 * Creates the racing simulating with specified racing and time step.
@@ -58,7 +59,10 @@ public class RacingSimulation implements Observer {
 	}	
 	
 	public Collection<Racer> listRacers() {
-		return racers != null ? Collections.unmodifiableCollection(racers) : null;
+		synchronized (lock) {
+			// TODO: here a racing snapshot should be returned, NOT ACTUAL RACERS!!! 
+			return racers != null ? Collections.unmodifiableCollection(racers) : null;
+		}		
 	}
 	
 	public void addRacerEventCallback(BiConsumer<Racer, Object> callback) {
@@ -69,7 +73,6 @@ public class RacingSimulation implements Observer {
 		racerEventCallbacks.remove(callback);
 	}
 
-	// TODO: fix the synchronization issues here!
 	public void run() throws MovingVehicleException {
 		log.info("Starting the racing simulation.");
 		log.info("Start racers' state: {}.", racers);		
@@ -78,12 +81,14 @@ public class RacingSimulation implements Observer {
 		double time = 0;
 		while (!activeRacers.isEmpty()) {
 			Collection<Raceable> finished = new ArrayList<>();
-			for (Raceable racer : activeRacers) {
-				racer.move(timeStep);
-				if (racer.isFinished()) {
-					log.debug("{} finished!", racer);
-					finished.add(racer);
-				}
+			synchronized (lock) {
+				for (Raceable racer : activeRacers) {
+					racer.move(timeStep);
+					if (racer.isFinished()) {
+						log.debug("{} finished!", racer);
+						finished.add(racer);
+					}
+				}							
 			}			
 			for (Raceable racer : finished)
 				activeRacers.remove(racer);
