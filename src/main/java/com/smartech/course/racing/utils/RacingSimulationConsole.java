@@ -1,10 +1,13 @@
 /**
  * 
  */
-package com.smartech.course.racing;
+package com.smartech.course.racing.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.smartech.course.racing.simulation.Racer;
+import com.smartech.course.racing.simulation.RacingSimulation;
 
 /**
  * @author Alexey Solomatin
@@ -37,18 +40,23 @@ public class RacingSimulationConsole {
 	
 	public synchronized void printRacingSimulationState(RacingSimulation simulation) {
 		System.console().printf("------------------------------------\n");
-		simulation.listRacers().stream().forEach(this::printRacerPosition);
+		simulation.listRacers().stream().forEach(this::printRacerState);
 		System.console().printf("------------------------------------\n");
 	}
 	
 	public synchronized void onRacerEvent(Racer racer, Object event) {
 		log.debug("onRacerEvent({}, {})", racer, event);
-		System.console().printf("%s finished!\n", racer.getVehicle().getName());
+		System.console().printf("%.1f s: %s finished!\n", racer.getVehicleState().getTime(), racer.getName());
 	}		
 
-	private void printRacerPosition(Racer racer) {		
-		System.console().printf("%-10s at position: \t%.1f/%.1f meters\n", racer.getVehicle().getName(),
-				racer.getVehicleState().getPosition(), racer.getRacing().getDistance());
+	private void printRacerState(Racer racer) {		
+		System.console().printf("%.1f s: %-10s at position: \t%.1f/%.1f meters, cur. speed: %f, avg. speed: %f\n", 
+			racer.getVehicleState().getTime(), 
+			racer.getName(),
+			racer.getVehicleState().getPosition(), 
+			racer.getRacing().getDistance(),
+			racer.getVehicleState().getSpeed(),
+			racer.getAverageSpeed());
 	}
 		
 

@@ -15,6 +15,5 @@ public interface Movable {
 	 * @param time the moving time
 	 * @return the new state of a vehicle
 	 */
-	VehicleState move(VehicleState curState, double time) throws MovingVehicleException;
-
+	VehicleState move(VehicleState curState, double time) throws MovingVehicleException;	
 }

@@ -12,6 +12,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import com.smartech.course.racing.exception.MovingVehicleException;
+import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Vehicle;
 import com.smartech.course.racing.vehicle.VehicleState;
 
@@ -22,8 +23,8 @@ import com.smartech.course.racing.vehicle.VehicleState;
  */
 public class MockUtils {
 
-	public static Vehicle mockVehicle() throws MovingVehicleException {
-		Vehicle vehicle = mock(Vehicle.class);
+	public static Movable mockVehicle() throws MovingVehicleException {
+		Movable vehicle = mock(Movable.class);
 		when(vehicle.move(any(VehicleState.class), anyDouble())).thenAnswer(new Answer<VehicleState>() {
 			@Override
 			public VehicleState answer(InvocationOnMock invocation) throws Throwable {

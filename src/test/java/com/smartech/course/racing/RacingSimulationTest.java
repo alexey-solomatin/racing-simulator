@@ -21,7 +21,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.smartech.course.racing.exception.MovingVehicleException;
+import com.smartech.course.racing.simulation.Racer;
+import com.smartech.course.racing.simulation.Racing;
+import com.smartech.course.racing.simulation.RacingSimulation;
 import com.smartech.course.racing.utils.MockUtils;
+import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Vehicle;
 import com.smartech.course.racing.vehicle.VehicleState;
 
@@ -62,14 +66,14 @@ public class RacingSimulationTest {
 	}
 
 	/**
-	 * Test method for {@link com.smartech.course.racing.RacingSimulation#register(com.smartech.course.racing.vehicle.Movable)}.
+	 * Test method for {@link com.smartech.course.racing.simulation.RacingSimulation#register(com.smartech.course.racing.vehicle.Movable)}.
 	 * @throws MovingVehicleException 
 	 */
 	@Test
 	public void testRegister() throws MovingVehicleException {		
 		RacingSimulation simulation = new RacingSimulation(new Racing(), 1);
-		Vehicle vehicle = MockUtils.mockVehicle();
-		simulation.register(vehicle);
+		Movable vehicle = MockUtils.mockVehicle();
+		simulation.register("TestRacer", vehicle);
 		Collection<Racer> racers = simulation.listRacers();
 		assertNotNull(racers);
 		assertEquals(1, racers.size());
@@ -78,27 +82,23 @@ public class RacingSimulationTest {
 	}
 
 	/**
-	 * Test method for {@link com.smartech.course.racing.RacingSimulation#deregister(com.smartech.course.racing.vehicle.Movable)}.
+	 * Test method for {@link com.smartech.course.racing.simulation.RacingSimulation#deregister(com.smartech.course.racing.vehicle.Movable)}.
 	 * @throws MovingVehicleException 
 	 */
 	@Test
 	public void testDeregister() throws MovingVehicleException {		
 		RacingSimulation simulation = new RacingSimulation(new Racing(), 1);
-		Vehicle vehicle = MockUtils.mockVehicle();
-		simulation.register(vehicle);
+		Movable vehicle = MockUtils.mockVehicle();
+		simulation.register("TestRacer", vehicle);
 		Collection<Racer> racers = simulation.listRacers();
 		assertNotNull(racers);
 		assertEquals(1, racers.size());
-		assertSame(vehicle, ((Racer)racers.iterator().next()).getVehicle());
-		simulation.deregister(vehicle);
-		racers = simulation.listRacers();
-		assertNotNull(racers);
-		assertEquals(0, racers.size());		
+		assertSame(vehicle, ((Racer)racers.iterator().next()).getVehicle());			
 		
 	}
 
 	/**
-	 * Test method for {@link com.smartech.course.racing.RacingSimulation#run()}.
+	 * Test method for {@link com.smartech.course.racing.simulation.RacingSimulation#run()}.
 	 * @throws MovingVehicleException 
 	 */
 	@Test
@@ -106,10 +106,10 @@ public class RacingSimulationTest {
 		Racing racing = new Racing("Racing #1", 4.5);		
 		double timeStep = 1;
 		RacingSimulation simulation = new RacingSimulation(racing, timeStep);
-		Vehicle vehicle1 = MockUtils.mockVehicle();
-		Vehicle vehicle2 = MockUtils.mockVehicle();
-		simulation.register(vehicle1);		
-		simulation.register(vehicle2);				
+		Movable vehicle1 = MockUtils.mockVehicle();
+		Movable vehicle2 = MockUtils.mockVehicle();
+		simulation.register("TestRacer1", vehicle1);		
+		simulation.register("TestRacer2", vehicle2);				
 		simulation.run();
 		verify(vehicle1, times(5)).move(any(VehicleState.class), anyDouble());
 		verify(vehicle2, times(5)).move(any(VehicleState.class), anyDouble());

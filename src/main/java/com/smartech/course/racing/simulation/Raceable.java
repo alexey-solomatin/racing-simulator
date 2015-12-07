@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.smartech.course.racing;
+package com.smartech.course.racing.simulation;
 
 import com.smartech.course.racing.exception.MovingVehicleException;
 
@@ -13,4 +13,5 @@ import com.smartech.course.racing.exception.MovingVehicleException;
 public interface Raceable {	
 	void move(double time) throws MovingVehicleException;
 	boolean isFinished();
+	double getAverageSpeed();	
 }

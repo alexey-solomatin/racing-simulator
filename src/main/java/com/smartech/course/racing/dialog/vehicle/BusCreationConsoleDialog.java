@@ -11,12 +11,13 @@ import com.smartech.course.racing.dialog.ConsoleDialog;
 import com.smartech.course.racing.dialog.simple.LongValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
 import com.smartech.course.racing.vehicle.Bus;
+import com.smartech.course.racing.vehicle.Movable;
 
 /**
  * @author Alexey Solomatin
  *
  */
-public class BusCreationConsoleDialog extends ConsoleDialog<Bus> {	
+public class BusCreationConsoleDialog extends ConsoleDialog<Movable> {	
 	private BusBuilder busBuilder;
 
 	public BusCreationConsoleDialog(BusBuilder busBuilder) {
@@ -28,7 +29,7 @@ public class BusCreationConsoleDialog extends ConsoleDialog<Bus> {
 	 * @see com.smartech.course.racing.dialog.ConsoleDialog#buildObject()
 	 */
 	@Override
-	protected Bus buildObject() throws Exception {
+	protected Movable buildObject() throws Exception {
 		return busBuilder
 			.weight(AppProperties.getInstance().getDouble("bus.weight"))
 			.maxSpeed(AppProperties.getInstance().getDouble("bus.maxSpeed"))

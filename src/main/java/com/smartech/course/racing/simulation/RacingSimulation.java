@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.smartech.course.racing;
+package com.smartech.course.racing.simulation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.smartech.course.racing.exception.MovingVehicleException;
+import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
@@ -30,7 +31,7 @@ public class RacingSimulation implements Observer {
 	private static final double RACING_LOGGING_TIME_STEP = 1;
 	
 	private final Racing racing;
-	private Map<Vehicle, Racer> racers = new ConcurrentHashMap<>(10, 0.9f, 1);
+	private List<Racer> racers = new ArrayList<>();
 	private double timeStep = 1; // in seconds
 	private List<BiConsumer<Racer, Object>> racerEventCallbacks = new ArrayList<>();
 	private Collection<Raceable> activeRacers;
@@ -47,31 +48,23 @@ public class RacingSimulation implements Observer {
 		this.timeStep = timeStep;
 	}
 	
-	public void register(Vehicle vehicle) {
-		log.debug("Registering the vehicle {}.", vehicle);
-		Racer racer = new Racer(vehicle, racing);
+	public void register(String racerName, Movable vehicle) {
+		if (vehicle == null)
+			throw new IllegalArgumentException("Cannot register the null vehicle.");
+		log.debug("Registering the vehicle {} for racer {}.", vehicle, racerName);		
+		Racer racer = new Racer(racerName, vehicle, racing);
 		racer.addObserver(this);
-		racers.put(vehicle, racer);
-	}
-	
-	public void deregister(Vehicle vehicle) {
-		log.debug("Deregistering the vehicle {}.", vehicle);
-		Racer racer = racers.get(vehicle);
-		if (racer != null)
-			racer.deleteObserver(this);
-		racers.remove(vehicle);
-	}
+		racers.add(racer);
+	}	
 	
 	public Collection<Racer> listRacers() {
-		return racers != null ? Collections.unmodifiableCollection(racers.values()) : null;
+		return racers != null ? Collections.unmodifiableCollection(racers) : null;
 	}
 	
-	// TODO: implement test
 	public void addRacerEventCallback(BiConsumer<Racer, Object> callback) {
 		racerEventCallbacks.add(callback);
 	}
 	
-	// TODO: implement test
 	public void removeRacerEventCallback(BiConsumer<Racer, Object> callback) {
 		racerEventCallbacks.remove(callback);
 	}
@@ -79,8 +72,8 @@ public class RacingSimulation implements Observer {
 	// TODO: fix the synchronization issues here!
 	public void run() throws MovingVehicleException {
 		log.info("Starting the racing simulation.");
-		log.info("Start racers' state: {}.", racers.values());		
-		activeRacers = new ArrayList<>(racers.values());
+		log.info("Start racers' state: {}.", racers);		
+		activeRacers = new ArrayList<>(racers);
 		double printStateTimeStep = 0;
 		double time = 0;
 		while (!activeRacers.isEmpty()) {
@@ -101,7 +94,7 @@ public class RacingSimulation implements Observer {
 				time += timeStep;
 				if (printStateTimeStep >= RACING_LOGGING_TIME_STEP && !activeRacers.isEmpty()) {
 					printStateTimeStep = 0;				
-					log.debug("Racers' state at {} s: {}", time, racers.values());				
+					log.debug("Racers' state at {} s: {}", time, racers);				
 				}
 			}			
 			
@@ -111,7 +104,7 @@ public class RacingSimulation implements Observer {
 				log.error("Error during the racing simulation.", e);
 			}
 		}		
-		log.info("Finish racers' state: {}.", racers.values());
+		log.info("Finish racers' state: {}.", racers);
 		log.info("Racing simulation ended.");
 	}
 
@@ -136,7 +129,6 @@ public class RacingSimulation implements Observer {
 		this.timeStep = timeStep;
 	}
 
-	// TODO: implement test
 	@Override
 	public void update(Observable racer, Object event) {
 		for (BiConsumer<Racer, Object> callback : racerEventCallbacks)

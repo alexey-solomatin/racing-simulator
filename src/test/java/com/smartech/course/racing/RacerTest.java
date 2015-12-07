@@ -15,7 +15,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.smartech.course.racing.exception.MovingVehicleException;
+import com.smartech.course.racing.simulation.Racer;
+import com.smartech.course.racing.simulation.Racing;
 import com.smartech.course.racing.utils.MockUtils;
+import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Vehicle;
 import com.smartech.course.racing.vehicle.VehicleState;
 
@@ -57,14 +60,14 @@ public class RacerTest {
 	}
 
 	/**
-	 * Test method for {@link com.smartech.course.racing.Racer#move(double)}.
+	 * Test method for {@link com.smartech.course.racing.simulation.Racer#move(double)}.
 	 * @throws MovingVehicleException 
 	 */
 	@Test
 	public void testMove() throws MovingVehicleException {		
 		Racing racing = new Racing("Racing #1", DISTANCE);
-		Vehicle vehicle = MockUtils.mockVehicle();
-		Racer racer = new Racer(vehicle, racing);
+		Movable vehicle = MockUtils.mockVehicle();
+		Racer racer = new Racer("TestRacer", vehicle, racing);
 		assertNotNull(racer.getVehicleState());
 		VehicleState beginVehicleState = new VehicleState(0, 0, 0);
 		assertEquals(beginVehicleState, racer.getVehicleState());
@@ -75,14 +78,14 @@ public class RacerTest {
 	}
 
 	/**
-	 * Test method for {@link com.smartech.course.racing.Racer#isFinished()}.
+	 * Test method for {@link com.smartech.course.racing.simulation.Racer#isFinished()}.
 	 * @throws MovingVehicleException 
 	 */
 	@Test
 	public void testIsFinished() throws MovingVehicleException {		
 		Racing racing = new Racing("Racing #1", DISTANCE);
-		Vehicle vehicle = MockUtils.mockVehicle();
-		Racer racer = new Racer(vehicle, racing);
+		Movable vehicle = MockUtils.mockVehicle();
+		Racer racer = new Racer("TestRacer", vehicle, racing);
 		assertFalse(racer.isFinished());
 		racer.move(4);
 		assertFalse(racer.isFinished());

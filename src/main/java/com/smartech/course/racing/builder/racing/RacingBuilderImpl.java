@@ -6,7 +6,7 @@ package com.smartech.course.racing.builder.racing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smartech.course.racing.Racing;
+import com.smartech.course.racing.simulation.Racing;
 
 /**
  * @author Alexey Solomatin

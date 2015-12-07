@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.smartech.course.racing;
+package com.smartech.course.racing.simulation;
 
 /**
  * Racing represents the racing track and the racers.

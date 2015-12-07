@@ -74,5 +74,5 @@ public class Vehicle extends DynamicObject implements Movable {
 	 */
 	public void setAcceleration(double acceleration) {
 		this.acceleration = acceleration;
-	}
+	}	
 }

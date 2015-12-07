@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.smartech.course.racing;
+package com.smartech.course.racing.utils;
 
 import java.time.Duration;
 import java.util.concurrent.Executors;
@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.smartech.course.racing.simulation.RacingSimulation;
 
 /**
  * @author Alexey Solomatin

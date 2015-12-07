@@ -5,7 +5,7 @@ package com.smartech.course.racing.builder.racing;
 
 import java.util.function.Supplier;
 
-import com.smartech.course.racing.Racing;
+import com.smartech.course.racing.simulation.Racing;
 
 /**
  * @author Alexey Solomatin

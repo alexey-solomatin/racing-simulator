@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-import com.smartech.course.racing.Racer;
-import com.smartech.course.racing.Racing;
-import com.smartech.course.racing.RacingSimulation;
+import com.smartech.course.racing.simulation.Racer;
+import com.smartech.course.racing.simulation.Racing;
+import com.smartech.course.racing.simulation.RacingSimulation;
+import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
@@ -25,9 +26,9 @@ public interface RacingSimulationBuilder {
 	default RacingSimulationBuilder timeStep(Supplier<Double> timeStepSupplier) {
 		return timeStep(timeStepSupplier.get());
 	}	
-	RacingSimulationBuilder vehicles(List<Vehicle> vehicles);		
-	default RacingSimulationBuilder vehicles(Supplier<List<Vehicle>> vehiclesSupplier) {
-		return vehicles(vehiclesSupplier.get());
+	RacingSimulationBuilder racer(String racerName, Movable vehicle);		
+	default RacingSimulationBuilder racer(Supplier<String> racerNameSupplier, Supplier<Movable> vehicleSupplier) {
+		return racer(racerNameSupplier.get(), vehicleSupplier.get());
 	}
 	RacingSimulationBuilder racerEventCallback(BiConsumer<Racer, Object> callback);
 	default RacingSimulationBuilder racerEventCallback(Supplier<BiConsumer<Racer, Object>> callbackSupplier) {

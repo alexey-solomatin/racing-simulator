@@ -4,15 +4,18 @@
 package com.smartech.course.racing.builder.simulation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smartech.course.racing.Racer;
-import com.smartech.course.racing.Racing;
-import com.smartech.course.racing.RacingSimulation;
+import com.smartech.course.racing.simulation.Racer;
+import com.smartech.course.racing.simulation.Racing;
+import com.smartech.course.racing.simulation.RacingSimulation;
+import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
@@ -23,7 +26,7 @@ public class RacingSimulationBuilderImpl implements RacingSimulationBuilder {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	private Racing racing;
-	private List<Vehicle> vehicles;
+	private Map<String, Movable> racers = new HashMap<>();
 	private List<BiConsumer<Racer, Object>> callbacks = new ArrayList<>();
 	private Double timeStep;
 	
@@ -35,12 +38,12 @@ public class RacingSimulationBuilderImpl implements RacingSimulationBuilder {
 	public RacingSimulationBuilder racing(Racing racing) {
 		this.racing = racing;
 		return this;
-	}
+	}	
 	
 	@Override
-	public RacingSimulationBuilder vehicles(List<Vehicle> vehicles) {
-		this.vehicles = vehicles;
-		return this;		
+	public RacingSimulationBuilder racer(String racerName, Movable vehicle) {
+		racers.put(racerName, vehicle);
+		return this;
 	}
 
 	@Override
@@ -61,7 +64,7 @@ public class RacingSimulationBuilderImpl implements RacingSimulationBuilder {
 	@Override
 	public RacingSimulation build() {
 		RacingSimulation simulation = new RacingSimulation(racing, timeStep);
-		vehicles.stream().forEach(simulation::register);
+		racers.entrySet().stream().forEach((entry)->simulation.register(entry.getKey(), entry.getValue()));
 		callbacks.stream().forEach(simulation::addRacerEventCallback);
 		return simulation;
 	}
