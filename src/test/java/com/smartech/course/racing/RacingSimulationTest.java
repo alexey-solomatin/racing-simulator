@@ -26,7 +26,6 @@ import com.smartech.course.racing.simulation.Racing;
 import com.smartech.course.racing.simulation.RacingSimulation;
 import com.smartech.course.racing.utils.MockUtils;
 import com.smartech.course.racing.vehicle.Movable;
-import com.smartech.course.racing.vehicle.Vehicle;
 import com.smartech.course.racing.vehicle.VehicleState;
 
 /**
@@ -74,7 +73,7 @@ public class RacingSimulationTest {
 		RacingSimulation simulation = new RacingSimulation(new Racing(), 1);
 		Movable vehicle = MockUtils.mockVehicle();
 		simulation.register("TestRacer", vehicle);
-		Collection<Racer> racers = simulation.listRacers();
+		Collection<Racer> racers = simulation.getRacers();
 		assertNotNull(racers);
 		assertEquals(1, racers.size());
 		assertTrue(racers.iterator().hasNext());

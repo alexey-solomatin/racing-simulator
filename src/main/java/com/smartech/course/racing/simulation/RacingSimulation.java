@@ -7,18 +7,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.smartech.course.racing.exception.MovingVehicleException;
 import com.smartech.course.racing.vehicle.Movable;
-import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
  * Simulation of a racing of some vehicles 
@@ -55,14 +53,23 @@ public class RacingSimulation implements Observer {
 		log.debug("Registering the vehicle {} for racer {}.", vehicle, racerName);		
 		Racer racer = new Racer(racerName, vehicle, racing);
 		racer.addObserver(this);
-		racers.add(racer);
+		synchronized (lock) {
+			racers.add(racer);
+		}		
 	}	
 	
-	public Collection<Racer> listRacers() {
-		synchronized (lock) {
-			// TODO: here a racing snapshot should be returned, NOT ACTUAL RACERS!!! 
-			return racers != null ? Collections.unmodifiableCollection(racers) : null;
+	public List<Racer> getRacerSnapshots() {
+		synchronized (lock) { 
+			return racers != null 
+				? racers.stream().map((racer)->racer.createSnapshot()).collect(Collectors.toList())
+				: null;
 		}		
+	}
+	
+	public List<Racer> getRacers() {
+		synchronized (lock) {
+			return Collections.unmodifiableList(racers);
+		}
 	}
 	
 	public void addRacerEventCallback(BiConsumer<Racer, Object> callback) {

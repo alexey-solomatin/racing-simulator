@@ -21,6 +21,11 @@ public class Racing {
 		this.name = name;
 		this.distance = distance;
 	}
+	
+	public Racing(Racing racing) {
+		this.name = racing.name;
+		this.distance = racing.distance;
+	}
 
 	public double getDistance() {
 		return distance;

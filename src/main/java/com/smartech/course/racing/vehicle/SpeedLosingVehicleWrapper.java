@@ -3,6 +3,7 @@
  */
 package com.smartech.course.racing.vehicle;
 
+import java.util.Date;
 import java.util.Random;
 
 import com.smartech.course.racing.exception.CreatingVehicleException;
@@ -14,7 +15,7 @@ import com.smartech.course.racing.exception.MovingVehicleException;
  */
 public class SpeedLosingVehicleWrapper implements Movable {
 	private static double MIN_SPEED_LOSING_COEFFICIENT = 0.1;
-	private static double MAX_SPEED_LOSING_COEFFICIENT = 0.1;
+	private static double MAX_SPEED_LOSING_COEFFICIENT = 0.9;
 	private Movable vehicle;
 	private double speedLosingPropability;
 	
@@ -30,7 +31,7 @@ public class SpeedLosingVehicleWrapper implements Movable {
 			throw new CreatingVehicleException("Cannot create SpeedLosingVehicleWrapper with the probalility " + speedLosingPropability);
 		this.vehicle = vehicle;
 		this.speedLosingPropability = speedLosingPropability;
-		losingSpeedRandomGenerator = new Random(vehicle.hashCode());
+		losingSpeedRandomGenerator = new Random(new Date().getTime());
 	}
 
 	/* (non-Javadoc)

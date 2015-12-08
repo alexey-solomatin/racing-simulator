@@ -11,6 +11,12 @@ public class VehicleState {
 		position = 0;
 	}
 	
+	public VehicleState(VehicleState vehicleState) {
+		this.time = vehicleState.time;
+		this.speed = vehicleState.speed;
+		this.position = vehicleState.position;
+	}
+	
 	/**
 	 * @param time
 	 * @param speed
@@ -85,5 +91,5 @@ public class VehicleState {
 		if (Double.doubleToLongBits(time) != Double.doubleToLongBits(other.time))
 			return false;
 		return true;
-	}			
+	}	
 }

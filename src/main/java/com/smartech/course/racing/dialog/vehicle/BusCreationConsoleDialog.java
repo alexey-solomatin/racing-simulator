@@ -10,7 +10,6 @@ import com.smartech.course.racing.config.AppProperties;
 import com.smartech.course.racing.dialog.ConsoleDialog;
 import com.smartech.course.racing.dialog.simple.LongValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
-import com.smartech.course.racing.vehicle.Bus;
 import com.smartech.course.racing.vehicle.Movable;
 
 /**

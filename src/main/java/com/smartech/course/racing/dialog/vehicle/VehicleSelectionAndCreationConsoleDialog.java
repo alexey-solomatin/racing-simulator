@@ -16,6 +16,10 @@ import com.smartech.course.racing.vehicle.SpeedLosingVehicleWrapper;
  */
 public class VehicleSelectionAndCreationConsoleDialog extends ConsoleDialog<Movable> {
 
+	private static final double BUS_SPEED_LOSING_PROBABILITY = 0.1;
+	private static final double TRUCK_SPEED_LOSING_PROBABILITY = 0.2;
+	private static final double CAR_SPEED_LOSING_PROBABILITY = 0.4;
+
 	/**
 	 * @param questionMessage
 	 * @param errorMessage
@@ -36,15 +40,15 @@ public class VehicleSelectionAndCreationConsoleDialog extends ConsoleDialog<Mova
 			case "car":
 			case "c":
 				log.debug("Creating a car.");
-				return new SpeedLosingVehicleWrapper(new CarCreationConsoleDialog(new CarBuilderImpl()).get(), 0.4);						
+				return new SpeedLosingVehicleWrapper(new CarCreationConsoleDialog(new CarBuilderImpl()).get(), CAR_SPEED_LOSING_PROBABILITY);						
 			case "truck":
 			case "t":
 				log.debug("Creating a truck.");
-				return new SpeedLosingVehicleWrapper(new TruckCreationConsoleDialog(new TruckBuilderImpl()).get(), 0.2);
+				return new SpeedLosingVehicleWrapper(new TruckCreationConsoleDialog(new TruckBuilderImpl()).get(), TRUCK_SPEED_LOSING_PROBABILITY);
 			case "bus":
 			case "b":
 				log.debug("Creating a bus.");
-				return new SpeedLosingVehicleWrapper(new BusCreationConsoleDialog(new BusBuilderImpl()).get(), 0.1);
+				return new SpeedLosingVehicleWrapper(new BusCreationConsoleDialog(new BusBuilderImpl()).get(), BUS_SPEED_LOSING_PROBABILITY);
 			default:
 				log.error("Unknown vehicle type: {}.", vehicleType);
 				System.console().printf("I don't know how to create it!\n");

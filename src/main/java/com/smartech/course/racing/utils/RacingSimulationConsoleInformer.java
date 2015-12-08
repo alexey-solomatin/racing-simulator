@@ -39,7 +39,7 @@ public class RacingSimulationConsoleInformer {
 			executorService = Executors.newSingleThreadScheduledExecutor();
 			executorService.scheduleAtFixedRate(()-> {
 				if (simulation.isRunning())
-					RacingSimulationConsole.getInstance().printRacingSimulationState(simulation);
+					RacingSimulationConsole.getInstance().printRacingSimulationBriefState(simulation);
 				}, 
 				0, 
 				frequency.toMillis(), 

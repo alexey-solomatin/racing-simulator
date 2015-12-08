@@ -54,6 +54,14 @@ public class Racer extends Observable implements Raceable {
 		}
 	}
 	
+
+	public Racer createSnapshot() {
+		Racer racer = new Racer(name, vehicle, racing);				
+		racer.vehicleState = new VehicleState(vehicleState);
+		racer.isFinished = isFinished;
+		return racer;
+	}
+	
 	@Override
 	public boolean isFinished() {
 		return isFinished;
@@ -123,5 +131,4 @@ public class Racer extends Observable implements Raceable {
 		return "Racer [name=" + name + ", vehicle=" + vehicle + ", racing=" + racing + ", vehicleState=" + vehicleState
 				+ ", isFinished=" + isFinished + ", movingHistory=" + movingHistory + "]";
 	}
-
 }

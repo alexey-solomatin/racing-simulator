@@ -3,9 +3,6 @@
  */
 package com.smartech.course.racing.dialog.simple;
 
-import java.util.function.Function;
-import java.util.function.Predicate;
-
 /**
  * @author Alexey Solomatin
  *

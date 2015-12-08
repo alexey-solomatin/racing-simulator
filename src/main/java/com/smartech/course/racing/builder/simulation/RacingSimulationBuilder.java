@@ -3,7 +3,6 @@
  */
 package com.smartech.course.racing.builder.simulation;
 
-import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -11,7 +10,6 @@ import com.smartech.course.racing.simulation.Racer;
 import com.smartech.course.racing.simulation.Racing;
 import com.smartech.course.racing.simulation.RacingSimulation;
 import com.smartech.course.racing.vehicle.Movable;
-import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
  * @author Alexey Solomatin

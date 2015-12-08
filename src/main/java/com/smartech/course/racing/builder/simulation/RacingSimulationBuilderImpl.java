@@ -16,7 +16,6 @@ import com.smartech.course.racing.simulation.Racer;
 import com.smartech.course.racing.simulation.Racing;
 import com.smartech.course.racing.simulation.RacingSimulation;
 import com.smartech.course.racing.vehicle.Movable;
-import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
  * @author Alexey Solomatin
