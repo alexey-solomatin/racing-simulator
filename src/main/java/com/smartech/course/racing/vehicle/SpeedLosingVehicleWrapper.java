@@ -17,7 +17,7 @@ public class SpeedLosingVehicleWrapper implements Movable {
 	private static double MIN_SPEED_LOSING_COEFFICIENT = 0.1;
 	private static double MAX_SPEED_LOSING_COEFFICIENT = 0.9;
 	private Movable vehicle;
-	private double speedLosingPropability;
+	private double speedLosingProbability;
 	
 	private Random losingSpeedRandomGenerator;
 
@@ -30,7 +30,7 @@ public class SpeedLosingVehicleWrapper implements Movable {
 		if (speedLosingPropability < 0  || speedLosingPropability > 1)
 			throw new CreatingVehicleException("Cannot create SpeedLosingVehicleWrapper with the probalility " + speedLosingPropability);
 		this.vehicle = vehicle;
-		this.speedLosingPropability = speedLosingPropability;
+		this.speedLosingProbability = speedLosingPropability;
 		losingSpeedRandomGenerator = new Random(new Date().getTime());
 	}
 
@@ -46,7 +46,7 @@ public class SpeedLosingVehicleWrapper implements Movable {
 	}
 	
 	private double loseSomeSpeed(double speed) {
-		if (losingSpeedRandomGenerator.nextDouble() <= speedLosingPropability)
+		if (losingSpeedRandomGenerator.nextDouble() <= speedLosingProbability)
 			return speed * (MIN_SPEED_LOSING_COEFFICIENT + losingSpeedRandomGenerator.nextDouble() * (MAX_SPEED_LOSING_COEFFICIENT - MIN_SPEED_LOSING_COEFFICIENT));
 		else
 			return speed;

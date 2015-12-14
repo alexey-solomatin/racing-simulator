@@ -40,11 +40,12 @@ public class RacingSimulator {
 	}
 	
 	private void run() {
+		RacingSimulationConsoleInformer informer = null;
 		try {
 			log.info("Starting Racing Simulator.");
 			showInfo();			
 			RacingSimulation simulation = simulation();	
-			RacingSimulationConsoleInformer informer = new RacingSimulationConsoleInformer(simulation, Duration.ofSeconds(PRINTING_THREAD_TIME_STEP));
+			informer = new RacingSimulationConsoleInformer(simulation, Duration.ofSeconds(PRINTING_THREAD_TIME_STEP));
 			System.console().readLine("Plese press <ENTER> to start the racing simulation.");
 			informer.start();
 			System.console().printf("Start state:\n");
@@ -57,6 +58,8 @@ public class RacingSimulator {
 			log.error("Fatal error.", e);
 			System.err.println("Fatal error: " + e.getMessage());
 		} finally {
+			if (informer != null)
+				informer.stop();
 			log.info("Racing Simulator stopped.");
 			System.console().readLine("Press <ENTER> to exit.");
 		}
