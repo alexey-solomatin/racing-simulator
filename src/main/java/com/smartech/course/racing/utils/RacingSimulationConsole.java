@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.smartech.course.racing.simulation.Racer;
-import com.smartech.course.racing.simulation.SingleThreadRacingSimulation;
+import com.smartech.course.racing.simulation.RacingSimulation;
 import com.smartech.course.racing.vehicle.event.VehicleEvent;
 
 /**
@@ -41,11 +41,11 @@ public class RacingSimulationConsole {
 		return localInstance;
 	}
 	
-	public synchronized void printRacingSimulationBriefState(SingleThreadRacingSimulation simulation) {
+	public synchronized void printRacingSimulationBriefState(RacingSimulation simulation) {
 		consoleWriter.printRacingSimulationBriefState(simulation);
 	}
 	
-	public synchronized void printRacingSimulationFinalState(SingleThreadRacingSimulation simulation) {
+	public synchronized void printRacingSimulationFinalState(RacingSimulation simulation) {
 		consoleWriter.printRacingSimulationFinalState(simulation);
 	}
 	

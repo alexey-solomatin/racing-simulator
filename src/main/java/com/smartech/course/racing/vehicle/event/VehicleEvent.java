@@ -3,8 +3,6 @@
  */
 package com.smartech.course.racing.vehicle.event;
 
-import com.smartech.course.racing.simulation.Racer;
-
 /**
  * @author Alexey Solomatin
  *

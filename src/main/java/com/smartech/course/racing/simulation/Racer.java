@@ -54,7 +54,7 @@ public class Racer extends Observable implements Raceable {
 				if (vehicleState.getSpeed() < curVehicleState.getSpeed()) {
 					++speedLosingNumber;
 					setChanged();
-					notifyObservers(new VehicleEvent(String.format("Speed has been lost from %.1f ms to %.1f m/s!", curVehicleState.getSpeed(), vehicleState.getSpeed())));
+					notifyObservers(new VehicleEvent(String.format("Speed has been lost from %.1f m/s to %.1f m/s!", curVehicleState.getSpeed(), vehicleState.getSpeed())));
 				}
 				movingHistory.add(vehicleState);
 			} else

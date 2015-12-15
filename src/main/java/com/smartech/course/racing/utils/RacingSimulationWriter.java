@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import com.smartech.course.racing.simulation.Racer;
-import com.smartech.course.racing.simulation.SingleThreadRacingSimulation;
+import com.smartech.course.racing.simulation.RacingSimulation;
 
 /**
  * @author Alexey Solomatin
@@ -25,13 +25,13 @@ public class RacingSimulationWriter implements Closeable, Flushable, AutoCloseab
 		this.writer = writer;
 	}
 	
-	public void printRacingSimulationBriefState(SingleThreadRacingSimulation simulation) {
+	public void printRacingSimulationBriefState(RacingSimulation simulation) {
 		writer.printf("-------------------------------------------------------------\n");
 		simulation.getRacerSnapshots().stream().forEachOrdered(this::printRacerBriefState);
 		writer.printf("-------------------------------------------------------------\n");
 	}
 	
-	public void printRacingSimulationFinalState(SingleThreadRacingSimulation simulation) {
+	public void printRacingSimulationFinalState(RacingSimulation simulation) {
 		writer.printf("-------------------------------------------------------------\n");
 		writer.printf("Racing: %s, %.1f meters\n", simulation.getRacing().getName(), simulation.getRacing().getDistance());
 		writer.printf("Racers:\n");		

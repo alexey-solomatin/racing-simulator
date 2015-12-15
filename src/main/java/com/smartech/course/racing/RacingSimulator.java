@@ -11,7 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.smartech.course.racing.builder.simulation.RacingSimulationBuilder;
-import com.smartech.course.racing.builder.simulation.RacingSimulationBuilderImpl;
+import com.smartech.course.racing.builder.simulation.RacingSimulationBuilderFactory;
+import com.smartech.course.racing.builder.simulation.RacingSimulationBuilderFactory.RacingSimulationType;
+import com.smartech.course.racing.builder.simulation.SingleThreadRacingSimulationBuilder;
+import com.smartech.course.racing.builder.simulation.AbstractRacingSimulationBuilder;
+import com.smartech.course.racing.builder.simulation.MultiThreadRacingSimulationBuilder;
 import com.smartech.course.racing.dialog.racing.RacingCreationConsoleDialog;
 import com.smartech.course.racing.dialog.simple.DoubleValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.InfoConsoleDialog;
@@ -19,7 +23,7 @@ import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.YesNoConsoleDialog;
 import com.smartech.course.racing.dialog.vehicle.VehicleSelectionAndCreationConsoleDialog;
 import com.smartech.course.racing.simulation.MultiThreadRacingSimulation;
-import com.smartech.course.racing.simulation.SingleThreadRacingSimulation;
+import com.smartech.course.racing.simulation.RacingSimulation;
 import com.smartech.course.racing.utils.RacingSimulationConsole;
 import com.smartech.course.racing.utils.RacingSimulationConsoleInformer;
 import com.smartech.course.racing.utils.RacingSimulationWriter;
@@ -31,25 +35,36 @@ import com.smartech.course.racing.utils.RacingSimulationWriter;
  */
 public class RacingSimulator {	
 	private Logger log = LoggerFactory.getLogger(RacingSimulator.class);
-	private final int PRINTING_THREAD_TIME_STEP = 5;	
+	private final int PRINTING_THREAD_TIME_STEP = 5;
+	private RacingSimulationType racingSimulationType;
 	
+	public RacingSimulator(RacingSimulationType racingSimulationType) {
+		this.racingSimulationType = racingSimulationType;
+	}
 
 	/**
 	 * Entry point to the application
 	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {
-		new RacingSimulator().run();
+		new RacingSimulator(parseRacingSimulationType(args)).run();
+	}
+	
+	private static RacingSimulationType parseRacingSimulationType(String[] args) {		
+		return args != null && args.length != 0 && args[0].equalsIgnoreCase("-mt")
+				? RacingSimulationType.MULTI_THREAD
+				: RacingSimulationType.SINGLE_THREAD;		
 	}
 	
 	private void run() {
 		RacingSimulationConsoleInformer informer = null;
 		try {
 			log.info("Starting Racing Simulator.");
-			showInfo();			
-			SingleThreadRacingSimulation simulation = singleThreadSimulation();	
+			log.info("The mode of racing simulation: {}.", racingSimulationType);
+			showInfo();
+			RacingSimulation simulation = simulation(racingSimulationType);
 			informer = new RacingSimulationConsoleInformer(simulation, Duration.ofSeconds(PRINTING_THREAD_TIME_STEP));
-			System.console().readLine("\nPlese press <ENTER> to start the racing simulation.");
+			System.console().readLine("\nPlease press <ENTER> to start the racing simulation.");
 			informer.start();
 			System.console().printf("\nStart state:\n");
 			RacingSimulationConsole.getInstance().printRacingSimulationBriefState(simulation);
@@ -76,7 +91,7 @@ public class RacingSimulator {
 			.get();		
 	}	
 	
-	private void saveResults(SingleThreadRacingSimulation simulation) {
+	private void saveResults(RacingSimulation simulation) {
 		while (new YesNoConsoleDialog("\nWould you like to save these results to file?").get()) {			
 			String fileName = new StringValueConsoleDialog(
 					"Please enter the name of a file where the result will be stored: ", 
@@ -94,8 +109,8 @@ public class RacingSimulator {
 		}
 	}
 	
-	private SingleThreadRacingSimulation singleThreadSimulation() {		
-		RacingSimulationBuilder builder = new RacingSimulationBuilderImpl()
+	private RacingSimulation simulation(RacingSimulationType type) {		
+		RacingSimulationBuilder builder = RacingSimulationBuilderFactory.newRacingSimulationBuilder(type)
 			.racing(new RacingCreationConsoleDialog())
 			.timeStep(new DoubleValueConsoleDialog(
 				"Please enter the simulation time step in seconds: ", 
@@ -114,10 +129,6 @@ public class RacingSimulator {
 		} while (true);
 
 		return builder.build();			
-	}
-	
-	private MultiThreadRacingSimulation multiThreadSimulation() {
-		return null;
-	}
+	}	
 
 }

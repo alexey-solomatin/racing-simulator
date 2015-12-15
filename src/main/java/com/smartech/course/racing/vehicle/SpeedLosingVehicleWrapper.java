@@ -57,4 +57,13 @@ public class SpeedLosingVehicleWrapper implements Movable {
 		return vehicle != null ? vehicle.getDescription() : null;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "SpeedLosingVehicleWrapper [vehicle=" + vehicle + ", speedLosingProbability=" + speedLosingProbability
+				+ "]";
+	}
+
 }

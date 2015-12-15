@@ -1,5 +1,6 @@
 package com.smartech.course.racing.simulation;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 
 import com.smartech.course.racing.exception.MovingVehicleException;
@@ -16,5 +17,11 @@ public interface RacingSimulation {
 	void run() throws MovingVehicleException;
 
 	boolean isRunning();
+
+	List<Racer> getRacerSnapshots();
+
+	Racing getRacing();
+
+	List<Racer> getRacers();
 
 }

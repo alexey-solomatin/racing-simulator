@@ -12,8 +12,10 @@ import java.util.function.BiConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.smartech.course.racing.simulation.AbstractRacingSimulation;
 import com.smartech.course.racing.simulation.Racer;
 import com.smartech.course.racing.simulation.Racing;
+import com.smartech.course.racing.simulation.RacingSimulation;
 import com.smartech.course.racing.simulation.SingleThreadRacingSimulation;
 import com.smartech.course.racing.vehicle.Movable;
 
@@ -21,16 +23,16 @@ import com.smartech.course.racing.vehicle.Movable;
  * @author Alexey Solomatin
  *
  */
-public class RacingSimulationBuilderImpl implements RacingSimulationBuilder {
+public abstract class AbstractRacingSimulationBuilder implements RacingSimulationBuilder {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
-	private Racing racing;
-	private Map<String, Movable> racers = new HashMap<>();
-	private List<BiConsumer<Racer, Object>> callbacks = new ArrayList<>();
-	private Double timeStep;
+	protected Racing racing;
+	protected Map<String, Movable> racers = new HashMap<>();
+	protected List<BiConsumer<Racer, Object>> callbacks = new ArrayList<>();
+	protected Double timeStep;
 	
 	
-	public RacingSimulationBuilderImpl() {		
+	public AbstractRacingSimulationBuilder() {		
 	}
 	
 	@Override
@@ -61,11 +63,14 @@ public class RacingSimulationBuilderImpl implements RacingSimulationBuilder {
 	 * @see com.smartech.course.racing.builder.simulation.RacingSimulationBuilder#build()
 	 */
 	@Override
-	public SingleThreadRacingSimulation build() {
-		SingleThreadRacingSimulation simulation = new SingleThreadRacingSimulation(racing, timeStep);
+	public RacingSimulation build() {
+//		SingleThreadRacingSimulation simulation = new SingleThreadRacingSimulation(racing, timeStep);
+		RacingSimulation simulation = createSimulation();
 		racers.entrySet().stream().forEach((entry)->simulation.register(entry.getKey(), entry.getValue()));
 		callbacks.stream().forEach(simulation::addRacerEventCallback);
 		return simulation;
 	}
+	
+	protected abstract RacingSimulation createSimulation();
 
 }
