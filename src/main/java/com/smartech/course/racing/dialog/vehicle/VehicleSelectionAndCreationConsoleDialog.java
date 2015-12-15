@@ -16,9 +16,9 @@ import com.smartech.course.racing.vehicle.SpeedLosingVehicleWrapper;
  */
 public class VehicleSelectionAndCreationConsoleDialog extends ConsoleDialog<Movable> {
 
-	private static final double BUS_SPEED_LOSING_PROBABILITY = 0.1;
-	private static final double TRUCK_SPEED_LOSING_PROBABILITY = 0.2;
-	private static final double CAR_SPEED_LOSING_PROBABILITY = 0.4;
+	private static final double BUS_SPEED_LOSING_PROBABILITY = 0.05;
+	private static final double TRUCK_SPEED_LOSING_PROBABILITY = 0.1;
+	private static final double CAR_SPEED_LOSING_PROBABILITY = 0.2;
 
 	/**
 	 * @param questionMessage

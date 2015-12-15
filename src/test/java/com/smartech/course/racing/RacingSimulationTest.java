@@ -24,12 +24,13 @@ import com.smartech.course.racing.exception.MovingVehicleException;
 import com.smartech.course.racing.simulation.Racer;
 import com.smartech.course.racing.simulation.Racing;
 import com.smartech.course.racing.simulation.RacingSimulation;
+import com.smartech.course.racing.simulation.SingleThreadRacingSimulation;
 import com.smartech.course.racing.utils.MockUtils;
 import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.VehicleState;
 
 /**
- * Tests for {@link RacingSimulation}
+ * Tests for {@link SingleThreadRacingSimulation}
  * @author Alexey Solomatin
  *
  */
@@ -65,12 +66,12 @@ public class RacingSimulationTest {
 	}
 
 	/**
-	 * Test method for {@link com.smartech.course.racing.simulation.RacingSimulation#register(com.smartech.course.racing.vehicle.Movable)}.
+	 * Test method for {@link com.smartech.course.racing.simulation.SingleThreadRacingSimulation#register(com.smartech.course.racing.vehicle.Movable)}.
 	 * @throws MovingVehicleException 
 	 */
 	@Test
 	public void testRegister() throws MovingVehicleException {		
-		RacingSimulation simulation = new RacingSimulation(new Racing(), 1);
+		SingleThreadRacingSimulation simulation = new SingleThreadRacingSimulation(new Racing(), 1);
 		Movable vehicle = MockUtils.mockVehicle();
 		simulation.register("TestRacer", vehicle);
 		Collection<Racer> racers = simulation.getRacers();
@@ -81,14 +82,14 @@ public class RacingSimulationTest {
 	}
 
 	/**
-	 * Test method for {@link com.smartech.course.racing.simulation.RacingSimulation#run()}.
+	 * Test method for {@link com.smartech.course.racing.simulation.SingleThreadRacingSimulation#run()}.
 	 * @throws MovingVehicleException 
 	 */
 	@Test
 	public void testRun() throws MovingVehicleException {
 		Racing racing = new Racing("Racing #1", 4.5);		
 		double timeStep = 1;
-		RacingSimulation simulation = new RacingSimulation(racing, timeStep);
+		RacingSimulation simulation = new SingleThreadRacingSimulation(racing, timeStep);
 		Movable vehicle1 = MockUtils.mockVehicle();
 		Movable vehicle2 = MockUtils.mockVehicle();
 		simulation.register("TestRacer1", vehicle1);		

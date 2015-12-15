@@ -11,6 +11,7 @@ import com.smartech.course.racing.exception.MovingVehicleException;
 import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Vehicle;
 import com.smartech.course.racing.vehicle.VehicleState;
+import com.smartech.course.racing.vehicle.event.VehicleEvent;
 
 /**
  * Racer which refers to {@link Vehicle} and {@link Racing}
@@ -27,6 +28,7 @@ public class Racer extends Observable implements Raceable {
 	private VehicleState vehicleState;
 	private boolean isFinished;
 	private List<VehicleState> movingHistory = new ArrayList<>();
+	private long speedLosingNumber;
 	
 	public Racer(String name, Movable vehicle, Racing racing) {
 		this.name = name;
@@ -38,18 +40,24 @@ public class Racer extends Observable implements Raceable {
 	@Override
 	public void move(double time) throws MovingVehicleException {
 		if (!isFinished) {
-			vehicleState = vehicle.move(vehicleState, time);
-			if (vehicleState.getPosition() >= racing.getDistance()) {
-				isFinished = true;
-				vehicleState = new VehicleState(vehicleState.getTime(), 
-						vehicleState.getSpeed(), 
-						racing.getDistance());
-				setChanged();
-				notifyObservers();				
-			}
-			if (vehicleState != null)
+			VehicleState curVehicleState = vehicleState;
+			vehicleState = vehicle.move(curVehicleState, time);
+			if (vehicleState != null) {
+				if (vehicleState.getPosition() >= racing.getDistance()) {
+					isFinished = true;
+					vehicleState = new VehicleState(vehicleState.getTime(), 
+							vehicleState.getSpeed(), 
+							racing.getDistance());
+					setChanged();
+					notifyObservers(new VehicleEvent("Finished!"));				
+				}
+				if (vehicleState.getSpeed() < curVehicleState.getSpeed()) {
+					++speedLosingNumber;
+					setChanged();
+					notifyObservers(new VehicleEvent(String.format("Speed has been lost from %.1f ms to %.1f m/s!", curVehicleState.getSpeed(), vehicleState.getSpeed())));
+				}
 				movingHistory.add(vehicleState);
-			else
+			} else
 				log.warn("Cannot add a vehicle state to the moving history.");
 		}
 	}
@@ -121,6 +129,11 @@ public class Racer extends Observable implements Raceable {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}	
+
+	@Override
+	public long getSpeedLosingNumber() {
+		return speedLosingNumber;
 	}
 
 	/* (non-Javadoc)
@@ -129,6 +142,7 @@ public class Racer extends Observable implements Raceable {
 	@Override
 	public String toString() {
 		return "Racer [name=" + name + ", vehicle=" + vehicle + ", racing=" + racing + ", vehicleState=" + vehicleState
-				+ ", isFinished=" + isFinished + ", movingHistory=" + movingHistory + "]";
+				+ ", isFinished=" + isFinished + ", movingHistory=" + movingHistory + ", speedLosingNumber="
+				+ speedLosingNumber + "]";
 	}
 }

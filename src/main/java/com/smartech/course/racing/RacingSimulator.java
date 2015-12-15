@@ -3,6 +3,7 @@
  */
 package com.smartech.course.racing;
 
+import java.io.PrintWriter;
 import java.time.Duration;
 
 import org.apache.commons.lang3.StringUtils;
@@ -17,9 +18,11 @@ import com.smartech.course.racing.dialog.simple.InfoConsoleDialog;
 import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.YesNoConsoleDialog;
 import com.smartech.course.racing.dialog.vehicle.VehicleSelectionAndCreationConsoleDialog;
-import com.smartech.course.racing.simulation.RacingSimulation;
+import com.smartech.course.racing.simulation.MultiThreadRacingSimulation;
+import com.smartech.course.racing.simulation.SingleThreadRacingSimulation;
 import com.smartech.course.racing.utils.RacingSimulationConsole;
 import com.smartech.course.racing.utils.RacingSimulationConsoleInformer;
+import com.smartech.course.racing.utils.RacingSimulationWriter;
 
 /**
  * Racing Simulator application
@@ -44,16 +47,17 @@ public class RacingSimulator {
 		try {
 			log.info("Starting Racing Simulator.");
 			showInfo();			
-			RacingSimulation simulation = simulation();	
+			SingleThreadRacingSimulation simulation = singleThreadSimulation();	
 			informer = new RacingSimulationConsoleInformer(simulation, Duration.ofSeconds(PRINTING_THREAD_TIME_STEP));
-			System.console().readLine("Plese press <ENTER> to start the racing simulation.");
+			System.console().readLine("\nPlese press <ENTER> to start the racing simulation.");
 			informer.start();
-			System.console().printf("Start state:\n");
+			System.console().printf("\nStart state:\n");
 			RacingSimulationConsole.getInstance().printRacingSimulationBriefState(simulation);
 			simulation.run();
 			informer.stop();
-			System.console().printf("Finish state:\n");
+			System.console().printf("\nFinish state:\n");
 			RacingSimulationConsole.getInstance().printRacingSimulationFinalState(simulation);
+			saveResults(simulation);
 		} catch (Throwable e) {
 			log.error("Fatal error.", e);
 			System.err.println("Fatal error: " + e.getMessage());
@@ -61,7 +65,7 @@ public class RacingSimulator {
 			if (informer != null)
 				informer.stop();
 			log.info("Racing Simulator stopped.");
-			System.console().readLine("Press <ENTER> to exit.");
+			System.console().readLine("\nPress <ENTER> to exit.");
 		}
 	}
 	
@@ -70,9 +74,27 @@ public class RacingSimulator {
 			+ "Create a new simulation, specify the race details, add some racers, start the simulation, and enjoy the process!\n\n"
 			+ "Please press <ENTER> to continue.\n\n")
 			.get();		
-	}		
+	}	
 	
-	private RacingSimulation simulation() {		
+	private void saveResults(SingleThreadRacingSimulation simulation) {
+		while (new YesNoConsoleDialog("\nWould you like to save these results to file?").get()) {			
+			String fileName = new StringValueConsoleDialog(
+					"Please enter the name of a file where the result will be stored: ", 
+					"You've entered the incorrect file name.", 
+					(s) -> !StringUtils.isBlank(s))
+					.get();
+			try (RacingSimulationWriter writer = new RacingSimulationWriter(new PrintWriter(fileName))) {				
+				writer.printRacingSimulationFinalState(simulation);
+				System.console().printf("The simulation results have been stored.\n");
+				break;
+			} catch (Exception e) {
+				log.error("Error during saving the simulation results.", e);
+				System.err.println("Cannot save the simulation results to a file. Please try again.");
+			}				
+		}
+	}
+	
+	private SingleThreadRacingSimulation singleThreadSimulation() {		
 		RacingSimulationBuilder builder = new RacingSimulationBuilderImpl()
 			.racing(new RacingCreationConsoleDialog())
 			.timeStep(new DoubleValueConsoleDialog(
@@ -83,15 +105,19 @@ public class RacingSimulator {
 		do {
 			builder.racer(
 				new StringValueConsoleDialog(
-					"Please enter the racer's name: ", 
+					"\nPlease enter the racer's name: ", 
 					"You've entered the incorrect name.", 
 					(s) -> !StringUtils.isBlank(s)), 
 				new VehicleSelectionAndCreationConsoleDialog());
-			if (!new YesNoConsoleDialog("Would you like to create one more racer?").get())						
+			if (!new YesNoConsoleDialog("\nWould you like to create one more racer?").get())						
 				break;
 		} while (true);
 
 		return builder.build();			
+	}
+	
+	private MultiThreadRacingSimulation multiThreadSimulation() {
+		return null;
 	}
 
 }

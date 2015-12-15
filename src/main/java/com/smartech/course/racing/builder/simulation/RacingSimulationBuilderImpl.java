@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.smartech.course.racing.simulation.Racer;
 import com.smartech.course.racing.simulation.Racing;
-import com.smartech.course.racing.simulation.RacingSimulation;
+import com.smartech.course.racing.simulation.SingleThreadRacingSimulation;
 import com.smartech.course.racing.vehicle.Movable;
 
 /**
@@ -61,8 +61,8 @@ public class RacingSimulationBuilderImpl implements RacingSimulationBuilder {
 	 * @see com.smartech.course.racing.builder.simulation.RacingSimulationBuilder#build()
 	 */
 	@Override
-	public RacingSimulation build() {
-		RacingSimulation simulation = new RacingSimulation(racing, timeStep);
+	public SingleThreadRacingSimulation build() {
+		SingleThreadRacingSimulation simulation = new SingleThreadRacingSimulation(racing, timeStep);
 		racers.entrySet().stream().forEach((entry)->simulation.register(entry.getKey(), entry.getValue()));
 		callbacks.stream().forEach(simulation::addRacerEventCallback);
 		return simulation;

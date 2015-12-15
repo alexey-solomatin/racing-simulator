@@ -13,5 +13,6 @@ import com.smartech.course.racing.exception.MovingVehicleException;
 public interface Raceable {	
 	void move(double time) throws MovingVehicleException;
 	boolean isFinished();
-	double getAverageSpeed();	
+	double getAverageSpeed();
+	long getSpeedLosingNumber();
 }

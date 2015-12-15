@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smartech.course.racing.simulation.RacingSimulation;
+import com.smartech.course.racing.simulation.SingleThreadRacingSimulation;
 
 /**
  * @author Alexey Solomatin
@@ -21,14 +21,14 @@ public class RacingSimulationConsoleInformer {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	private static final int EXECUTOR_SERVICE_TERMINATION_TIMEOUT = 10;
 	
-	private RacingSimulation simulation;
+	private SingleThreadRacingSimulation simulation;
 	private Duration frequency;
 	private ScheduledExecutorService executorService;
 
 	/**
 	 * 
 	 */
-	public RacingSimulationConsoleInformer(RacingSimulation simulation, Duration frequency) {
+	public RacingSimulationConsoleInformer(SingleThreadRacingSimulation simulation, Duration frequency) {
 		this.simulation = simulation;
 		this.frequency = frequency;
 	}

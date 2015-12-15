@@ -7,7 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.smartech.course.racing.simulation.Racer;
-import com.smartech.course.racing.simulation.RacingSimulation;
+import com.smartech.course.racing.simulation.SingleThreadRacingSimulation;
+import com.smartech.course.racing.vehicle.event.VehicleEvent;
 
 /**
  * @author Alexey Solomatin
@@ -17,12 +18,14 @@ public class RacingSimulationConsole {
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	private static volatile RacingSimulationConsole instance;
+	
+	private RacingSimulationWriter consoleWriter;
 
 	/**
 	 * 
 	 */
 	private RacingSimulationConsole() {
-		// TODO Auto-generated constructor stub
+		consoleWriter = new RacingSimulationWriter(System.console().writer());
 	}
 	
 	public static RacingSimulationConsole getInstance() {
@@ -38,45 +41,18 @@ public class RacingSimulationConsole {
 		return localInstance;
 	}
 	
-	public synchronized void printRacingSimulationBriefState(RacingSimulation simulation) {
-		System.console().printf("-------------------------------------------------------------\n");
-		simulation.getRacerSnapshots().stream().forEachOrdered(this::printRacerBriefState);
-		System.console().printf("-------------------------------------------------------------\n");
+	public synchronized void printRacingSimulationBriefState(SingleThreadRacingSimulation simulation) {
+		consoleWriter.printRacingSimulationBriefState(simulation);
 	}
 	
-	public synchronized void printRacingSimulationFinalState(RacingSimulation simulation) {
-		System.console().printf("-------------------------------------------------------------\n");
-		System.console().printf("Racing: %s, %.1f meters\n", simulation.getRacing().getName(), simulation.getRacing().getDistance());
-		System.console().printf("Racers:\n");		
-		simulation
-			.getRacers()
-			.stream()
-			.sorted((r1, r2)->Double.compare(r1.getVehicleState().getTime(), r2.getVehicleState().getTime()))
-			.forEachOrdered(this::printRacerFinalState);
-		System.console().printf("-------------------------------------------------------------\n");
+	public synchronized void printRacingSimulationFinalState(SingleThreadRacingSimulation simulation) {
+		consoleWriter.printRacingSimulationFinalState(simulation);
 	}
 	
 	public synchronized void onRacerEvent(Racer racer, Object event) {
 		log.debug("onRacerEvent({}, {})", racer, event);
-		System.console().printf("%.1f s: %s finished!\n", racer.getVehicleState().getTime(), racer.getName());
+		if (event instanceof VehicleEvent)
+			System.console().printf("%.1f s: %s - %s\n", racer.getVehicleState().getTime(), racer.getName(), ((VehicleEvent)event).getMessage());
 	}		
-
-	private void printRacerBriefState(Racer racer) {		
-		System.console().printf("%.1f s: %-10s in %-10s: \t%.1f/%.1f meters, speed: %.1f m/s\n", 
-			racer.getVehicleState().getTime(), 
-			racer.getName(),
-			racer.getVehicle().getDescription(),
-			racer.getVehicleState().getPosition(), 
-			racer.getRacing().getDistance(),
-			racer.getVehicleState().getSpeed());
-	}
-	
-	private void printRacerFinalState(Racer racer) {		
-		System.console().printf("%.1f s - %-10s in %-10s, avg. speed: %.1f m/s\n",			
-			racer.getVehicleState().getTime(), 
-			racer.getName(),
-			racer.getVehicle().getDescription(),
-			racer.getAverageSpeed());
-	}
 
 }
