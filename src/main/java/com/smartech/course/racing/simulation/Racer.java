@@ -26,7 +26,7 @@ public class Racer extends Observable implements Raceable {
 	private Movable vehicle;
 	private Racing racing;
 	private VehicleState vehicleState;
-	private boolean isFinished;
+	private volatile boolean isFinished;
 	private List<VehicleState> movingHistory = new ArrayList<>();
 	private long speedLosingNumber;
 	
@@ -35,14 +35,20 @@ public class Racer extends Observable implements Raceable {
 		this.vehicle = vehicle;
 		this.racing = racing;
 		this.vehicleState = new VehicleState();
+		movingHistory.add(vehicleState);
 	}
 	
 	@Override
-	public void move(double time) throws MovingVehicleException {
+	public synchronized void move(double time) throws MovingVehicleException {
 		if (!isFinished) {
 			VehicleState curVehicleState = vehicleState;
 			vehicleState = vehicle.move(curVehicleState, time);
 			if (vehicleState != null) {
+				if (vehicleState.getSpeed() < curVehicleState.getSpeed()) {
+					++speedLosingNumber;
+					setChanged();
+					notifyObservers(new VehicleEvent(String.format("Speed has been lost from %.1f m/s to %.1f m/s!", curVehicleState.getSpeed(), vehicleState.getSpeed())));
+				}
 				if (vehicleState.getPosition() >= racing.getDistance()) {
 					isFinished = true;
 					vehicleState = new VehicleState(vehicleState.getTime(), 
@@ -50,12 +56,7 @@ public class Racer extends Observable implements Raceable {
 							racing.getDistance());
 					setChanged();
 					notifyObservers(new VehicleEvent("Finished!"));				
-				}
-				if (vehicleState.getSpeed() < curVehicleState.getSpeed()) {
-					++speedLosingNumber;
-					setChanged();
-					notifyObservers(new VehicleEvent(String.format("Speed has been lost from %.1f m/s to %.1f m/s!", curVehicleState.getSpeed(), vehicleState.getSpeed())));
-				}
+				}				
 				movingHistory.add(vehicleState);
 			} else
 				log.warn("Cannot add a vehicle state to the moving history.");
@@ -63,7 +64,7 @@ public class Racer extends Observable implements Raceable {
 	}
 	
 
-	public Racer createSnapshot() {
+	public synchronized Racer createSnapshot() {
 		Racer racer = new Racer(name, vehicle, racing);				
 		racer.vehicleState = new VehicleState(vehicleState);
 		racer.isFinished = isFinished;

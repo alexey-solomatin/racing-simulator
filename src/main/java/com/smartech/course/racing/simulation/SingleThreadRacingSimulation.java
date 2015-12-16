@@ -5,11 +5,12 @@ package com.smartech.course.racing.simulation;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.Semaphore;
 
 import com.smartech.course.racing.exception.MovingVehicleException;
 
 /**
- * Simulation of a racing of some vehicles 
+ * Single thread implementation of a racing simulation 
  * @author Alexey Solomatin
  *
  */
@@ -34,18 +35,28 @@ public class SingleThreadRacingSimulation extends AbstractRacingSimulation {
 		log.info("Start racers' state: {}.", racers);		
 		activeRacers = new ArrayList<>(racers);
 		double printStateTimeStep = 0;
-		double time = 0;
-		while (!activeRacers.isEmpty()) {
+		double time = 0;		
+		while (!activeRacers.isEmpty()) {			
 			Collection<Raceable> finished = new ArrayList<>();
-			synchronized (lock) {
+			try {
+				log.debug("Updating the racers state.");
+				log.debug("Acquiring the racers semaphore for {} permits.", racers.size());
+				getRacersSemaphore().acquire(racers.size());
+				log.debug("The racers semaphore is acquired for {} permits.", racers.size());
 				for (Raceable racer : activeRacers) {
 					racer.move(timeStep);
 					if (racer.isFinished()) {
 						log.debug("{} finished!", racer);
 						finished.add(racer);
 					}
-				}							
-			}			
+				}				
+			} catch (InterruptedException e) {
+				log.error("Error during updating the racer states.", e);
+			} finally {
+				getRacersSemaphore().release(racers.size());
+				log.debug("The racers semaphore is released for {} permits.", racers.size());
+				log.debug("The racers state updated.");
+			}
 			for (Raceable racer : finished)
 				activeRacers.remove(racer);
 			
@@ -57,8 +68,7 @@ public class SingleThreadRacingSimulation extends AbstractRacingSimulation {
 					printStateTimeStep = 0;				
 					log.debug("Racers' state at {} s: {}", time, racers);				
 				}
-			}			
-			
+			}						
 			try {
 				Thread.sleep((long)(1000*timeStep));
 			} catch (InterruptedException e) {

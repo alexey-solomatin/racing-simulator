@@ -5,7 +5,6 @@ package com.smartech.course.racing.builder.simulation;
 
 import com.smartech.course.racing.simulation.MultiThreadRacingSimulation;
 import com.smartech.course.racing.simulation.RacingSimulation;
-import com.smartech.course.racing.simulation.SingleThreadRacingSimulation;
 
 /**
  * @author Alexey Solomatin
@@ -16,8 +15,7 @@ public class MultiThreadRacingSimulationBuilder extends AbstractRacingSimulation
 	/**
 	 * 
 	 */
-	public MultiThreadRacingSimulationBuilder() {
-		// TODO Auto-generated constructor stub
+	public MultiThreadRacingSimulationBuilder() {		
 	}
 
 	/* (non-Javadoc)

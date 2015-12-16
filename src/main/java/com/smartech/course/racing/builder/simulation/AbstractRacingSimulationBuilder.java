@@ -12,11 +12,9 @@ import java.util.function.BiConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smartech.course.racing.simulation.AbstractRacingSimulation;
 import com.smartech.course.racing.simulation.Racer;
 import com.smartech.course.racing.simulation.Racing;
 import com.smartech.course.racing.simulation.RacingSimulation;
-import com.smartech.course.racing.simulation.SingleThreadRacingSimulation;
 import com.smartech.course.racing.vehicle.Movable;
 
 /**
