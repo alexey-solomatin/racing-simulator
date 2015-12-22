@@ -6,6 +6,7 @@ package com.smartech.course.racing.vehicle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.smartech.course.racing.dao.Persistable;
 import com.smartech.course.racing.exception.CreatingVehicleException;
 
 /**
@@ -13,9 +14,10 @@ import com.smartech.course.racing.exception.CreatingVehicleException;
  * @author Alexey Solomatin
  *
  */
-public class DynamicObject {
+public class DynamicObject implements Persistable<Long> {
 	protected Logger log = LoggerFactory.getLogger(getClass());
 	
+	protected final Long id;
 	protected String name;
 	protected double weight;
 	protected double maxSpeed;
@@ -23,11 +25,12 @@ public class DynamicObject {
 	/**
 	 * 
 	 */
-	public DynamicObject(String name, double weight, double maxSpeed) throws CreatingVehicleException {
+	public DynamicObject(Long id, String name, double weight, double maxSpeed) throws CreatingVehicleException {
 		if (name == null ||
 			weight < 0 ||
 			maxSpeed < 0)
 			throw new CreatingVehicleException("Cannot create DynamicObject with the specified parameters.");
+		this.id = id;
 		this.name = name;
 		this.weight = weight;
 		this.maxSpeed = maxSpeed;
@@ -77,6 +80,11 @@ public class DynamicObject {
 	
 	protected double calculateCurrentMaxSpeed() {
 		return maxSpeed;
+	}
+
+	@Override
+	public Long getId() {
+		return id;
 	}
 
 }

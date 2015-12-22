@@ -19,7 +19,7 @@ public class TruckTest extends AbstractVehicleTest {
 
 	@Override
 	protected Vehicle createVehicle() throws CreatingVehicleException {
-		Truck truck = new Truck(TRUCK_NAME, TRUCK_WEIGHT, TRUCK_MAX_SPEED, TRUCK_ACCELERATION, TRUCK_PAYLOAD_WEIGHT, TRUCK_PAYLOAD_WEIGHT);		
+		Truck truck = new Truck(1L, TRUCK_NAME, TRUCK_WEIGHT, TRUCK_MAX_SPEED, TRUCK_ACCELERATION, TRUCK_PAYLOAD_WEIGHT, TRUCK_PAYLOAD_WEIGHT);		
 		return truck;
 	}
 

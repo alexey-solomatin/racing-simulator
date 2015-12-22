@@ -24,7 +24,7 @@ public class TruckBuilderImpl extends AbstractVehicleBuilder<Truck, TruckBuilder
 	
 	@Override
 	public Truck build() throws CreatingVehicleException {
-		return new Truck(name, weight, maxSpeed, acceleration, maxPayloadWeight, payloadWeight);
+		return new Truck(null, name, weight, maxSpeed, acceleration, maxPayloadWeight, payloadWeight);
 	}
 
 	@Override

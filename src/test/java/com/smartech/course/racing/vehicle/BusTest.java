@@ -20,8 +20,7 @@ public class BusTest extends AbstractVehicleTest {
 
 	@Override
 	protected Vehicle createVehicle() throws CreatingVehicleException {
-		// TODO Auto-generated method stub
-		Bus bus = new Bus(BUS_NAME, BUS_WEIGHT, BUS_MAX_SPEED, BUS_ACCELERATION, NUMBER_OF_PASSENGERS, NUMBER_OF_PASSENGERS);		
+		Bus bus = new Bus(1L, BUS_NAME, BUS_WEIGHT, BUS_MAX_SPEED, BUS_ACCELERATION, NUMBER_OF_PASSENGERS, NUMBER_OF_PASSENGERS);		
 		return bus;
 	}
 	

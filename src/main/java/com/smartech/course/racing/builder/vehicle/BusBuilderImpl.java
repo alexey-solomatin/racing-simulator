@@ -24,7 +24,7 @@ public class BusBuilderImpl extends AbstractVehicleBuilder<Bus, BusBuilder> impl
 	
 	@Override
 	public Bus build() throws CreatingVehicleException {
-		return new Bus(name, weight, maxSpeed, acceleration, maxNumberOfPassengers, numberOfPassengers);
+		return new Bus(null, name, weight, maxSpeed, acceleration, maxNumberOfPassengers, numberOfPassengers);
 	}	
 
 	/* (non-Javadoc)

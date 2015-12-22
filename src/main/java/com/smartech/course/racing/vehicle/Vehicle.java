@@ -14,9 +14,9 @@ import com.smartech.course.racing.exception.MovingVehicleException;
 public class Vehicle extends DynamicObject implements Movable {
 	protected double acceleration;	
 	
-	public Vehicle(String name, double weight, double maxSpeed, double acceleration)  throws CreatingVehicleException {
+	public Vehicle(Long id, String name, double weight, double maxSpeed, double acceleration)  throws CreatingVehicleException {
 		// TODO: add checking parameters
-		super(name, weight, maxSpeed);		
+		super(id, name, weight, maxSpeed);		
 		this.acceleration = acceleration;
 	}
 		

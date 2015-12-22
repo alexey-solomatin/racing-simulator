@@ -12,12 +12,13 @@ import com.smartech.course.racing.dialog.simple.DoubleValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
 import com.smartech.course.racing.exception.CreatingVehicleException;
 import com.smartech.course.racing.vehicle.Movable;
+import com.smartech.course.racing.vehicle.Truck;
 
 /**
  * @author Alexey Solomatin
  *
  */
-public class TruckCreationConsoleDialog extends ConsoleDialog<Movable> {
+public class TruckCreationConsoleDialog extends ConsoleDialog<Truck> {
 	private TruckBuilder truckBuilder;
 	
 
@@ -27,7 +28,7 @@ public class TruckCreationConsoleDialog extends ConsoleDialog<Movable> {
 	}
 
 	@Override
-	protected Movable buildObject() throws CreatingVehicleException {
+	protected Truck buildObject() throws CreatingVehicleException {
 		return truckBuilder
 			.weight(AppProperties.getInstance().getDouble("truck.weight"))
 			.maxSpeed(AppProperties.getInstance().getDouble("truck.maxSpeed"))					

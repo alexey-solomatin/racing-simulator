@@ -24,7 +24,7 @@ public class CarBuilderImpl extends AbstractVehicleBuilder<Car, CarBuilder> impl
 	
 	@Override
 	public Car build() throws CreatingVehicleException {
-		Car car = new Car(name, weight, maxSpeed, acceleration);
+		Car car = new Car(null, name, weight, maxSpeed, acceleration);
 		if (trailer != null)
 			car.addTrailer(trailer);
 		return car;

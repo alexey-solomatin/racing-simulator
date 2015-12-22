@@ -10,13 +10,14 @@ import com.smartech.course.racing.config.AppProperties;
 import com.smartech.course.racing.dialog.ConsoleDialog;
 import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.YesNoConsoleDialog;
+import com.smartech.course.racing.vehicle.Car;
 import com.smartech.course.racing.vehicle.Movable;
 
 /**
  * @author Alexey Solomatin
  *
  */
-public class CarCreationConsoleDialog extends ConsoleDialog<Movable> {
+public class CarCreationConsoleDialog extends ConsoleDialog<Car> {
 	private CarBuilder carBuilder;
 
 	/**
@@ -32,7 +33,7 @@ public class CarCreationConsoleDialog extends ConsoleDialog<Movable> {
 	 * @see com.smartech.course.racing.dialog.ConsoleDialog#buildObject()
 	 */
 	@Override
-	protected Movable buildObject() throws Exception {
+	protected Car buildObject() throws Exception {
 		carBuilder
 			.weight(AppProperties.getInstance().getDouble("car.weight"))
 			.maxSpeed(AppProperties.getInstance().getDouble("car.maxSpeed"))

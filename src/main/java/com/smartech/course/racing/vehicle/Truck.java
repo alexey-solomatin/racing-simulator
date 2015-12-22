@@ -19,8 +19,8 @@ public class Truck extends Transport<SimplePayload> {
 	 * @param maxSpeed
 	 * @param acceleration
 	 */
-	public Truck(String name, double weight, double maxSpeed, double acceleration, double maxPayloadWeight, double payloadWeight) throws CreatingVehicleException {
-		super(name, weight, maxSpeed, acceleration, new SimplePayload(maxPayloadWeight, payloadWeight));		
+	public Truck(Long id, String name, double weight, double maxSpeed, double acceleration, double maxPayloadWeight, double payloadWeight) throws CreatingVehicleException {
+		super(id, name, weight, maxSpeed, acceleration, new SimplePayload(maxPayloadWeight, payloadWeight));		
 	}
 
 	/* (non-Javadoc)
@@ -28,8 +28,14 @@ public class Truck extends Transport<SimplePayload> {
 	 */
 	@Override
 	public String toString() {
-		return "Truck [name=" + name + ", weight=" + weight + ", acceleration=" + acceleration + ", maxSpeed="
+		return "Truck [id=" + id + ", name=" + name + ", weight=" + weight + ", acceleration=" + acceleration + ", maxSpeed="
 				+ maxSpeed + ", payload=" + payload + "]";
+	}
+	
+	@Override
+	public SimplePayload getPayload() {
+		// TODO Auto-generated method stub
+		return super.getPayload();
 	}
 	
 }

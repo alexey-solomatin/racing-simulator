@@ -19,8 +19,8 @@ public class Car extends Transport<CarTrailer> {
 	 * @param maxSpeed
 	 * @param acceleration
 	 */
-	public Car(String name, double weight, double maxSpeed, double acceleration) throws CreatingVehicleException {
-		super(name, weight, maxSpeed, acceleration, null);
+	public Car(Long id, String name, double weight, double maxSpeed, double acceleration) throws CreatingVehicleException {
+		super(id, name, weight, maxSpeed, acceleration, null);
 	}
 
 	public void addTrailer(CarTrailer trailer) {
@@ -48,8 +48,12 @@ public class Car extends Transport<CarTrailer> {
 	 */
 	@Override
 	public String toString() {
-		return "Car [name=" + name + ", weight=" + weight + ", acceleration=" + acceleration + ", maxSpeed=" + maxSpeed
+		return "Car [id=" + id + ", name=" + name + ", weight=" + weight + ", acceleration=" + acceleration + ", maxSpeed=" + maxSpeed
 				+ ", payload=" + payload + "]";
 	}
 	
+	@Override
+	public CarTrailer getPayload() {
+		return super.getPayload();
+	}
 }

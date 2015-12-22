@@ -31,6 +31,7 @@ public class CarTrailerCreationConsoleDialog extends ConsoleDialog<CarTrailer> {
 	@Override
 	protected CarTrailer buildObject() throws Exception {
 		return new CarTrailer(
+			null,
 			new StringValueConsoleDialog(
 				"Please enter the name: ",
 				"You've entered the incorrect name.", 

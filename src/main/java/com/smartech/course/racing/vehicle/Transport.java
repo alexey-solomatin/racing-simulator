@@ -20,8 +20,8 @@ public class Transport<PayloadType extends PayloadCarriable> extends Vehicle {
 	 * @param maxSpeed 
 	 * @param acceleration
 	 */
-	public Transport(String name, double weight, double maxSpeed, double acceleration, PayloadType payload) throws CreatingVehicleException {
-		super(name, weight, maxSpeed, acceleration);
+	public Transport(Long id, String name, double weight, double maxSpeed, double acceleration, PayloadType payload) throws CreatingVehicleException {
+		super(id, name, weight, maxSpeed, acceleration);
 		this.payload = payload;
 	}	
 	
@@ -30,6 +30,20 @@ public class Transport<PayloadType extends PayloadCarriable> extends Vehicle {
 		return payload != null
 			? acceleration * weight / (weight + payload.getPayloadWeight())
 			: acceleration;		
+	}
+
+	/**
+	 * @return the payload
+	 */
+	protected PayloadType getPayload() {
+		return payload;
+	}
+
+	/**
+	 * @param payload the payload to set
+	 */
+	protected void setPayload(PayloadType payload) {
+		this.payload = payload;
 	}
 
 }

@@ -18,8 +18,8 @@ public class CarTrailer extends DynamicObject implements PayloadCarriable {
 	 * @throws CreatingVehicleException 
 	 * 
 	 */
-	public CarTrailer(String name, double weight, double maxSpeed, double maxPayloadWeight, double payloadWeight) throws CreatingVehicleException {		
-		super(name, weight, maxSpeed);
+	public CarTrailer(Long id, String name, double weight, double maxSpeed, double maxPayloadWeight, double payloadWeight) throws CreatingVehicleException {		
+		super(id, name, weight, maxSpeed);
 		this.payload = new SimplePayload(maxPayloadWeight, payloadWeight);		
 	}
 
@@ -38,8 +38,12 @@ public class CarTrailer extends DynamicObject implements PayloadCarriable {
 	 */
 	@Override
 	public String toString() {
-		return "CarTrailer [name=" + name + ", weight=" + weight + ", maxSpeed=" + maxSpeed + ", payload=" + payload
+		return "CarTrailer [id=" + id + ", name=" + name + ", weight=" + weight + ", maxSpeed=" + maxSpeed + ", payload=" + payload
 				+ "]";
+	}
+	
+	public PayloadCarriable getPayload() {
+		return payload;
 	}
 	
 }

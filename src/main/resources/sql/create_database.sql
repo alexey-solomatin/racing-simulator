@@ -1,6 +1,7 @@
 CREATE USER 'racing_simulator'@'localhost' IDENTIFIED BY 'racing_simulator';
 CREATE DATABASE IF NOT EXISTS `racing_simulator` CHARACTER SET utf8;
 GRANT ALL PRIVILEGES ON `racing_simulator`.* TO 'racing_simulator'@'localhost';
+GRANT SELECT ON mysql.proc TO 'racing_simulator'@'localhost';
 FLUSH PRIVILEGES;
 
 CREATE TABLE `racing_simulator`.`racing` (
@@ -87,3 +88,135 @@ CREATE TABLE `racing_simulator`.`racer` (
     REFERENCES `racing_simulator`.`vehicle` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+USE `racing_simulator`;
+DROP procedure IF EXISTS `create_bus`;
+
+DELIMITER $$
+USE `racing_simulator`$$
+CREATE PROCEDURE `create_bus` (IN sName VARCHAR(255), IN dWeight DOUBLE, IN dMaxSpeed DOUBLE, IN dAcceleration DOUBLE, IN lNumPassengers INT(11), IN lMaxNumPassengers INT(11), OUT id BIGINT(20))
+BEGIN
+	START TRANSACTION;
+    INSERT INTO `vehicle` (`vehicle_type`, `name`, `weight`, `max_speed`, `acceleration`) VALUES (1, sName, dWeight, dMaxSpeed, dAcceleration);
+    SET id = last_insert_id();
+	INSERT INTO `bus` (`id`, `num_passengers`, `max_num_passengers`) VALUES (id, lNumPassengers, lMaxNumPassengers);
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+USE `racing_simulator`;
+DROP procedure IF EXISTS `create_truck`;
+
+DELIMITER $$
+USE `racing_simulator`$$
+CREATE PROCEDURE `create_truck` (IN sName VARCHAR(255), IN dWeight DOUBLE, IN dMaxSpeed DOUBLE, IN dAcceleration DOUBLE, IN dPayloadWeight DOUBLE, IN dMaxPayloadWeight DOUBLE, OUT id BIGINT(20))
+BEGIN
+	START TRANSACTION;
+    INSERT INTO `vehicle` (`vehicle_type`, `name`, `weight`, `max_speed`, `acceleration`) VALUES (2, sName, dWeight, dMaxSpeed, dAcceleration);
+    SET id = last_insert_id();
+	INSERT INTO `truck` (`id`, `payload_weight`, `max_payload_weight`) VALUES (last_insert_id(), dPayloadWeight, dMaxPayloadWeight);
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+USE `racing_simulator`;
+DROP procedure IF EXISTS `create_car`;
+
+DELIMITER $$
+USE `racing_simulator`$$
+CREATE PROCEDURE `create_car` (IN sName VARCHAR(255), IN dWeight DOUBLE, IN dMaxSpeed DOUBLE, IN dAcceleration DOUBLE, IN lTrailerId BIGINT(20), OUT id BIGINT(20))
+BEGIN
+	START TRANSACTION;
+    INSERT INTO `vehicle` (`vehicle_type`, `name`, `weight`, `max_speed`, `acceleration`) VALUES (3, sName, dWeight, dMaxSpeed, dAcceleration);
+    SET id = last_insert_id();
+	INSERT INTO `car` (`id`, `trailer_id`) VALUES (last_insert_id(), lTrailerId);
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+USE `racing_simulator`;
+DROP procedure IF EXISTS `create_car_trailer`;
+
+DELIMITER $$
+USE `racing_simulator`$$
+CREATE PROCEDURE `create_car_trailer` (IN sName VARCHAR(255), IN dWeight DOUBLE, IN dMaxSpeed DOUBLE, IN dPayloadWeight DOUBLE, IN dMaxPayloadWeight DOUBLE, OUT id BIGINT(20))
+BEGIN
+    INSERT INTO `car_trailer` (`name`, `weight`, `max_speed`, `payload_weight`, `max_payload_weight`) VALUES (sName, dWeight, dMaxSpeed, dPayloadWeight, dMaxPayloadWeight);
+    SET id = last_insert_id();
+END$$
+
+DELIMITER ;
+
+USE `racing_simulator`;
+DROP procedure IF EXISTS `update_bus`;
+
+DELIMITER $$
+USE `racing_simulator`$$
+CREATE PROCEDURE `update_bus` (IN id BIGINT(20), IN sName VARCHAR(255), IN dWeight DOUBLE, IN dMaxSpeed DOUBLE, IN dAcceleration DOUBLE, IN lNumPassengers INT(11), IN lMaxNumPassengers INT(11))
+BEGIN
+	START TRANSACTION;
+    UPDATE `vehicle` v
+    SET v.`name` = sName, v.`weight` = dWeight, v.`max_speed` = dMaxSpeed, v.`acceleration` = dAcceleration
+    WHERE v.id = id;
+	UPDATE `bus` b 
+	SET b.`num_passengers` = lNumPassengers, b.`max_num_passengers` = lMaxNumPassengers
+	WHERE b.id = id;
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+USE `racing_simulator`;
+DROP procedure IF EXISTS `update_truck`;
+
+DELIMITER $$
+USE `racing_simulator`$$
+CREATE PROCEDURE `update_truck` (IN id BIGINT(20), IN sName VARCHAR(255), IN dWeight DOUBLE, IN dMaxSpeed DOUBLE, IN dAcceleration DOUBLE, IN dPayloadWeight DOUBLE, IN dMaxPayloadWeight DOUBLE)
+BEGIN
+	START TRANSACTION;
+    UPDATE `vehicle` v 
+    SET v.`name` = sName, v.`weight` = dWeight, v.`max_speed` = dMaxSpeed, v.`acceleration` = dAcceleration
+    WHERE v.id = id;
+	UPDATE `truck` t 
+	SET t.`payload_weight` = dPayloadWeight, t.`max_payload_weight` = dMaxPayloadWeight
+    WHERE t.id = id;
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+USE `racing_simulator`;
+DROP procedure IF EXISTS `update_car`;
+
+DELIMITER $$
+USE `racing_simulator`$$
+CREATE PROCEDURE `update_car` (IN id BIGINT(20), IN sName VARCHAR(255), IN dWeight DOUBLE, IN dMaxSpeed DOUBLE, IN dAcceleration DOUBLE, IN lTrailerId BIGINT(20))
+BEGIN
+	START TRANSACTION;
+    UPDATE `vehicle` v 
+    SET v.`name` = sName, v.`weight` = dWeight, v.`max_speed` = dMaxSpeed, v.`acceleration` = dAcceleration
+    WHERE v.id = id;
+	UPDATE `car` c 
+	SET c.`trailer_id` = lTrailerId
+	WHERE c.id = id;
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+USE `racing_simulator`;
+DROP procedure IF EXISTS `update_car_trailer`;
+
+DELIMITER $$
+USE `racing_simulator`$$
+CREATE PROCEDURE `update_car_trailer` (IN id BIGINT(20), IN sName VARCHAR(255), IN dWeight DOUBLE, IN dMaxSpeed DOUBLE, IN dPayloadWeight DOUBLE, IN dMaxPayloadWeight DOUBLE)
+BEGIN
+    UPDATE `car_trailer` ct
+    SET ct.`name` = sName, ct.`weight` = dWeight, ct.`max_speed` = dMaxSpeed, ct.`payload_weight` = dPayloadWeight, ct.`max_payload_weight` = dMaxPayloadWeight
+    WHERE ct.id = id;
+END$$
+
+DELIMITER ;

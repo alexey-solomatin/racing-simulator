@@ -4,6 +4,7 @@
 package com.smartech.course.racing;
 
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.time.Duration;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,16 +14,24 @@ import org.slf4j.LoggerFactory;
 import com.smartech.course.racing.builder.simulation.RacingSimulationBuilder;
 import com.smartech.course.racing.builder.simulation.RacingSimulationBuilderFactory;
 import com.smartech.course.racing.builder.simulation.RacingSimulationBuilderFactory.RacingSimulationType;
+import com.smartech.course.racing.dao.BusJDBCDao;
+import com.smartech.course.racing.dao.CarJDBCDao;
+import com.smartech.course.racing.dao.TruckJDBCDao;
 import com.smartech.course.racing.dialog.racing.RacingCreationConsoleDialog;
 import com.smartech.course.racing.dialog.simple.DoubleValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.InfoConsoleDialog;
 import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.YesNoConsoleDialog;
-import com.smartech.course.racing.dialog.vehicle.VehicleSelectionAndCreationConsoleDialog;
+import com.smartech.course.racing.dialog.vehicle.VehicleCreationConsoleDialog;
+import com.smartech.course.racing.dialog.vehicle.VehicleSelectionConsoleDialog;
 import com.smartech.course.racing.simulation.RacingSimulation;
 import com.smartech.course.racing.utils.RacingSimulationConsole;
 import com.smartech.course.racing.utils.RacingSimulationConsoleInformer;
 import com.smartech.course.racing.utils.RacingSimulationWriter;
+import com.smartech.course.racing.vehicle.Bus;
+import com.smartech.course.racing.vehicle.Car;
+import com.smartech.course.racing.vehicle.Truck;
+import com.smartech.course.racing.vehicle.Vehicle;
 
 /**
  * Racing Simulator application
@@ -58,6 +67,7 @@ public class RacingSimulator {
 			log.info("Starting Racing Simulator.");
 			log.info("The mode of racing simulation: {}.", racingSimulationType);
 			showInfo();
+			createVehicles();
 			RacingSimulation simulation = simulation(racingSimulationType);
 			informer = new RacingSimulationConsoleInformer(simulation, Duration.ofSeconds(PRINTING_THREAD_TIME_STEP));
 			System.console().readLine("\nPlease press <ENTER> to start the racing simulation.");
@@ -87,6 +97,47 @@ public class RacingSimulator {
 			.get();		
 	}	
 	
+	private void createVehicles() {
+		while (new YesNoConsoleDialog("\nWould you like to create and configure a new vehicle?").get()) {
+			try {
+				Vehicle vehicle = new VehicleCreationConsoleDialog().get();
+				if (vehicle != null) {
+					if (vehicle instanceof Car)
+						CarJDBCDao.getInstance().create((Car) vehicle);
+					else if (vehicle instanceof Bus)
+						BusJDBCDao.getInstance().create((Bus) vehicle);
+					else if (vehicle instanceof Truck)
+						TruckJDBCDao.getInstance().create((Truck) vehicle);
+				}
+			} catch (Exception e) {
+				log.error("Error during creating a vehicle.", e);
+				System.err.println("Cannot create a vehicle. Please try again.");
+			}					
+		}
+	}
+	
+	private RacingSimulation simulation(RacingSimulationType type) throws SQLException {		
+		RacingSimulationBuilder builder = RacingSimulationBuilderFactory.newRacingSimulationBuilder(type)
+			.racing(new RacingCreationConsoleDialog())
+			.timeStep(new DoubleValueConsoleDialog(
+				"Please enter the simulation time step in seconds: ", 
+				"You've entered the incorrect simulation time step.", 
+				(t) -> t > 0))
+			.racerEventCallback(RacingSimulationConsole.getInstance()::onRacerEvent);
+		do {
+			builder.racer(
+				new StringValueConsoleDialog(
+					"\nPlease enter the racer's name: ", 
+					"You've entered the incorrect name.", 
+					(s) -> !StringUtils.isBlank(s)), 
+				new VehicleSelectionConsoleDialog());
+			if (!new YesNoConsoleDialog("\nWould you like to create one more racer?").get())						
+				break;
+		} while (true);
+
+		return builder.build();			
+	}	
+	
 	private void saveResults(RacingSimulation simulation) {
 		while (new YesNoConsoleDialog("\nWould you like to save these results to file?").get()) {			
 			String fileName = new StringValueConsoleDialog(
@@ -104,27 +155,5 @@ public class RacingSimulator {
 			}				
 		}
 	}
-	
-	private RacingSimulation simulation(RacingSimulationType type) {		
-		RacingSimulationBuilder builder = RacingSimulationBuilderFactory.newRacingSimulationBuilder(type)
-			.racing(new RacingCreationConsoleDialog())
-			.timeStep(new DoubleValueConsoleDialog(
-				"Please enter the simulation time step in seconds: ", 
-				"You've entered the incorrect simulation time step.", 
-				(t) -> t > 0))
-			.racerEventCallback(RacingSimulationConsole.getInstance()::onRacerEvent);
-		do {
-			builder.racer(
-				new StringValueConsoleDialog(
-					"\nPlease enter the racer's name: ", 
-					"You've entered the incorrect name.", 
-					(s) -> !StringUtils.isBlank(s)), 
-				new VehicleSelectionAndCreationConsoleDialog());
-			if (!new YesNoConsoleDialog("\nWould you like to create one more racer?").get())						
-				break;
-		} while (true);
-
-		return builder.build();			
-	}	
 
 }

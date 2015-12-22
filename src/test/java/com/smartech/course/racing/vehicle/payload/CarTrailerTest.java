@@ -47,7 +47,7 @@ public class CarTrailerTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		payload = new CarTrailer("CarTrailer", TRAILER_WEIGHT, TRAILER_MAX_SPEED, MAX_PAYLOAD_WEIGHT, PAYLOAD_WEIGHT);
+		payload = new CarTrailer(1L, "CarTrailer", TRAILER_WEIGHT, TRAILER_MAX_SPEED, MAX_PAYLOAD_WEIGHT, PAYLOAD_WEIGHT);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class CarTrailerTest {
 	 */
 	@Test	
 	public void testCarTrailerWithCorrectParameters() throws CreatingVehicleException {		
-		new CarTrailer("name", 1, 1, 1, 1);
+		new CarTrailer(1L, "name", 1, 1, 1, 1);
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class CarTrailerTest {
 	 */
 	@Test(expected=CreatingVehicleException.class)
 	public void testCarTrailerWithNotCorrectName() throws CreatingVehicleException {		
-		new CarTrailer(null, 1, 1, 1, 1);
+		new CarTrailer(1L, null, 1, 1, 1, 1);
 		fail("CarTrailer cannot be created with the name value that equals to null");
 	}
 	
@@ -82,7 +82,7 @@ public class CarTrailerTest {
 	 */
 	@Test(expected=CreatingVehicleException.class)	
 	public void testCarTrailerWithNotCorrectWeight() throws CreatingVehicleException {		
-		new CarTrailer("name", -1, 1, 1, 1);
+		new CarTrailer(1L, "name", -1, 1, 1, 1);
 		fail("CarTrailer cannot be created with the negative weight value");
 	}
 	
@@ -92,7 +92,7 @@ public class CarTrailerTest {
 	 */
 	@Test(expected=CreatingVehicleException.class)	
 	public void testCarTrailerWithNotCorrectMaxSpeed() throws CreatingVehicleException {		
-		new CarTrailer("name", 1, -1, 1, 1);
+		new CarTrailer(1L, "name", 1, -1, 1, 1);
 		fail("CarTrailer cannot be created with the negative maxSpeed value");
 	}
 	
@@ -102,7 +102,7 @@ public class CarTrailerTest {
 	 */
 	@Test(expected=CreatingVehicleException.class)	
 	public void testCarTrailerWithNotCorrectMaxPayloadWeight() throws CreatingVehicleException {		
-		new CarTrailer("name", 1, 1, -1, 1);
+		new CarTrailer(1L, "name", 1, 1, -1, 1);
 		fail("CarTrailer cannot be created with the negative maxPayloadWeight value");
 	}
 	
@@ -112,7 +112,7 @@ public class CarTrailerTest {
 	 */
 	@Test(expected=CreatingVehicleException.class)	
 	public void testCarTrailerWithNotCorrectPayloadWeight() throws CreatingVehicleException {		
-		new CarTrailer("name", 1, 1, 1, -1);
+		new CarTrailer(1L, "name", 1, 1, 1, -1);
 		fail("CarTrailer cannot be created with the negative payloadWeight value");
 	}
 	
@@ -122,7 +122,7 @@ public class CarTrailerTest {
 	 */
 	@Test(expected=CreatingVehicleException.class)	
 	public void testCarTrailerWithMaxPayloadWeightLessThanPayloadWeight() throws CreatingVehicleException {		
-		new CarTrailer("name", 1, 1, 1, 2);
+		new CarTrailer(1L, "name", 1, 1, 1, 2);
 		fail("CarTrailer cannot be created with the maxPayloadWeight value less than the payloadWeightValue");
 	}
 

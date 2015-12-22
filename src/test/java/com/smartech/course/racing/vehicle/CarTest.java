@@ -18,7 +18,7 @@ public class CarTest extends AbstractVehicleTest {
 	
 	@Override
 	protected Vehicle createVehicle() throws CreatingVehicleException {
-		return new Car(CAR_NAME, CAR_WEIGHT, CAR_MAX_SPEED, CAR_ACCELERATION);
+		return new Car(1L, CAR_NAME, CAR_WEIGHT, CAR_MAX_SPEED, CAR_ACCELERATION);
 	}
 	
 	@Override
