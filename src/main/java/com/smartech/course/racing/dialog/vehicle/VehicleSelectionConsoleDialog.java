@@ -6,10 +6,7 @@ package com.smartech.course.racing.dialog.vehicle;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.smartech.course.racing.builder.vehicle.BusBuilderImpl;
-import com.smartech.course.racing.builder.vehicle.CarBuilderImpl;
-import com.smartech.course.racing.builder.vehicle.TruckBuilderImpl;
-import com.smartech.course.racing.dao.VehicleJDBCDao;
+import com.smartech.course.racing.dao.DaoFactory;
 import com.smartech.course.racing.dialog.ConsoleDialog;
 import com.smartech.course.racing.dialog.simple.LongValueConsoleDialog;
 import com.smartech.course.racing.vehicle.Bus;
@@ -30,14 +27,17 @@ public class VehicleSelectionConsoleDialog extends ConsoleDialog<Movable> {
 	private static final double CAR_SPEED_LOSING_PROBABILITY = 0.2;
 	
 	private List<Vehicle> vehicles;
+	
+	private final DaoFactory daoFactory;
 
 	/**
 	 * @param questionMessage
 	 * @param errorMessage
 	 * @throws SQLException 
 	 */
-	public VehicleSelectionConsoleDialog() throws SQLException {
-		super("Please select a vehicle.", "Cannot find the specified vehicle.");		
+	public VehicleSelectionConsoleDialog(DaoFactory daoFactory) throws SQLException {
+		super("Please select a vehicle.", "Cannot find the specified vehicle.");
+		this.daoFactory = daoFactory;
 	}
 
 	/* (non-Javadoc)
@@ -47,7 +47,7 @@ public class VehicleSelectionConsoleDialog extends ConsoleDialog<Movable> {
 	protected Movable buildObject() throws Exception {
 		if (vehicles == null) {
 			log.debug("Loading the vehicles from the database.");
-			vehicles = VehicleJDBCDao.getInstance().readAll();
+			vehicles = daoFactory.getVehicleDao().readAll();
 		}
 		log.debug("Selecting a vehicle.");
 		if (vehicles != null && !vehicles.isEmpty()) {
@@ -56,7 +56,7 @@ public class VehicleSelectionConsoleDialog extends ConsoleDialog<Movable> {
 		} else
 			System.console().printf("There are no vehicles in the database.\n");
 		Long vehicleId = new LongValueConsoleDialog("Please enter the vehicle ID: ", "You've entered the wrong ID.", (id)->id>0).get();
-		Vehicle vehicle = VehicleJDBCDao.getInstance().read(vehicleId);
+		Vehicle vehicle = daoFactory.getVehicleDao().read(vehicleId);
 		if (vehicle != null) {
 			if (vehicle instanceof Car)
 				return new SpeedLosingVehicleWrapper(vehicle, CAR_SPEED_LOSING_PROBABILITY);

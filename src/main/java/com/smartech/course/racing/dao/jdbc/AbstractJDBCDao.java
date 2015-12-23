@@ -1,16 +1,13 @@
 /**
  * 
  */
-package com.smartech.course.racing.dao;
+package com.smartech.course.racing.dao.jdbc;
 
-import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLType;
-import java.sql.Types;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -18,6 +15,8 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.smartech.course.racing.dao.GenericDao;
+import com.smartech.course.racing.dao.Persistable;
 import com.smartech.course.racing.exception.DataAccessConnectionFailureException;
 import com.smartech.course.racing.exception.DataAccessException;
 
@@ -25,7 +24,7 @@ import com.smartech.course.racing.exception.DataAccessException;
  * @author Alexey Solomatin
  *
  */
-public abstract class AbstractJDBCDao<T extends Persistable<Long>> implements GenericDao<T, Long> {
+abstract class AbstractJDBCDao<T extends Persistable<Long>> implements GenericDao<T, Long> {
 	protected Logger log = LoggerFactory.getLogger(getClass());
 	
 	private DataSource dataSource;

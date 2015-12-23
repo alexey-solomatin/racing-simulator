@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.smartech.course.racing.dao;
+package com.smartech.course.racing.dao.jdbc;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -12,16 +12,16 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.smartech.course.racing.dao.RacingDao;
 import com.smartech.course.racing.database.RacingSimulatorDbDataSource;
 import com.smartech.course.racing.exception.DataAccessException;
 import com.smartech.course.racing.simulation.Racing;
-import com.smartech.course.racing.vehicle.Truck;
 
 /**
  * @author Alexey Solomatin
  *
  */
-public class RacingJDBCDao extends AbstractJDBCDao<Racing> {
+class RacingJDBCDao extends AbstractJDBCDao<Racing> implements RacingDao {
 
 	private static volatile RacingJDBCDao instance;
 

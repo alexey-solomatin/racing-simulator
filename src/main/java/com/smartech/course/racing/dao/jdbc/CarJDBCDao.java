@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.smartech.course.racing.dao;
+package com.smartech.course.racing.dao.jdbc;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -12,32 +12,32 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.smartech.course.racing.dao.CarDao;
 import com.smartech.course.racing.database.RacingSimulatorDbDataSource;
 import com.smartech.course.racing.exception.DataAccessException;
-import com.smartech.course.racing.vehicle.Bus;
-import com.smartech.course.racing.vehicle.Truck;
+import com.smartech.course.racing.vehicle.Car;
 
 /**
  * @author Alexey Solomatin
  *
  */
-public class TruckJDBCDao extends AbstractJDBCDao<Truck> {
-	private static volatile TruckJDBCDao instance;
-
+class CarJDBCDao extends AbstractJDBCDao<Car> implements CarDao {
+	private static volatile CarJDBCDao instance;
+	
 	/**
 	 * @param dataSource
 	 */
-	private TruckJDBCDao(DataSource dataSource) {
+	private CarJDBCDao(DataSource dataSource) {
 		super(dataSource);
 	}
 	
-	public static TruckJDBCDao getInstance() {
-		TruckJDBCDao localInstance = instance;
+	public static CarJDBCDao getInstance() {
+		CarJDBCDao localInstance = instance;
 		if (localInstance == null) {
-			synchronized (TruckJDBCDao.class) {
+			synchronized (CarJDBCDao.class) {
 				localInstance = instance;
 				if (localInstance == null) {
-					instance = localInstance = new TruckJDBCDao(RacingSimulatorDbDataSource.getInstance().get());
+					instance = localInstance = new CarJDBCDao(RacingSimulatorDbDataSource.getInstance().get());
 				}
 			}
 		}
@@ -56,11 +56,10 @@ public class TruckJDBCDao extends AbstractJDBCDao<Truck> {
 				+ "v.weight, "
 				+ "v.max_speed, "
 				+ "v.acceleration, "
-				+ "t.payload_weight, "
-				+ "t.max_payload_weight "
-				+ "from truck t "
+				+ "c.trailer_id "							
+				+ "from car c "
 				+ "	inner join vehicle v "
-				+ "		on v.id = t.id ";
+				+ "		on v.id = c.id ";
 	}
 	
 	@Override
@@ -73,7 +72,7 @@ public class TruckJDBCDao extends AbstractJDBCDao<Truck> {
 	 */
 	@Override
 	protected String getCreateQuery() {
-		return "{call create_truck(?,?,?,?,?,?,?)}";
+		return "{call create_car(?,?,?,?,?,?)}";
 	}
 
 	/* (non-Javadoc)
@@ -81,7 +80,7 @@ public class TruckJDBCDao extends AbstractJDBCDao<Truck> {
 	 */
 	@Override
 	protected String getUpdateQuery() {
-		return "{call update_truck(?,?,?,?,?,?,?)}";
+		return "{call update_car(?,?,?,?,?,?)}";
 	}
 
 	/* (non-Javadoc)
@@ -96,49 +95,59 @@ public class TruckJDBCDao extends AbstractJDBCDao<Truck> {
 	 * @see com.smartech.course.racing.dao.AbstractJDBCDao#prepareStatementForCreate(java.sql.CallableStatement, com.smartech.course.racing.dao.Persistable)
 	 */
 	@Override
-	protected void prepareStatementForCreate(CallableStatement statement, Truck truck)
-			throws DataAccessException, SQLException {		
-		statement.setString("sName", truck.getName());
-		statement.setDouble("dWeight", truck.getWeight());
-		statement.setDouble("dMaxSpeed", truck.getMaxSpeed());
-		statement.setDouble("dAcceleration", truck.getAcceleration());		
-		statement.setDouble("dPayloadWeight", truck.getPayload().getPayloadWeight());
-		statement.setDouble("dMaxPayloadWeight", truck.getPayload().getMaxPayloadWeight());
-		statement.registerOutParameter("id", Types.BIGINT);		
+	protected void prepareStatementForCreate(CallableStatement statement, Car car)
+			throws DataAccessException, SQLException {
+		statement.setString("sName", car.getName());
+		statement.setDouble("dWeight", car.getWeight());
+		statement.setDouble("dMaxSpeed", car.getMaxSpeed());
+		statement.setDouble("dAcceleration", car.getAcceleration());
+		if (car.getPayload() != null)
+			statement.setLong("lTrailerId", car.getPayload().getId());
+		else
+			statement.setObject("lTrailerId", null);
+		statement.registerOutParameter("id", Types.BIGINT);
 	}
 
 	/* (non-Javadoc)
 	 * @see com.smartech.course.racing.dao.AbstractJDBCDao#prepareStatementForUpdate(java.sql.CallableStatement, com.smartech.course.racing.dao.Persistable)
 	 */
 	@Override
-	protected void prepareStatementForUpdate(CallableStatement statement, Truck truck)
+	protected void prepareStatementForUpdate(CallableStatement statement, Car car)
 			throws DataAccessException, SQLException {
-		statement.setLong("id", truck.getId());
-		statement.setString("sName", truck.getName());
-		statement.setDouble("dWeight", truck.getWeight());
-		statement.setDouble("dMaxSpeed", truck.getMaxSpeed());
-		statement.setDouble("dAcceleration", truck.getAcceleration());
-		statement.setDouble("dPayloadWeight", truck.getPayload().getPayloadWeight());
-		statement.setDouble("dMaxPayloadWeight", truck.getPayload().getMaxPayloadWeight());		
+		statement.setLong("id", car.getId());
+		statement.setString("sName", car.getName());
+		statement.setDouble("dWeight", car.getWeight());
+		statement.setDouble("dMaxSpeed", car.getMaxSpeed());
+		statement.setDouble("dAcceleration", car.getAcceleration());
+		if (car.getPayload() != null) {
+			if (car.getPayload().getId() != null)
+				CarTrailerJDBCDao.getInstance().update(car.getPayload());
+			else {
+				Long trailerId = CarTrailerJDBCDao.getInstance().create(car.getPayload());
+				statement.setLong("lTrailerId", trailerId);
+			}
+		}
+							
 	}
 
 	/* (non-Javadoc)
 	 * @see com.smartech.course.racing.dao.AbstractJDBCDao#parseResultSet(java.sql.ResultSet)
 	 */
 	@Override
-	protected List<Truck> parseResultSet(ResultSet rs) throws DataAccessException {
-		List<Truck> result = new ArrayList<>();  
+	protected List<Car> parseResultSet(ResultSet rs) throws DataAccessException {
+		List<Car> result = new ArrayList<>();  
         try {
-            while (rs.next()) {
-            	Truck truck = new Truck(
+            while (rs.next()) {            	
+            	Car car = new Car(
             		rs.getLong("id"),
             		rs.getString("name"), 
             		rs.getDouble("weight"),
             		rs.getDouble("max_speed"),
-            		rs.getDouble("acceleration"),
-    				rs.getLong("max_payload_weight"),
-					rs.getLong("payload_weight"));                
-                result.add(truck);
+            		rs.getDouble("acceleration"));
+            	Long trailerId = rs.getObject("trailer_id", Long.class);
+            	if (trailerId != null && trailerId != 0)
+            		car.addTrailer(CarTrailerJDBCDao.getInstance().read(rs.getObject("trailer_id", Long.class)));
+                result.add(car);
             }
         } catch (Exception e) {
             throw new DataAccessException(e);

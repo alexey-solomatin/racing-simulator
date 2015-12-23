@@ -14,10 +14,8 @@ import org.slf4j.LoggerFactory;
 import com.smartech.course.racing.builder.simulation.RacingSimulationBuilder;
 import com.smartech.course.racing.builder.simulation.RacingSimulationBuilderFactory;
 import com.smartech.course.racing.builder.simulation.RacingSimulationBuilderFactory.RacingSimulationType;
-import com.smartech.course.racing.dao.BusJDBCDao;
-import com.smartech.course.racing.dao.CarJDBCDao;
-import com.smartech.course.racing.dao.RacingJDBCDao;
-import com.smartech.course.racing.dao.TruckJDBCDao;
+import com.smartech.course.racing.dao.DaoFactory;
+import com.smartech.course.racing.dao.jdbc.JDBCDaoFactory;
 import com.smartech.course.racing.dialog.racing.RacingCreationConsoleDialog;
 import com.smartech.course.racing.dialog.racing.RacingSelectionConsoleDialog;
 import com.smartech.course.racing.dialog.simple.DoubleValueConsoleDialog;
@@ -45,9 +43,11 @@ public class RacingSimulator {
 	private Logger log = LoggerFactory.getLogger(RacingSimulator.class);
 	private final int PRINTING_THREAD_TIME_STEP = 5;
 	private RacingSimulationType racingSimulationType;
+	private final DaoFactory daoFactory;
 	
 	public RacingSimulator(RacingSimulationType racingSimulationType) {
 		this.racingSimulationType = racingSimulationType;
+		this.daoFactory = JDBCDaoFactory.getInstance();
 	}
 
 	/**
@@ -113,11 +113,11 @@ public class RacingSimulator {
 				Vehicle vehicle = new VehicleCreationConsoleDialog().get();
 				if (vehicle != null) {
 					if (vehicle instanceof Car)
-						CarJDBCDao.getInstance().create((Car) vehicle);
+						daoFactory.getCarDao().create((Car) vehicle);
 					else if (vehicle instanceof Bus)
-						BusJDBCDao.getInstance().create((Bus) vehicle);
+						daoFactory.getBusDao().create((Bus) vehicle);
 					else if (vehicle instanceof Truck)
-						TruckJDBCDao.getInstance().create((Truck) vehicle);
+						daoFactory.getTruckDao().create((Truck) vehicle);
 				}
 			} catch (Exception e) {
 				log.error("Error during creating a vehicle.", e);
@@ -131,7 +131,7 @@ public class RacingSimulator {
 			try {
 				Racing racing = new RacingCreationConsoleDialog().get();
 				if (racing != null)
-					RacingJDBCDao.getInstance().create(racing);				
+					daoFactory.getRacingDao().create(racing);				
 			} catch (Exception e) {
 				log.error("Error during creating a racing.", e);
 				System.err.println("Cannot create a racing. Please try again.");
@@ -142,7 +142,7 @@ public class RacingSimulator {
 	private RacingSimulation simulation(RacingSimulationType type) throws SQLException {	
 		System.console().printf("\n");
 		RacingSimulationBuilder builder = RacingSimulationBuilderFactory.newRacingSimulationBuilder(type)
-			.racing(new RacingSelectionConsoleDialog())
+			.racing(new RacingSelectionConsoleDialog(daoFactory))
 			.timeStep(new DoubleValueConsoleDialog(
 				"Please enter the simulation time step in seconds: ", 
 				"You've entered the incorrect simulation time step.", 
@@ -154,7 +154,7 @@ public class RacingSimulator {
 					"\nPlease enter the racer's name: ", 
 					"You've entered the incorrect name.", 
 					(s) -> !StringUtils.isBlank(s)), 
-				new VehicleSelectionConsoleDialog());
+				new VehicleSelectionConsoleDialog(daoFactory));
 			if (!new YesNoConsoleDialog("\nWould you like to create one more racer?").get())						
 				break;
 		} while (true);

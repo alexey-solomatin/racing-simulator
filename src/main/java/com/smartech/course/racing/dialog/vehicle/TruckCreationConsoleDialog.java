@@ -11,7 +11,6 @@ import com.smartech.course.racing.dialog.ConsoleDialog;
 import com.smartech.course.racing.dialog.simple.DoubleValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
 import com.smartech.course.racing.exception.CreatingVehicleException;
-import com.smartech.course.racing.vehicle.Movable;
 import com.smartech.course.racing.vehicle.Truck;
 
 /**

@@ -11,7 +11,6 @@ import com.smartech.course.racing.dialog.ConsoleDialog;
 import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.YesNoConsoleDialog;
 import com.smartech.course.racing.vehicle.Car;
-import com.smartech.course.racing.vehicle.Movable;
 
 /**
  * @author Alexey Solomatin

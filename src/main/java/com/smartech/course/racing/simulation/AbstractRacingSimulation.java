@@ -4,7 +4,6 @@
 package com.smartech.course.racing.simulation;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
@@ -17,7 +16,6 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.smartech.course.racing.config.AppProperties;
 import com.smartech.course.racing.exception.MovingVehicleException;
 import com.smartech.course.racing.vehicle.Movable;
 

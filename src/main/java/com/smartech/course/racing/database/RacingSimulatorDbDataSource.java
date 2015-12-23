@@ -9,8 +9,6 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
-import com.smartech.course.racing.config.AppProperties;
-
 /**
  * @author Alexey Solomatin
  *

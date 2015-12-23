@@ -1,20 +1,18 @@
 /**
  * 
  */
-package com.smartech.course.racing.dao;
+package com.smartech.course.racing.dao.jdbc;
 
-import java.io.Serializable;
 import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLType;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.smartech.course.racing.dao.BusDao;
 import com.smartech.course.racing.database.RacingSimulatorDbDataSource;
 import com.smartech.course.racing.exception.DataAccessException;
 import com.smartech.course.racing.vehicle.Bus;
@@ -23,7 +21,7 @@ import com.smartech.course.racing.vehicle.Bus;
  * @author Alexey Solomatin
  *
  */
-public class BusJDBCDao extends AbstractJDBCDao<Bus> {
+class BusJDBCDao extends AbstractJDBCDao<Bus> implements BusDao {
 	private static volatile BusJDBCDao instance;
 	
 	/**

@@ -7,8 +7,6 @@ import com.smartech.course.racing.builder.vehicle.BusBuilderImpl;
 import com.smartech.course.racing.builder.vehicle.CarBuilderImpl;
 import com.smartech.course.racing.builder.vehicle.TruckBuilderImpl;
 import com.smartech.course.racing.dialog.ConsoleDialog;
-import com.smartech.course.racing.vehicle.Movable;
-import com.smartech.course.racing.vehicle.SpeedLosingVehicleWrapper;
 import com.smartech.course.racing.vehicle.Vehicle;
 
 /**

@@ -5,7 +5,6 @@ package com.smartech.course.racing.simulation;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.Semaphore;
 
 import com.smartech.course.racing.exception.MovingVehicleException;
 
