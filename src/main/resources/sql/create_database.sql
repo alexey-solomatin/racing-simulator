@@ -5,7 +5,7 @@ GRANT SELECT ON mysql.proc TO 'racing_simulator'@'localhost';
 FLUSH PRIVILEGES;
 
 CREATE TABLE `racing_simulator`.`racing` (
-  `id` BIGINT(20) NOT NULL,
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `distance` DOUBLE NOT NULL,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC),
@@ -90,6 +90,19 @@ CREATE TABLE `racing_simulator`.`racer` (
     ON UPDATE NO ACTION);
 
 USE `racing_simulator`;
+DROP procedure IF EXISTS `create_racing`;
+
+DELIMITER $$
+USE `racing_simulator`$$
+CREATE PROCEDURE `create_racing` (IN sName VARCHAR(255), IN dDistance DOUBLE, OUT id BIGINT(20))
+BEGIN
+    INSERT INTO `racing` (`name`, `distance`) VALUES (sName, dDistance);
+    SET id = last_insert_id();
+END$$
+
+DELIMITER ;    
+    
+USE `racing_simulator`;
 DROP procedure IF EXISTS `create_bus`;
 
 DELIMITER $$
@@ -146,6 +159,20 @@ CREATE PROCEDURE `create_car_trailer` (IN sName VARCHAR(255), IN dWeight DOUBLE,
 BEGIN
     INSERT INTO `car_trailer` (`name`, `weight`, `max_speed`, `payload_weight`, `max_payload_weight`) VALUES (sName, dWeight, dMaxSpeed, dPayloadWeight, dMaxPayloadWeight);
     SET id = last_insert_id();
+END$$
+
+DELIMITER ;
+
+USE `racing_simulator`;
+DROP procedure IF EXISTS `update_racing`;
+
+DELIMITER $$
+USE `racing_simulator`$$
+CREATE PROCEDURE `update_racing` (IN id BIGINT(20), IN sName VARCHAR(255), IN dDistance DOUBLE)
+BEGIN
+    UPDATE `racing` r
+    SET r.`name` = sName, r.`distance` = dDistance
+    WHERE r.id = id;
 END$$
 
 DELIMITER ;

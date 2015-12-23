@@ -64,7 +64,7 @@ public class RacerTest {
 	 */
 	@Test
 	public void testMove() throws MovingVehicleException {		
-		Racing racing = new Racing("Racing #1", DISTANCE);
+		Racing racing = new Racing(1L, "Racing #1", DISTANCE);
 		Movable vehicle = MockUtils.mockVehicle();
 		Racer racer = new Racer("TestRacer", vehicle, racing);
 		assertNotNull(racer.getVehicleState());
@@ -82,7 +82,7 @@ public class RacerTest {
 	 */
 	@Test
 	public void testIsFinished() throws MovingVehicleException {		
-		Racing racing = new Racing("Racing #1", DISTANCE);
+		Racing racing = new Racing(1L, "Racing #1", DISTANCE);
 		Movable vehicle = MockUtils.mockVehicle();
 		Racer racer = new Racer("TestRacer", vehicle, racing);
 		assertFalse(racer.isFinished());

@@ -71,7 +71,7 @@ public class RacingSimulationTest {
 	 */
 	@Test
 	public void testRegister() throws MovingVehicleException {		
-		SingleThreadRacingSimulation simulation = new SingleThreadRacingSimulation(new Racing(), 1);
+		SingleThreadRacingSimulation simulation = new SingleThreadRacingSimulation(new Racing(1L), 1);
 		Movable vehicle = MockUtils.mockVehicle();
 		simulation.register("TestRacer", vehicle);
 		Collection<Racer> racers = simulation.getRacers();
@@ -87,7 +87,7 @@ public class RacingSimulationTest {
 	 */
 	@Test
 	public void testRun() throws MovingVehicleException {
-		Racing racing = new Racing("Racing #1", 4.5);		
+		Racing racing = new Racing(1L, "Racing #1", 4.5);		
 		double timeStep = 1;
 		RacingSimulation simulation = new SingleThreadRacingSimulation(racing, timeStep);
 		Movable vehicle1 = MockUtils.mockVehicle();

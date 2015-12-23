@@ -39,7 +39,7 @@ public class RacingBuilderImpl implements RacingBuilder {
 
 	@Override
 	public Racing build() {
-		return new Racing(name, distance);
+		return new Racing(null, name, distance);
 	}
 
 }

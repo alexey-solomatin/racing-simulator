@@ -3,21 +3,25 @@
  */
 package com.smartech.course.racing.simulation;
 
+import com.smartech.course.racing.dao.Persistable;
+
 /**
  * Racing represents the racing track and the racers.
  * @author Alexey Solomatin
  *
  */
-public class Racing {	
+public class Racing implements Persistable<Long> {
+	private Long id;
 	private String name;
 	private double distance;
 	
 	
-	public Racing() {
-		
+	public Racing(Long id) {
+		this.id = id;
 	}
 	
-	public Racing(String name, double distance) {
+	public Racing(Long id, String name, double distance) {
+		this.id = id;
 		this.name = name;
 		this.distance = distance;
 	}
@@ -54,7 +58,12 @@ public class Racing {
 	 */
 	@Override
 	public String toString() {
-		return "Racing [name=" + name + ", distance=" + distance + "]";
+		return "Racing [id=" + id + ", name=" + name + ", distance=" + distance + "]";
+	}
+
+	@Override
+	public Long getId() {
+		return id;
 	}
 	
 }

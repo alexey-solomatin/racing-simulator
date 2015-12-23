@@ -16,14 +16,17 @@ import com.smartech.course.racing.builder.simulation.RacingSimulationBuilderFact
 import com.smartech.course.racing.builder.simulation.RacingSimulationBuilderFactory.RacingSimulationType;
 import com.smartech.course.racing.dao.BusJDBCDao;
 import com.smartech.course.racing.dao.CarJDBCDao;
+import com.smartech.course.racing.dao.RacingJDBCDao;
 import com.smartech.course.racing.dao.TruckJDBCDao;
 import com.smartech.course.racing.dialog.racing.RacingCreationConsoleDialog;
+import com.smartech.course.racing.dialog.racing.RacingSelectionConsoleDialog;
 import com.smartech.course.racing.dialog.simple.DoubleValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.InfoConsoleDialog;
 import com.smartech.course.racing.dialog.simple.StringValueConsoleDialog;
 import com.smartech.course.racing.dialog.simple.YesNoConsoleDialog;
 import com.smartech.course.racing.dialog.vehicle.VehicleCreationConsoleDialog;
 import com.smartech.course.racing.dialog.vehicle.VehicleSelectionConsoleDialog;
+import com.smartech.course.racing.simulation.Racing;
 import com.smartech.course.racing.simulation.RacingSimulation;
 import com.smartech.course.racing.utils.RacingSimulationConsole;
 import com.smartech.course.racing.utils.RacingSimulationConsoleInformer;
@@ -67,7 +70,7 @@ public class RacingSimulator {
 			log.info("Starting Racing Simulator.");
 			log.info("The mode of racing simulation: {}.", racingSimulationType);
 			showInfo();
-			createVehicles();
+			configure();
 			RacingSimulation simulation = simulation(racingSimulationType);
 			informer = new RacingSimulationConsoleInformer(simulation, Duration.ofSeconds(PRINTING_THREAD_TIME_STEP));
 			System.console().readLine("\nPlease press <ENTER> to start the racing simulation.");
@@ -95,9 +98,16 @@ public class RacingSimulator {
 			+ "Create a new simulation, specify the race details, add some racers, start the simulation, and enjoy the process!\n\n"
 			+ "Please press <ENTER> to continue.\n\n")
 			.get();		
-	}	
+	}
 	
-	private void createVehicles() {
+	private void configure() {
+		if (new YesNoConsoleDialog("\nWould you like to configure vehicles and racings?").get()) {
+			configureVehicles();
+			configureRacings();
+		}
+	}
+	
+	private void configureVehicles() {
 		while (new YesNoConsoleDialog("\nWould you like to create and configure a new vehicle?").get()) {
 			try {
 				Vehicle vehicle = new VehicleCreationConsoleDialog().get();
@@ -116,9 +126,23 @@ public class RacingSimulator {
 		}
 	}
 	
-	private RacingSimulation simulation(RacingSimulationType type) throws SQLException {		
+	private void configureRacings() {
+		while (new YesNoConsoleDialog("\nWould you like to create and configure a new racing?").get()) {
+			try {
+				Racing racing = new RacingCreationConsoleDialog().get();
+				if (racing != null)
+					RacingJDBCDao.getInstance().create(racing);				
+			} catch (Exception e) {
+				log.error("Error during creating a racing.", e);
+				System.err.println("Cannot create a racing. Please try again.");
+			}					
+		}
+	}
+	
+	private RacingSimulation simulation(RacingSimulationType type) throws SQLException {	
+		System.console().printf("\n");
 		RacingSimulationBuilder builder = RacingSimulationBuilderFactory.newRacingSimulationBuilder(type)
-			.racing(new RacingCreationConsoleDialog())
+			.racing(new RacingSelectionConsoleDialog())
 			.timeStep(new DoubleValueConsoleDialog(
 				"Please enter the simulation time step in seconds: ", 
 				"You've entered the incorrect simulation time step.", 
