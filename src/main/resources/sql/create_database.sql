@@ -72,7 +72,7 @@ CREATE TABLE `racing_simulator`.`car` (
 CREATE TABLE `racing_simulator`.`racer` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
-  `race_date` TIMESTAMP(6) NOT NULL,
+  `race_date` TIMESTAMP NOT NULL,
   `racing_id` BIGINT(20) NOT NULL,
   `vehicle_id` BIGINT(20) NOT NULL,
   PRIMARY KEY (`id`),
